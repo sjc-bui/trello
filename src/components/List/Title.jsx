@@ -24,7 +24,7 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const Title = () => {
+const Title = ({ title }) => {
 
     const [open, setOpen] = useState(false);
     const classes = useStyle();
@@ -33,15 +33,18 @@ const Title = () => {
         <div>
             {open ? (
                 <div>
-                    <InputBase value="Todo" inputProps={{
-                        className: classes.input
-                    }} fullWidth onBlur={() => setOpen(!open)} />
+                    <InputBase
+                        value={title}
+                        inputProps={{
+                            className: classes.input
+                        }}
+                        fullWidth onBlur={() => setOpen(!open)} />
                 </div>
             ) : (
                     <div className={classes.editableContainer}>
                         <Typography
                             className={classes.editableTitle}
-                            onClick={() => setOpen(!open)}>Todo</Typography>
+                            onClick={() => setOpen(!open)}>{title}</Typography>
                         <MoreHorizIcon />
                     </div>
                 )}

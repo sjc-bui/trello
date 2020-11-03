@@ -3,12 +3,12 @@
 Part 1:
 
 - [x] list component
-- [ ] list title
-- [ ] card component
-- [ ] input component
+- [x] list title
+- [x] card component
+- [x] input component
 
 Part 2:
-- [ ] initialize data
+- [x] initialize data
 - [ ] add card to list
 - [ ] add new list
 - [ ] update list title
