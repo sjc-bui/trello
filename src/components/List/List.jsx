@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography, CssBaseline } from '@material-ui/core';
+import { Paper, CssBaseline } from '@material-ui/core';
 import Title from './Title';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from './Card';
@@ -7,8 +7,9 @@ import InputContainer from '../Input/InputContainer';
 
 const useStyle = makeStyles((theme) => ({
     root: {
-        width: '33.1%',
+        width: '300px',
         backgroundColor: '#EBECF0',
+        opacity: '0.99',
         marginLeft: theme.spacing(1)
     }
 }))
@@ -24,7 +25,7 @@ const List = ({ list }) => {
                 {list.cards.map((card) => (
                     <Card key={card.id} card={card} />
                 ))}
-                <InputContainer />
+                <InputContainer type='card' listId={list.id}/>
             </Paper>
         </div>
     )
