@@ -11,7 +11,7 @@ import Navigation from './components/Nav/Navigation';
 const useStyle = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        minHeight: '100vh',
+        minHeight: '94vh',
         width: '100%',
         overflowY: 'auto'
     },
@@ -60,6 +60,8 @@ const App = () => {
     }
 
     const addMoreList = (title) => {
+        if (empty(title)) return;
+
         const newListId = uuid();
 
         const newList = {

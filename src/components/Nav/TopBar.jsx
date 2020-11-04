@@ -28,7 +28,8 @@ const TopBar = ({ setOpenSideMenu }) => {
                             setOpenSideMenu(true)
                         }}
                         className={classes.changeBackgroundBtn}>
-                        Change background</Button>
+                        オプション
+                    </Button>
                 </Toolbar>
             </AppBar>
         </div>

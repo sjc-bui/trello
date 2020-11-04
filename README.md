@@ -19,6 +19,6 @@ Part 3:
 - [x] drag and drop list
 
 Part 4:
-- [ ] navigation bar
-- [ ] side menu
-- [ ] box menu
+- [x] navigation bar
+- [x] side menu
+- [x] box menu

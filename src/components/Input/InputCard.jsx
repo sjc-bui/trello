@@ -54,6 +54,10 @@ const InputCard = ({ setOpen, listId, type }) => {
         setTitle('');
     }
 
+    const handleOnBlur = () => {
+        setOpen(false);
+    }
+
     return (
         <div>
             <div>
@@ -66,6 +70,7 @@ const InputCard = ({ setOpen, listId, type }) => {
                         }}
                         value={title || ''}
                         onChange={handleOnChange}
+                        onBlur={handleOnBlur}
                         placeholder={
                             type === 'card'
                                 ? 'Enter the card title.'
@@ -77,9 +82,14 @@ const InputCard = ({ setOpen, listId, type }) => {
                 <Button
                     onClick={handleConfirmBtn}
                     className={classes.confirmBtn}>
-                    {type === 'card' ? 'Add card' : 'Add list'}
+                    {type === 'card' ? '追加' : '追加'}
                 </Button>
-                <IconButton onClick={handleCloseBtn}>
+                <IconButton
+                    onClick={handleCloseBtn}
+                    style={{
+                        color: "gray"
+                    }}
+                >
                     <ClearIcon />
                 </IconButton>
             </div>

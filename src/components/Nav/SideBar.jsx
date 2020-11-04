@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, Grow } from '@material-ui/core';
+import { Drawer, Grow, Typography, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
 
@@ -25,6 +25,12 @@ const useStyle = makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         marginTop: theme.spacing(2),
+    },
+    selectForm: {
+        margin: theme.spacing(1, 1, 1, 1)
+    },
+    formControl: {
+        minWidth: 150
     }
 }))
 
@@ -40,6 +46,16 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground }) => {
                 onClose={() => {
                     setOpenSideMenu(false);
                 }}>
+                <div className={classes.selectForm}>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel>言語</InputLabel>
+                        <Select>
+                            <MenuItem selected="true" value="en">英語</MenuItem>
+                            <MenuItem value="ja">ベトナム語</MenuItem>
+                            <MenuItem value="vi">日本語</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
                 <div className={classes.drawer}>
                     <div className={classes.menu}>
                         <div
