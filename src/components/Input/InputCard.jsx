@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, IconButton, InputBase, Paper } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles, fade } from '@material-ui/core/styles';
+import { useState } from 'react';
+import { useContext } from 'react';
+import storeApi from '../../utils/storeApi';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -24,8 +27,32 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const InputCard = ({ setOpen }) => {
+const InputCard = ({ setOpen, listId, type }) => {
     const classes = useStyle();
+    const { addMoreCard, addMoreList } = useContext(storeApi);
+    const [title, setTitle] = useState(null);
+
+    const handleOnChange = (e) => {
+        setTitle(e.target.value);
+    }
+
+    const handleConfirmBtn = () => {
+        if (type === 'card') {
+            addMoreCard(title, listId);
+            setOpen(false);
+            setTitle('');
+        }
+        else {
+            addMoreList(title);
+            setOpen(false);
+            setTitle('');
+        }
+    }
+
+    const handleCloseBtn = () => {
+        setOpen(false);
+        setTitle('');
+    }
 
     return (
         <div>
@@ -34,18 +61,25 @@ const InputCard = ({ setOpen }) => {
                     <InputBase
                         multiline
                         fullWidth
-                        // onBlur={() => setOpen(false)}
                         inputProps={{
                             className: classes.input
                         }}
-                        placeholder="Enter the title of this card." />
+                        value={title || ''}
+                        onChange={handleOnChange}
+                        placeholder={
+                            type === 'card'
+                                ? 'Enter the card title.'
+                                : 'Enter list title.'
+                        } />
                 </Paper>
             </div>
             <div className={classes.confirm}>
                 <Button
-                    onClick={() => setOpen(false)}
-                    className={classes.confirmBtn}>Add card</Button>
-                <IconButton onClick={() => setOpen(false)}>
+                    onClick={handleConfirmBtn}
+                    className={classes.confirmBtn}>
+                    {type === 'card' ? 'Add card' : 'Add list'}
+                </Button>
+                <IconButton onClick={handleCloseBtn}>
                     <ClearIcon />
                 </IconButton>
             </div>

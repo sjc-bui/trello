@@ -6,7 +6,8 @@ import { useState } from 'react';
 
 const useStyle = makeStyles((theme) => ({
     root: {
-        marginTop: theme.spacing(2)
+        width: '295px',
+        marginTop: theme.spacing(1)
     },
     addCard: {
         padding: theme.spacing(1, 1, 1, 2),
@@ -18,18 +19,20 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const InputContainer = () => {
+const InputContainer = ({ listId, type }) => {
     const classes = useStyle();
     const [open, setOpen] = useState(false);
 
     return (
         <div className={classes.root}>
             <Collapse in={open}>
-                <InputCard setOpen={setOpen}/>
+                <InputCard type={type} setOpen={setOpen} listId={listId} />
             </Collapse>
             <Collapse in={!open}>
-                <Paper onClick={() => {setOpen(!open)}} className={classes.addCard} elevation={0}>
-                    <Typography>+ Add a card</Typography>
+                <Paper onClick={() => { setOpen(!open) }} className={classes.addCard} elevation={0}>
+                    <Typography>
+                    + {type === 'card' ? 'Add a card' : 'Add list'}
+                    </Typography>
                 </Paper>
             </Collapse>
         </div>
