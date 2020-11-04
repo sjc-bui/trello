@@ -14,8 +14,8 @@ Part 2:
 - [x] update list title
 
 Part 3:
-- [ ] drag and drop card in the same list
-- [ ] drag and drop card in different list
+- [x] drag and drop card in the same list
+- [x] drag and drop card in different list
 - [ ] drag and drop list
 
 Part 4:

@@ -4,13 +4,16 @@ import Title from './Title';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from './Card';
 import InputContainer from '../Input/InputContainer';
+import { Droppable } from 'react-beautiful-dnd';
 
 const useStyle = makeStyles((theme) => ({
     root: {
-        width: '300px',
+        minWidth: '300px',
         backgroundColor: '#EBECF0',
-        opacity: '0.99',
         marginLeft: theme.spacing(1)
+    },
+    cardContainer: {
+        marginTop: theme.spacing(4)
     }
 }))
 
@@ -22,9 +25,16 @@ const List = ({ list }) => {
             <Paper className={classes.root}>
                 <CssBaseline />
                 <Title title={list.title} listId={list.id} />
-                {list.cards.map((card) => (
-                    <Card key={card.id} card={card} />
-                ))}
+                <Droppable droppableId={list.id}>
+                    {(provided) => (
+                        <div className={classes.cardContainer} ref={provided.innerRef} {...provided.droppableProps}>
+                            {list.cards.map((card, index) => (
+                                <Card key={card.id} card={card} index={index}/>
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
                 <InputContainer type='card' listId={list.id} />
             </Paper>
         </div>
