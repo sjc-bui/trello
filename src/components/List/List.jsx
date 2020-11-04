@@ -21,11 +21,11 @@ const List = ({ list }) => {
         <div>
             <Paper className={classes.root}>
                 <CssBaseline />
-                <Title title={list.title} />
+                <Title title={list.title} listId={list.id} />
                 {list.cards.map((card) => (
                     <Card key={card.id} card={card} />
                 ))}
-                <InputContainer type='card' listId={list.id}/>
+                <InputContainer type='card' listId={list.id} />
             </Paper>
         </div>
     )

@@ -11,7 +11,7 @@ Part 2:
 - [x] initialize data
 - [x] add card to list
 - [x] add new list
-- [ ] update list title
+- [x] update list title
 
 Part 3:
 - [ ] drag and drop card in the same list
