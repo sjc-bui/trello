@@ -6,15 +6,15 @@ import { v4 as uuid } from 'uuid';
 import InputContainer from './components/Input/InputContainer';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import Navigation from './components/Nav/Navigation';
 
 const useStyle = makeStyles((theme) => ({
     root: {
         display: 'flex',
         minHeight: '100vh',
-        backgroundColor: '#1976d2',
         width: '100%',
         overflowY: 'auto'
-    }
+    },
 }))
 
 function empty(e) {
@@ -34,6 +34,7 @@ function empty(e) {
 const App = () => {
     const classes = useStyle();
     const [data, setData] = useState(store);
+    const [defaultBackground, changeBackground] = useState('#1976d2')
 
     const addMoreCard = (title, listId) => {
         if (empty(title)) return;
@@ -143,25 +144,35 @@ const App = () => {
     }
 
     return (
-        <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="app" type='list' direction="horizontal">
-                    {(provided) => (
-                        <div
-                            className={classes.root}
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}>
-                            {data.listIds.map((listId, index) => {
-                                const list = data.lists[listId];
-                                return <List list={list} key={listId} index={index} />
-                            })}
-                            <InputContainer type='list' />
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
-        </StoreApi.Provider>
+        <div
+            style={{
+                backgroundColor: defaultBackground,
+                backgroundImage: `url(${defaultBackground})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+            }}>
+            <Navigation changeBackground={changeBackground} />
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="app" type='list' direction="horizontal">
+                        {(provided) => (
+                            <div
+                                className={classes.root}
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}>
+                                {data.listIds.map((listId, index) => {
+                                    const list = data.lists[listId];
+                                    return <List list={list} key={listId} index={index} />
+                                })}
+                                <InputContainer type='list' />
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            </StoreApi.Provider>
+        </div>
     )
 }
 

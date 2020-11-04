@@ -14,7 +14,8 @@ const useStyle = makeStyles((theme) => ({
         margin: theme.spacing(0, 1, 1, 1),
         background: '#EBECF0',
         '&:hover': {
-            backgroundColor: fade('#000', 0.25)
+            backgroundColor: fade('#fff', 0.65),
+            cursor: 'pointer'
         }
     }
 }));
