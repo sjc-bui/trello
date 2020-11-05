@@ -17,28 +17,12 @@ const useStyle = makeStyles((theme) => ({
     },
 }))
 
-function empty(e) {
-    switch (e) {
-        case "":
-        case 0:
-        case "0":
-        case null:
-        case false:
-        case typeof (e) == "undefined":
-            return true;
-        default:
-            return false;
-    }
-}
-
 const App = () => {
     const classes = useStyle();
     const [data, setData] = useState(store);
     const [defaultBackground, changeBackground] = useState('#1976d2')
 
     const addMoreCard = (title, listId) => {
-        if (empty(title)) return;
-
         const newCardId = uuid();
 
         const newCard = {
@@ -60,8 +44,6 @@ const App = () => {
     }
 
     const addMoreList = (title) => {
-        if (empty(title)) return;
-
         const newListId = uuid();
 
         const newList = {
