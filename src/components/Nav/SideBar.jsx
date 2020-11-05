@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
+import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button, Typography } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
 
@@ -34,6 +34,9 @@ const useStyle = makeStyles((theme) => ({
     },
     resetBtn: {
         marginTop: theme.spacing(3)
+    },
+    menuTitle: {
+        textAlign: 'center',
     }
 }))
 
@@ -83,6 +86,9 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                             onClick={() => setOpenColorOptions(true)}>
                         </div>
                     </div>
+                    <Typography className={classes.menuTitle}>
+                        {openColorOptions ? '色' : '写真'}
+                    </Typography>
                     {openColorOptions ?
                         <Grow in={true}>
                             <div className={classes.optionContainer}>

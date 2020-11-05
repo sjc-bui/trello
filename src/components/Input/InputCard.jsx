@@ -86,8 +86,8 @@ const InputCard = ({ setOpen, listId, type }) => {
                         onChange={handleOnChange}
                         placeholder={
                             type === 'card'
-                                ? 'Enter the card title.'
-                                : 'Enter list title.'
+                                ? 'このカードにタイトルを入力...'
+                                : 'リストのタイトルを入力...'
                         } />
                 </Paper>
             </div>

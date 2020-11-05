@@ -39,7 +39,7 @@ const App = () => {
     const classes = useStyle();
     var jsonObj = getLocalStorageData();
     const [data, setData] = useState(jsonObj);
-    const [defaultBackground, changeBackground] = useState('#1976d2')
+    const [defaultBackground, changeBackground] = useState('#3f51b5')
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
