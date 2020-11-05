@@ -33,7 +33,7 @@ const InputContainer = ({ listId, type }) => {
             <Collapse in={!open}>
                 <Paper onClick={() => { setOpen(!open) }} className={classes.addCard} elevation={0}>
                     <Typography>
-                    ＋ {type === 'card' ? 'カード追加' : 'リスト追加'}
+                    ＋ {type === 'card' ? 'さらにカードを追加' : 'もう1つリストを追加'}
                     </Typography>
                 </Paper>
             </Collapse>

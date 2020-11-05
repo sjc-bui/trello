@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
 
@@ -31,10 +31,13 @@ const useStyle = makeStyles((theme) => ({
     },
     formControl: {
         minWidth: 150
+    },
+    resetBtn: {
+        marginTop: theme.spacing(3)
     }
 }))
 
-const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground }) => {
+const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData }) => {
     const classes = useStyle();
     const [openColorOptions, setOpenColorOptions] = useState(false);
 
@@ -55,6 +58,9 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground }) => {
                             <MenuItem value="vi">日本語</MenuItem>
                         </Select>
                     </FormControl>
+                    <div className={classes.resetBtn}>
+                        <Button onClick={resetData}>データリセット</Button>
+                    </div>
                 </div>
                 <div className={classes.drawer}>
                     <div className={classes.menu}>

@@ -17,14 +17,18 @@ const useStyle = makeStyles((theme) => ({
     },
 }))
 
-function saveLocalStorage(newState) {
+const saveLocalStorage = (newState) => {
     localStorage.setItem('data', JSON.stringify(newState));
 }
 
-function getLocalStorageData() {
+const getLocalStorageData = () => {
     const localData = localStorage.getItem('data');
     const jsonObj = JSON.parse(localData);
     return jsonObj;
+}
+
+const resetLocalData = () => {
+    localStorage.removeItem('data');
 }
 
 const App = () => {
@@ -106,6 +110,13 @@ const App = () => {
             const newListIds = data.listIds;
             newListIds.splice(source.index, 1);
             newListIds.splice(destination.index, 0, draggableId);
+
+            const newState = {
+                ...data,
+                listIds: newListIds
+            }
+
+            saveLocalStorage(newState);
             return;
         }
 
@@ -147,6 +158,10 @@ const App = () => {
         }
     }
 
+    const resetData = () => {
+        resetLocalData();
+    }
+
     return (
         <div
             style={{
@@ -156,7 +171,7 @@ const App = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
             }}>
-            <Navigation changeBackground={changeBackground} />
+            <Navigation changeBackground={changeBackground} resetData={resetData} />
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">

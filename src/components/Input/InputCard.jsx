@@ -95,7 +95,7 @@ const InputCard = ({ setOpen, listId, type }) => {
                 <Button
                     onClick={handleConfirmBtn}
                     className={classes.confirmBtn}>
-                    {type === 'card' ? '追加' : '追加'}
+                    {type === 'card' ? 'カードを追加' : 'リストを追加'}
                 </Button>
                 <IconButton
                     onClick={handleCloseBtn}
