@@ -17,9 +17,24 @@ const useStyle = makeStyles((theme) => ({
     },
 }))
 
+function saveLocalStorage(newState) {
+    localStorage.setItem('data', JSON.stringify(newState));
+}
+
+function getLocalStorageData() {
+    const localData = localStorage.getItem('data');
+    const jsonObj = JSON.parse(localData);
+    return jsonObj;
+}
+
 const App = () => {
+    if (localStorage.getItem('data') == null) {
+        saveLocalStorage(store);
+    }
+
     const classes = useStyle();
-    const [data, setData] = useState(store);
+    var jsonObj = getLocalStorageData();
+    const [data, setData] = useState(jsonObj);
     const [defaultBackground, changeBackground] = useState('#1976d2')
 
     const addMoreCard = (title, listId) => {
@@ -41,6 +56,7 @@ const App = () => {
         }
 
         setData(newState);
+        saveLocalStorage(newState);
     }
 
     const addMoreList = (title) => {
@@ -60,6 +76,7 @@ const App = () => {
         }
 
         setData(newState);
+        saveLocalStorage(newState);
     }
 
     const updateListTitle = (listId, newTitle) => {
@@ -75,6 +92,7 @@ const App = () => {
         }
 
         setData(newState);
+        saveLocalStorage(newState);
     }
 
     const onDragEnd = (result) => {
@@ -110,6 +128,7 @@ const App = () => {
             }
 
             setData(newState);
+            saveLocalStorage(newState);
         } else {
             sourceList.cards.splice(source.index, 1);
             destinationList.cards.splice(destination.index, 0, draggingCard);
@@ -124,6 +143,7 @@ const App = () => {
             }
 
             setData(newState);
+            saveLocalStorage(newState);
         }
     }
 

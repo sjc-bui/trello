@@ -58,14 +58,13 @@ const InputCard = ({ setOpen, listId, type }) => {
 
         if (type === 'card') {
             addMoreCard(title, listId);
-            setOpen(false);
-            setTitle('');
         }
         else {
             addMoreList(title);
-            setOpen(false);
-            setTitle('');
         }
+
+        setOpen(false);
+        setTitle('');
     }
 
     const handleCloseBtn = () => {

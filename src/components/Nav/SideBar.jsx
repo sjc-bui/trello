@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, Grow, Typography, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
 

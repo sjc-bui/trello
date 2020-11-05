@@ -1,12 +1,8 @@
 const cards = [
     {
         id: 'card-4',
-        title: '仕様変更確認',
+        title: '本を購入',
     },
-    {
-        id: 'card-5',
-        title: 'テーブル結合の修正',
-    }
 ];
 
 const data = {
