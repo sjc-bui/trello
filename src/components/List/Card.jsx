@@ -1,6 +1,6 @@
 import { Paper } from '@material-ui/core';
 import React from 'react';
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Draggable } from 'react-beautiful-dnd';
 
 const useStyle = makeStyles((theme) => ({

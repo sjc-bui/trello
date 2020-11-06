@@ -22,7 +22,7 @@ const TopBar = ({ setOpenSideMenu }) => {
         <div>
             <AppBar className={classes.AppBar} position="static" elevation={0}>
                 <Toolbar>
-                    <Typography className={classes.title} variant="h4">Trello Clone</Typography>
+                    <Typography className={classes.title} variant="h5">Trello Clone</Typography>
                     <Button
                         onClick={() => {
                             setOpenSideMenu(true)

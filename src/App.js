@@ -17,28 +17,31 @@ const useStyle = makeStyles((theme) => ({
     },
 }))
 
-function empty(e) {
-    switch (e) {
-        case "":
-        case 0:
-        case "0":
-        case null:
-        case false:
-        case typeof (e) == "undefined":
-            return true;
-        default:
-            return false;
-    }
+const saveLocalStorage = (newState) => {
+    localStorage.setItem('data', JSON.stringify(newState));
+}
+
+const getLocalStorageData = () => {
+    const localData = localStorage.getItem('data');
+    const jsonObj = JSON.parse(localData);
+    return jsonObj;
+}
+
+const resetLocalData = () => {
+    localStorage.removeItem('data');
 }
 
 const App = () => {
+    if (localStorage.getItem('data') == null) {
+        saveLocalStorage(store);
+    }
+
     const classes = useStyle();
-    const [data, setData] = useState(store);
-    const [defaultBackground, changeBackground] = useState('#1976d2')
+    var jsonObj = getLocalStorageData();
+    const [data, setData] = useState(jsonObj);
+    const [defaultBackground, changeBackground] = useState('#3f51b5')
 
     const addMoreCard = (title, listId) => {
-        if (empty(title)) return;
-
         const newCardId = uuid();
 
         const newCard = {
@@ -57,11 +60,10 @@ const App = () => {
         }
 
         setData(newState);
+        saveLocalStorage(newState);
     }
 
     const addMoreList = (title) => {
-        if (empty(title)) return;
-
         const newListId = uuid();
 
         const newList = {
@@ -78,6 +80,7 @@ const App = () => {
         }
 
         setData(newState);
+        saveLocalStorage(newState);
     }
 
     const updateListTitle = (listId, newTitle) => {
@@ -93,6 +96,7 @@ const App = () => {
         }
 
         setData(newState);
+        saveLocalStorage(newState);
     }
 
     const onDragEnd = (result) => {
@@ -106,6 +110,13 @@ const App = () => {
             const newListIds = data.listIds;
             newListIds.splice(source.index, 1);
             newListIds.splice(destination.index, 0, draggableId);
+
+            const newState = {
+                ...data,
+                listIds: newListIds
+            }
+
+            saveLocalStorage(newState);
             return;
         }
 
@@ -128,6 +139,7 @@ const App = () => {
             }
 
             setData(newState);
+            saveLocalStorage(newState);
         } else {
             sourceList.cards.splice(source.index, 1);
             destinationList.cards.splice(destination.index, 0, draggingCard);
@@ -142,7 +154,12 @@ const App = () => {
             }
 
             setData(newState);
+            saveLocalStorage(newState);
         }
+    }
+
+    const resetData = () => {
+        resetLocalData();
     }
 
     return (
@@ -154,7 +171,7 @@ const App = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
             }}>
-            <Navigation changeBackground={changeBackground} />
+            <Navigation changeBackground={changeBackground} resetData={resetData} />
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">

@@ -9,13 +9,16 @@ import storeApi from '../../utils/storeApi';
 const useStyle = makeStyles((theme) => ({
     card: {
         margin: theme.spacing(0, 1, 1, 1),
-        paddingBottom: theme.spacing(4)
+        paddingBottom: theme.spacing(1)
     },
     input: {
         margin: theme.spacing(0.5, 1, 1, 1)
     },
     confirm: {
-        margin: theme.spacing(0.5, 1, 1, 1)
+        margin: theme.spacing(0.5, 1, 1, 1),
+        background: '#EBECF0',
+        paddingLeft: theme.spacing(1),
+        borderRadius: 6
     },
     confirmBtn: {
         background: 'green',
@@ -27,6 +30,20 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
+function empty(e) {
+    switch (e) {
+        case "":
+        case 0:
+        case "0":
+        case null:
+        case false:
+        case typeof (e) == "undefined":
+            return true;
+        default:
+            return false;
+    }
+}
+
 const InputCard = ({ setOpen, listId, type }) => {
     const classes = useStyle();
     const { addMoreCard, addMoreList } = useContext(storeApi);
@@ -37,25 +54,22 @@ const InputCard = ({ setOpen, listId, type }) => {
     }
 
     const handleConfirmBtn = () => {
+        if (empty(title)) return;
+
         if (type === 'card') {
             addMoreCard(title, listId);
-            setOpen(false);
-            setTitle('');
         }
         else {
             addMoreList(title);
-            setOpen(false);
-            setTitle('');
         }
+
+        setOpen(false);
+        setTitle('');
     }
 
     const handleCloseBtn = () => {
         setOpen(false);
         setTitle('');
-    }
-
-    const handleOnBlur = () => {
-        setOpen(false);
     }
 
     return (
@@ -70,11 +84,10 @@ const InputCard = ({ setOpen, listId, type }) => {
                         }}
                         value={title || ''}
                         onChange={handleOnChange}
-                        onBlur={handleOnBlur}
                         placeholder={
                             type === 'card'
-                                ? 'Enter the card title.'
-                                : 'Enter list title.'
+                                ? 'このカードにタイトルを入力...'
+                                : 'リストのタイトルを入力...'
                         } />
                 </Paper>
             </div>
@@ -82,7 +95,7 @@ const InputCard = ({ setOpen, listId, type }) => {
                 <Button
                     onClick={handleConfirmBtn}
                     className={classes.confirmBtn}>
-                    {type === 'card' ? '追加' : '追加'}
+                    {type === 'card' ? 'カードを追加' : 'リストを追加'}
                 </Button>
                 <IconButton
                     onClick={handleCloseBtn}

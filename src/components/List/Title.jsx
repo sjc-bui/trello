@@ -58,6 +58,7 @@ const Title = ({ title, listId }) => {
             ) : (
                     <div className={classes.editableContainer}>
                         <Typography
+                            variant="h6"
                             className={classes.editableTitle}
                             onClick={() => setOpen(!open)}>{newTitle}</Typography>
                         <MoreHorizIcon />
