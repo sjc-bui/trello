@@ -39,7 +39,7 @@ const App = () => {
     const classes = useStyle();
     var jsonObj = getLocalStorageData();
     const [data, setData] = useState(jsonObj);
-    const [defaultBackground, changeBackground] = useState('#3f51b5')
+    const [defaultBackground, changeBackground] = useState('#009688')
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -158,8 +158,14 @@ const App = () => {
         }
     }
 
+    const updateCardTitle = (listId, cardId, newTitle) => {
+        console.log(listId, cardId, newTitle);
+    }
+
     const resetData = () => {
         resetLocalData();
+        saveLocalStorage(store);
+        setData(store);
     }
 
     return (
@@ -172,7 +178,7 @@ const App = () => {
                 backgroundPosition: 'center center',
             }}>
             <Navigation changeBackground={changeBackground} resetData={resetData} />
-            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle }}>
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
                         {(provided) => (

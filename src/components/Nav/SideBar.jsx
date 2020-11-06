@@ -56,9 +56,9 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                     <FormControl className={classes.formControl}>
                         <InputLabel>言語</InputLabel>
                         <Select>
-                            <MenuItem selected="true" value="en">英語</MenuItem>
-                            <MenuItem value="ja">ベトナム語</MenuItem>
-                            <MenuItem value="vi">日本語</MenuItem>
+                            <MenuItem selected="true">英語</MenuItem>
+                            <MenuItem>ベトナム語</MenuItem>
+                            <MenuItem>日本語</MenuItem>
                         </Select>
                     </FormControl>
                     <div className={classes.resetBtn}>
