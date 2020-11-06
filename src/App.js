@@ -165,7 +165,8 @@ const App = () => {
     const resetData = () => {
         resetLocalData();
         saveLocalStorage(store);
-        setData(store);
+        var jsonObj = getLocalStorageData();
+        setData(jsonObj);
     }
 
     return (

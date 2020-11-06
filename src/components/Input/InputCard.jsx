@@ -9,10 +9,9 @@ import storeApi from '../../utils/storeApi';
 const useStyle = makeStyles((theme) => ({
     card: {
         margin: theme.spacing(0, 1, 1, 1),
-        paddingBottom: theme.spacing(1)
     },
     input: {
-        margin: theme.spacing(0.5, 1, 1, 1)
+        margin: theme.spacing(0.5, 1, 0.5, 1)
     },
     confirm: {
         margin: theme.spacing(0.5, 1, 1, 1),
@@ -45,6 +44,7 @@ function empty(e) {
 }
 
 const InputCard = ({ setOpen, listId, type }) => {
+
     const classes = useStyle();
     const { addMoreCard, addMoreList } = useContext(storeApi);
     const [title, setTitle] = useState(null);
@@ -53,7 +53,7 @@ const InputCard = ({ setOpen, listId, type }) => {
         setTitle(e.target.value);
     }
 
-    const handleConfirmBtn = () => {
+    const addTitle = () => {
         if (empty(title)) return;
 
         if (type === 'card') {
@@ -63,8 +63,20 @@ const InputCard = ({ setOpen, listId, type }) => {
             addMoreList(title);
         }
 
-        setOpen(false);
         setTitle('');
+    }
+
+    const handleConfirmBtn = () => {
+        addTitle();
+    }
+
+    const handleOnKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            addTitle();
+            e.preventDefault();
+        } else if (e.keyCode === 27) {
+            setOpen(false);
+        }
     }
 
     const handleCloseBtn = () => {
@@ -77,13 +89,13 @@ const InputCard = ({ setOpen, listId, type }) => {
             <div>
                 <Paper className={classes.card}>
                     <InputBase
-                        multiline
                         fullWidth
                         inputProps={{
                             className: classes.input
                         }}
                         value={title || ''}
                         onChange={handleOnChange}
+                        onKeyDown={handleOnKeyDown}
                         placeholder={
                             type === 'card'
                                 ? 'このカードにタイトルを入力...'
@@ -101,8 +113,7 @@ const InputCard = ({ setOpen, listId, type }) => {
                     onClick={handleCloseBtn}
                     style={{
                         color: "gray"
-                    }}
-                >
+                    }}>
                     <ClearIcon />
                 </IconButton>
             </div>

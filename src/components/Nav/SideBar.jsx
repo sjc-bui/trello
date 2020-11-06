@@ -3,6 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button, Typography } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyle = makeStyles((theme) => ({
     drawer: {
@@ -40,9 +45,41 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
+const ConfirmBox = ({ show, setShow, resetData }) => {
+
+    const handleClose = () => {
+        setShow(false);
+    };
+
+    const handleDelete = () => {
+        resetData();
+        setShow(false);
+    }
+
+    return (
+        <Dialog
+            open={show}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">{"Do you want to reset data?"}</DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    The existing data will be deleted and this operation can not be undone!
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} color="default">Cancel</Button>
+                <Button onClick={handleDelete} color="secondary" autoFocus>Reset</Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
+
 const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData }) => {
     const classes = useStyle();
     const [openColorOptions, setOpenColorOptions] = useState(false);
+    const [show, setShow] = useState(false);
 
     return (
         <div>
@@ -62,7 +99,8 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                         </Select>
                     </FormControl>
                     <div className={classes.resetBtn}>
-                        <Button onClick={resetData}>データリセット</Button>
+                        <Button onClick={() => setShow(true)}>データリセット</Button>
+                        <ConfirmBox show={show} setShow={setShow} resetData={resetData} />
                     </div>
                 </div>
                 <div className={classes.drawer}>
