@@ -9,6 +9,7 @@ import { Draggable, Droppable } from 'react-beautiful-dnd';
 const useStyle = makeStyles((theme) => ({
     root: {
         minWidth: '300px',
+        maxWidth: '301px',
         backgroundColor: '#EBECF0',
         marginLeft: theme.spacing(1)
     },
