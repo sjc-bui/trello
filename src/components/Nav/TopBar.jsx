@@ -7,7 +7,7 @@ const useStyle = makeStyles((theme) => ({
         background: 'None'
     },
     title: {
-        flexGrow: 1
+        flexGrow: 1,
     },
     changeBackgroundBtn: {
         color: '#fff',
@@ -22,7 +22,11 @@ const TopBar = ({ setOpenSideMenu }) => {
         <div>
             <AppBar className={classes.AppBar} position="static" elevation={0}>
                 <Toolbar>
-                    <Typography className={classes.title} variant="h5">Trello Clone</Typography>
+                    <div className={classes.title}>
+                        <Typography variant="h6">
+                            ボードリスト
+                        </Typography>
+                    </div>
                     <Button
                         onClick={() => {
                             setOpenSideMenu(true)

@@ -7,6 +7,7 @@ import InputContainer from './components/Input/InputContainer';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Navigation from './components/Nav/Navigation';
+import colors from './utils/color';
 
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -21,8 +22,8 @@ const saveLocalStorage = (newState) => {
     localStorage.setItem('data', JSON.stringify(newState));
 }
 
-const getLocalStorageData = () => {
-    const localData = localStorage.getItem('data');
+const getLocalStorageData = (type) => {
+    const localData = localStorage.getItem(type);
     const jsonObj = JSON.parse(localData);
     return jsonObj;
 }
@@ -37,9 +38,9 @@ const App = () => {
     }
 
     const classes = useStyle();
-    var jsonObj = getLocalStorageData();
+    var jsonObj = getLocalStorageData('data');
     const [data, setData] = useState(jsonObj);
-    const [defaultBackground, changeBackground] = useState('#009688')
+    const [defaultBackground, changeBackground] = useState(colors[10])
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -59,8 +60,8 @@ const App = () => {
             }
         }
 
-        setData(newState);
         saveLocalStorage(newState);
+        setData(newState);
     }
 
     const addMoreList = (title) => {
@@ -79,8 +80,8 @@ const App = () => {
             }
         }
 
-        setData(newState);
         saveLocalStorage(newState);
+        setData(newState);
     }
 
     const updateListTitle = (listId, newTitle) => {
@@ -95,8 +96,8 @@ const App = () => {
             }
         }
 
-        setData(newState);
         saveLocalStorage(newState);
+        setData(newState);
     }
 
     const onDragEnd = (result) => {
@@ -138,8 +139,8 @@ const App = () => {
                 }
             }
 
-            setData(newState);
             saveLocalStorage(newState);
+            setData(newState);
         } else {
             sourceList.cards.splice(source.index, 1);
             destinationList.cards.splice(destination.index, 0, draggingCard);
@@ -153,13 +154,32 @@ const App = () => {
                 }
             }
 
-            setData(newState);
             saveLocalStorage(newState);
+            setData(newState);
         }
     }
 
     const updateCardTitle = (listId, cardId, newTitle) => {
         console.log(listId, cardId, newTitle);
+    }
+
+    const deleteCard = (listId, cardId) => {
+        const lists = data.lists[listId];
+        const cardData = lists.cards.filter((card) => card.id !== cardId);
+
+        const newState = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: {
+                    ...data.lists[listId],
+                    cards: cardData
+                }
+            }
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
     }
 
     const resetData = () => {
@@ -179,7 +199,7 @@ const App = () => {
                 backgroundPosition: 'center center',
             }}>
             <Navigation changeBackground={changeBackground} resetData={resetData} />
-            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle }}>
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
                         {(provided) => (
