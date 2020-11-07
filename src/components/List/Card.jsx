@@ -7,6 +7,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { useContext } from 'react';
+import storeApi from '../../utils/storeApi';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -58,16 +60,17 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard }) => {
     )
 }
 
-const Card = ({ card, index }) => {
+const Card = ({ card, index, listId }) => {
     const classes = useStyle();
     const [show, setShow] = useState(false);
+    const { deleteCard } = useContext(storeApi);
 
     const handleCardClick = () => {
         setShow(true);
     }
 
     const handleDeleteCard = () => {
-        console.log(card.id);
+        deleteCard(listId, card.id);
         setShow(false);
     }
 
