@@ -1,4 +1,4 @@
-import { Paper, TextField } from '@material-ui/core';
+import { Paper, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable } from 'react-beautiful-dnd';
@@ -9,6 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
+import Divider from '@material-ui/core/Divider';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -24,7 +25,7 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const DialogBox = ({ show, setShow, title, handleDeleteCard }) => {
+const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle }) => {
     const classes = useStyle();
     const [newTitle, setNewTitle] = useState(title)
     const [changed, setChanged] = useState(false);
@@ -46,8 +47,9 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard }) => {
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">Options</DialogTitle>
                 <DialogContent>
+                    <Typography>リスト: {listTitle}</Typography>
+                    <Divider />
                     <TextField className={classes.textArea} fullWidth multiline value={newTitle} onChange={handleOnChange} />
                 </DialogContent>
                 <DialogActions>
@@ -60,7 +62,7 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard }) => {
     )
 }
 
-const Card = ({ card, index, listId }) => {
+const Card = ({ card, index, listId, listTitle }) => {
     const classes = useStyle();
     const [show, setShow] = useState(false);
     const { deleteCard } = useContext(storeApi);
@@ -82,7 +84,7 @@ const Card = ({ card, index, listId }) => {
                         <Paper onClick={handleCardClick} className={classes.card}>
                             {card.title}
                         </Paper>
-                        <DialogBox show={show} setShow={setShow} title={card.title} handleDeleteCard={handleDeleteCard} />
+                        <DialogBox show={show} setShow={setShow} title={card.title} handleDeleteCard={handleDeleteCard} listTitle={listTitle}/>
                     </div>
                 </div>
             )}

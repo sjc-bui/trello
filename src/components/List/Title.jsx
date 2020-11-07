@@ -9,16 +9,14 @@ import storeApi from '../../utils/storeApi';
 const useStyle = makeStyles((theme) => ({
     editableTitle: {
         flexGrow: 1,
-        fontSize: '1.2rem',
-        fontWeight: 'bold'
+        fontSize: '1rem',
     },
     editableContainer: {
         display: "flex",
         margin: theme.spacing(1)
     },
     input: {
-        fontSize: '1.2rem',
-        fontWeight: 'bold',
+        fontSize: '1rem',
         margin: theme.spacing(1),
         '&:focus': {
             backgroundColor: '#ddd'

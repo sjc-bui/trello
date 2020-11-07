@@ -32,7 +32,7 @@ const List = ({ list, index }) => {
                             {(provided) => (
                                 <div className={classes.cardContainer} ref={provided.innerRef} {...provided.droppableProps}>
                                     {list.cards.map((card, index) => (
-                                        <Card key={card.id} card={card} index={index} listId={list.id}/>
+                                        <Card key={card.id} card={card} index={index} listId={list.id} listTitle={list.title}/>
                                     ))}
                                     {provided.placeholder}
                                 </div>

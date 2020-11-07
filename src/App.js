@@ -7,6 +7,7 @@ import InputContainer from './components/Input/InputContainer';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Navigation from './components/Nav/Navigation';
+import colors from './utils/color';
 
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -21,8 +22,8 @@ const saveLocalStorage = (newState) => {
     localStorage.setItem('data', JSON.stringify(newState));
 }
 
-const getLocalStorageData = () => {
-    const localData = localStorage.getItem('data');
+const getLocalStorageData = (type) => {
+    const localData = localStorage.getItem(type);
     const jsonObj = JSON.parse(localData);
     return jsonObj;
 }
@@ -37,9 +38,9 @@ const App = () => {
     }
 
     const classes = useStyle();
-    var jsonObj = getLocalStorageData();
+    var jsonObj = getLocalStorageData('data');
     const [data, setData] = useState(jsonObj);
-    const [defaultBackground, changeBackground] = useState('#009688')
+    const [defaultBackground, changeBackground] = useState(colors[10])
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
