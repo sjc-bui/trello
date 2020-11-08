@@ -138,7 +138,7 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                                             style={{
                                                 background: color
                                             }}
-                                            onClick={() => changeBackground(color)}
+                                            onClick={() => changeBackground(index)}
                                         >
                                         </div>
                                     );

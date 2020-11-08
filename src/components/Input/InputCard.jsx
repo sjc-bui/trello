@@ -11,7 +11,8 @@ const useStyle = makeStyles((theme) => ({
         margin: theme.spacing(0, 1, 1, 1),
     },
     input: {
-        margin: theme.spacing(0.5, 1, 0.5, 1)
+        margin: theme.spacing(0.5, 1, 0.5, 1),
+        fontSize: '14px',
     },
     confirm: {
         margin: theme.spacing(0.5, 1, 1, 1),

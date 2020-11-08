@@ -9,7 +9,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
 
-const useStyle = makeStyles((theme) => ({
+const useStyle = makeStyles(() => ({
     root: {
         display: 'flex',
         minHeight: '94vh',
@@ -38,9 +38,23 @@ const App = () => {
     }
 
     const classes = useStyle();
-    var jsonObj = getLocalStorageData('data');
+
+    try {
+        var jsonObj = getLocalStorageData('data');
+    } catch (error) {
+        resetLocalData();
+        saveLocalStorage(store);
+        jsonObj = getLocalStorageData('data');
+        alert("Error: Something went wrong. Please try again!");
+    }
+
+    let colorValue = jsonObj.color;
+    if ((colorValue + 1) > colors.length) {
+        colorValue = 0;
+    }
+
     const [data, setData] = useState(jsonObj);
-    const [defaultBackground, changeBackground] = useState(colors[10])
+    const [defaultBackground, changeBackground] = useState(colorValue);
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -74,6 +88,7 @@ const App = () => {
         }
 
         const newState = {
+            ...data,
             listIds: [...data.listIds, newListId],
             lists: {
                 ...data.lists, [newListId]: newList
@@ -187,18 +202,31 @@ const App = () => {
         saveLocalStorage(store);
         var jsonObj = getLocalStorageData('data');
         setData(jsonObj);
+        changeBackground(jsonObj.color);
+    }
+
+    const changeBackgroundColor = (color) => {
+        changeBackground(color);
+
+        const newState = {
+            ...data,
+            color: color
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
     }
 
     return (
         <div
             style={{
-                backgroundColor: defaultBackground,
+                backgroundColor: colors[defaultBackground],
                 backgroundImage: `url(${defaultBackground})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
             }}>
-            <Navigation changeBackground={changeBackground} resetData={resetData} />
+            <Navigation changeBackground={changeBackgroundColor} resetData={resetData} />
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
@@ -211,7 +239,7 @@ const App = () => {
                                     const list = data.lists[listId];
                                     return <List list={list} key={listId} index={index} />
                                 })}
-                                <InputContainer type='list' />
+                                <InputContainer type='list' listLength={data.listIds.length}/>
                                 {provided.placeholder}
                             </div>
                         )}

@@ -10,7 +10,7 @@ const useStyle = makeStyles((theme) => ({
     root: {
         minWidth: '300px',
         maxWidth: '301px',
-        backgroundColor: '#EBECF0',
+        backgroundColor: '#ebecf0',
         marginLeft: theme.spacing(1)
     },
     cardContainer: {
