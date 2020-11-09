@@ -1,10 +1,13 @@
-import { InputBase, Typography } from '@material-ui/core';
+import { InputBase, Typography, Button } from '@material-ui/core';
 import React from 'react';
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import CloseIcon from '@material-ui/icons/Close';
 import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyle = makeStyles((theme) => ({
     editableTitle: {
@@ -25,13 +28,49 @@ const useStyle = makeStyles((theme) => ({
             boder: 'none',
             boxShadow: 'box-shadow:inset 0 0 0 2px #0079bf'
         }
+    },
+    optionBtn: {
+        borderRadius: 2,
+        fontSize: '1.3rem',
+        color: '#a4a4a4',
+        '&:hover': {
+            cursor: 'pointer',
+            color: '#b20000',
+        }
     }
 }))
+
+const ConfirmBox = ({ show, setShow, deleteList, listId }) => {
+
+    const handleClose = () => {
+        setShow(false);
+    };
+
+    const handleDeleteList = () => {
+        deleteList(listId);
+        setShow(false);
+    }
+
+    return (
+        <Dialog
+            open={show}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">{"このリストを削除しますか?"}</DialogTitle>
+            <DialogActions>
+                <Button onClick={handleClose} color="default">キャンセル</Button>
+                <Button onClick={handleDeleteList} color="secondary">削除</Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
 
 const Title = ({ title, listId }) => {
     const [newTitle, setNewTitle] = useState(title);
     const [open, setOpen] = useState(false);
-    const { updateListTitle } = useContext(storeApi);
+    const [show, setShow] = useState(false);
+    const { updateListTitle, deleteList } = useContext(storeApi);
     const classes = useStyle();
 
     const handleOnChange = (e) => {
@@ -54,8 +93,14 @@ const Title = ({ title, listId }) => {
         updateListTitle(listId, newTitle);
     }
 
+    const optionClick = () => {
+        setShow(true);
+    }
+
     return (
-        <div>
+        <div style={{
+            paddingTop: '1px'
+        }}>
             {open ? (
                 <div>
                     <InputBase
@@ -75,7 +120,8 @@ const Title = ({ title, listId }) => {
                             variant="h6"
                             className={classes.editableTitle}
                             onClick={() => setOpen(!open)}>{newTitle}</Typography>
-                        <MoreHorizIcon />
+                        <CloseIcon className={classes.optionBtn} onClick={optionClick} />
+                        <ConfirmBox show={show} setShow={setShow} deleteList={deleteList} listId={listId}/>
                     </div>
                 )}
         </div>
