@@ -34,9 +34,10 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle, handleUpdateCardTitle }) => {
+const DialogBox = ({ show, setShow, title, description, handleDeleteCard, listTitle, handleUpdateCardTitle }) => {
     const classes = useStyle();
-    const [newTitle, setNewTitle] = useState(title)
+    const [newTitle, setNewTitle] = useState(title);
+    const [newDes, setNewDes] = useState(description);
     const [changed, setChanged] = useState(false);
 
     const handleClose = () => {
@@ -49,9 +50,14 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle, handleUp
         setChanged(true);
     }
 
+    const handleOnChangeDes = (e) => {
+        setNewDes(e.target.value);
+        setChanged(true);
+    }
+
     const updateCardTitle = () => {
         handleClose();
-        handleUpdateCardTitle(newTitle);
+        handleUpdateCardTitle(newTitle, newDes);
     }
 
     return (
@@ -66,7 +72,7 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle, handleUp
                     <Divider />
                     <TextField className={classes.textArea} fullWidth multiline value={newTitle} onChange={handleOnChange} />
                     <Typography className={classes.explainTitle}>説明 : </Typography>
-                    <TextField className={classes.explainText} fullWidth multiline placeholder="詳しい説明を追加してください" />
+                    <TextField className={classes.explainText} fullWidth multiline value={newDes} onChange={handleOnChangeDes} placeholder="詳しい説明を追加してください" />
                 </DialogContent>
                 <DialogActions>
                     <Button color="default" onClick={handleClose}>キャンセル</Button>
@@ -92,8 +98,8 @@ const Card = ({ card, index, listId, listTitle }) => {
         setShow(false);
     }
 
-    const handleUpdateCardTitle = (newTitle) => {
-        updateCardTitle(listId, card.id, newTitle);
+    const handleUpdateCardTitle = (newTitle, newDes) => {
+        updateCardTitle(listId, card.id, newTitle, newDes);
     }
 
     return (
@@ -103,11 +109,14 @@ const Card = ({ card, index, listId, listTitle }) => {
                     <div>
                         <Paper onClick={handleCardClick} className={classes.card}>
                             {card.title}
-                            <br/>
-                            |&nbsp;
-                            <span className={classes.subtitle}>説明あり</span>
+                            {card.description.length !== 0 ?
+                                <div>
+                                |&nbsp;
+                                <span className={classes.subtitle}>説明あり</span>
+                                </div>
+                                : ''}
                         </Paper>
-                        <DialogBox show={show} setShow={setShow} title={card.title} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
+                        <DialogBox show={show} setShow={setShow} title={card.title} description={card.description} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
                     </div>
                 </div>
             )}
