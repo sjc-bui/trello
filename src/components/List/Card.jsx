@@ -58,9 +58,9 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle, handleUp
                     <TextField className={classes.textArea} fullWidth multiline value={newTitle} onChange={handleOnChange} />
                 </DialogContent>
                 <DialogActions>
+                    <Button color="default" onClick={handleClose}>キャンセル</Button>
                     <Button color="secondary" onClick={handleDeleteCard}>削除</Button>
                     <Button disabled={!changed} color="primary" onClick={updateCardTitle}>更新</Button>
-                    <Button color="default" onClick={handleClose}>キャンセル</Button>
                 </DialogActions>
             </Dialog>
         </div>

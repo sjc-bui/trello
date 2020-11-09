@@ -7,7 +7,6 @@ import { useState } from 'react';
 const useStyle = makeStyles((theme) => ({
     root: {
         width: '295px',
-        marginTop: theme.spacing(1)
     },
     addCard: {
         padding: theme.spacing(1, 1, 1, 2),

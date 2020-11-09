@@ -70,7 +70,7 @@ const ConfirmBox = ({ show, setShow, resetData }) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="default">キャンセル</Button>
-                <Button onClick={handleDelete} color="secondary" autoFocus>リセット</Button>
+                <Button onClick={handleDelete} color="secondary">リセット</Button>
             </DialogActions>
         </Dialog>
     );

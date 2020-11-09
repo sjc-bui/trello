@@ -219,6 +219,21 @@ const App = () => {
         setData(newState);
     }
 
+    const deleteList = (listId) => {
+        const listIds = data.listIds.filter(id => id !== listId);
+        const lists = data.lists;
+        delete lists[listId];
+
+        const newState = {
+            ...data,
+            listIds: listIds,
+            lists: lists
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
+    }
+
     const resetData = () => {
         resetLocalData();
         saveLocalStorage(store);
@@ -249,7 +264,7 @@ const App = () => {
                 backgroundPosition: 'center center',
             }}>
             <Navigation changeBackground={changeBackgroundColor} resetData={resetData} />
-            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard }}>
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
                         {(provided) => (
