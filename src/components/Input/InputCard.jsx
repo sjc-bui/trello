@@ -21,12 +21,12 @@ const useStyle = makeStyles((theme) => ({
         borderRadius: 6
     },
     confirmBtn: {
-        background: 'green',
+        background: '#61bd4f',
         color: '#fff',
         '&:hover': {
-            background: fade('#5aac44', 0.75)
+            background: fade('#5aac44', 0.65)
         },
-        marginRight: theme.spacing(2)
+        marginRight: theme.spacing(1)
     }
 }));
 
@@ -90,6 +90,7 @@ const InputCard = ({ setOpen, listId, type }) => {
             <div>
                 <Paper className={classes.card}>
                     <InputBase
+                        multiline
                         fullWidth
                         inputProps={{
                             className: classes.input

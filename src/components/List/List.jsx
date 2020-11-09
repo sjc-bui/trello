@@ -38,7 +38,7 @@ const List = ({ list, index }) => {
                                 </div>
                             )}
                         </Droppable>
-                        <InputContainer type='card' listId={list.id} />
+                        <InputContainer type='card' listId={list.id} cardLength={list.cards.length}/>
                     </Paper>
                 </div>
             )}

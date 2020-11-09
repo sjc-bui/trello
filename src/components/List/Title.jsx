@@ -10,7 +10,7 @@ const useStyle = makeStyles((theme) => ({
     editableTitle: {
         flexGrow: 1,
         fontSize: '14px',
-        fontWeight: 'bold',
+        fontWeight: 600,
     },
     editableContainer: {
         display: "flex",
@@ -18,10 +18,12 @@ const useStyle = makeStyles((theme) => ({
     },
     input: {
         fontSize: '14px',
-        fontWeight: 'bold',
+        fontWeight: 600,
         margin: theme.spacing(1),
         '&:focus': {
-            backgroundColor: '#ddd'
+            backgroundColor: '#ddd',
+            boder: 'none',
+            boxShadow: 'box-shadow:inset 0 0 0 2px #0079bf'
         }
     }
 }))

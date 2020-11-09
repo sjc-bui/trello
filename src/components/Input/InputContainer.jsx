@@ -24,7 +24,7 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const InputContainer = ({ listId, type, listLength }) => {
+const InputContainer = ({ listId, type, listLength, cardLength }) => {
     const classes = useStyle();
     const [open, setOpen] = useState(false);
 
@@ -41,7 +41,7 @@ const InputContainer = ({ listId, type, listLength }) => {
                             color: type === 'card' ? '#262626' : '#ffffff'
                         }}
                     >
-                        ＋ {type === 'card' ? 'さらにカードを追加' : listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
+                        ＋ {type === 'card' ? cardLength === 0 ? 'カードを追加' : 'さらにカードを追加' : listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
                     </Typography>
                 </Paper>
             </Collapse>
