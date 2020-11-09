@@ -22,6 +22,15 @@ const useStyle = makeStyles((theme) => ({
         minWidth: '300px',
         maxWidth: '400px',
         marginTop: theme.spacing(1),
+    },
+    explainTitle: {
+        marginTop: theme.spacing(1),
+    },
+    explainText: {
+        fontSize: '14px',
+    },
+    subtitle: {
+        fontSize: '11px',
     }
 }));
 
@@ -56,6 +65,8 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle, handleUp
                     <Typography>リスト: {listTitle}</Typography>
                     <Divider />
                     <TextField className={classes.textArea} fullWidth multiline value={newTitle} onChange={handleOnChange} />
+                    <Typography className={classes.explainTitle}>説明 : </Typography>
+                    <TextField className={classes.explainText} fullWidth multiline placeholder="詳しい説明を追加してください" />
                 </DialogContent>
                 <DialogActions>
                     <Button color="default" onClick={handleClose}>キャンセル</Button>
@@ -92,8 +103,11 @@ const Card = ({ card, index, listId, listTitle }) => {
                     <div>
                         <Paper onClick={handleCardClick} className={classes.card}>
                             {card.title}
+                            <br/>
+                            |&nbsp;
+                            <span className={classes.subtitle}>説明あり</span>
                         </Paper>
-                        <DialogBox show={show} setShow={setShow} title={card.title} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle}/>
+                        <DialogBox show={show} setShow={setShow} title={card.title} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
                     </div>
                 </div>
             )}

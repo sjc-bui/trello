@@ -11,7 +11,12 @@ const useStyle = makeStyles((theme) => ({
     },
     changeBackgroundBtn: {
         color: '#fff',
-        backgroundColor: '#dadde13b'
+        backgroundColor: '#dadde13b',
+        fontWeight: 600,
+        padding: theme.spacing(0.5, 2, 0.5, 2),
+        '&:hover': {
+            backgroundColor: '#dadde166',
+        }
     }
 }))
 
