@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
 import Divider from '@material-ui/core/Divider';
@@ -16,16 +15,17 @@ const useStyle = makeStyles((theme) => ({
         padding: theme.spacing(1, 1, 1, 1),
         margin: theme.spacing(1),
         '&:hover': {
-            backgroundColor: '#091e4214'
+            backgroundColor: '#fafafab5'
         }
     },
     textArea: {
         minWidth: '300px',
         maxWidth: '400px',
+        marginTop: theme.spacing(1),
     }
 }));
 
-const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle }) => {
+const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle, handleUpdateCardTitle }) => {
     const classes = useStyle();
     const [newTitle, setNewTitle] = useState(title)
     const [changed, setChanged] = useState(false);
@@ -38,6 +38,11 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle }) => {
     const handleOnChange = (e) => {
         setNewTitle(e.target.value);
         setChanged(true);
+    }
+
+    const updateCardTitle = () => {
+        handleClose();
+        handleUpdateCardTitle(newTitle);
     }
 
     return (
@@ -53,9 +58,9 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle }) => {
                     <TextField className={classes.textArea} fullWidth multiline value={newTitle} onChange={handleOnChange} />
                 </DialogContent>
                 <DialogActions>
-                    <Button color="secondary" onClick={handleDeleteCard}>Delete</Button>
-                    <Button disabled={!changed} color="primary" onClick={handleClose}>Save</Button>
-                    <Button color="default" onClick={handleClose}>Cancel</Button>
+                    <Button color="secondary" onClick={handleDeleteCard}>削除</Button>
+                    <Button disabled={!changed} color="primary" onClick={updateCardTitle}>更新</Button>
+                    <Button color="default" onClick={handleClose}>キャンセル</Button>
                 </DialogActions>
             </Dialog>
         </div>
@@ -65,7 +70,7 @@ const DialogBox = ({ show, setShow, title, handleDeleteCard, listTitle }) => {
 const Card = ({ card, index, listId, listTitle }) => {
     const classes = useStyle();
     const [show, setShow] = useState(false);
-    const { deleteCard } = useContext(storeApi);
+    const { updateCardTitle, deleteCard } = useContext(storeApi);
 
     const handleCardClick = () => {
         setShow(true);
@@ -76,6 +81,10 @@ const Card = ({ card, index, listId, listTitle }) => {
         setShow(false);
     }
 
+    const handleUpdateCardTitle = (newTitle) => {
+        updateCardTitle(listId, card.id, newTitle);
+    }
+
     return (
         <Draggable draggableId={card.id} index={index}>
             {(provided) => (
@@ -84,7 +93,7 @@ const Card = ({ card, index, listId, listTitle }) => {
                         <Paper onClick={handleCardClick} className={classes.card}>
                             {card.title}
                         </Paper>
-                        <DialogBox show={show} setShow={setShow} title={card.title} handleDeleteCard={handleDeleteCard} listTitle={listTitle}/>
+                        <DialogBox show={show} setShow={setShow} title={card.title} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle}/>
                     </div>
                 </div>
             )}

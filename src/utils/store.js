@@ -1,12 +1,8 @@
 const data = {
+    background: 0,
     lists: {
-        'list-1': {
-            id: 'list-1',
-            title: 'Todo',
-            cards: [],
-        },
     },
-    listIds: ['list-1'],
+    listIds: [],
 };
 
 export default data;

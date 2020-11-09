@@ -62,15 +62,15 @@ const ConfirmBox = ({ show, setShow, resetData }) => {
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">
-            <DialogTitle id="alert-dialog-title">{"Do you want to reset data?"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{"全てのデータをリセットしますか?"}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    The existing data will be deleted and this operation can not be undone!
+                    既存のデータは削除され、この操作は元に戻せません！
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="default">Cancel</Button>
-                <Button onClick={handleDelete} color="secondary" autoFocus>Reset</Button>
+                <Button onClick={handleClose} color="default">キャンセル</Button>
+                <Button onClick={handleDelete} color="secondary" autoFocus>リセット</Button>
             </DialogActions>
         </Dialog>
     );
@@ -138,7 +138,7 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                                             style={{
                                                 background: color
                                             }}
-                                            onClick={() => changeBackground(color)}
+                                            onClick={() => changeBackground(index)}
                                         >
                                         </div>
                                     );

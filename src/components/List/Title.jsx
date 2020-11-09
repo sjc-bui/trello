@@ -9,17 +9,21 @@ import storeApi from '../../utils/storeApi';
 const useStyle = makeStyles((theme) => ({
     editableTitle: {
         flexGrow: 1,
-        fontSize: '1rem',
+        fontSize: '14px',
+        fontWeight: 600,
     },
     editableContainer: {
         display: "flex",
         margin: theme.spacing(1)
     },
     input: {
-        fontSize: '1rem',
+        fontSize: '14px',
+        fontWeight: 600,
         margin: theme.spacing(1),
         '&:focus': {
-            backgroundColor: '#ddd'
+            backgroundColor: '#ddd',
+            boder: 'none',
+            boxShadow: 'box-shadow:inset 0 0 0 2px #0079bf'
         }
     }
 }))
@@ -35,6 +39,17 @@ const Title = ({ title, listId }) => {
     }
 
     const handleOnBlur = () => {
+        updateTitle();
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.keyCode === 13 || e.keyCode === 27) {
+            updateTitle();
+            e.preventDefault();
+        }
+    }
+
+    const updateTitle = () => {
         setOpen(!open);
         updateListTitle(listId, newTitle);
     }
@@ -50,6 +65,7 @@ const Title = ({ title, listId }) => {
                         }}
                         fullWidth
                         autoFocus
+                        onKeyDown={handleKeyPress}
                         onBlur={handleOnBlur}
                         onChange={handleOnChange} />
                 </div>
