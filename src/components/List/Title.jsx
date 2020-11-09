@@ -39,6 +39,17 @@ const Title = ({ title, listId }) => {
     }
 
     const handleOnBlur = () => {
+        updateTitle();
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.keyCode === 13 || e.keyCode === 27) {
+            updateTitle();
+            e.preventDefault();
+        }
+    }
+
+    const updateTitle = () => {
         setOpen(!open);
         updateListTitle(listId, newTitle);
     }
@@ -54,6 +65,7 @@ const Title = ({ title, listId }) => {
                         }}
                         fullWidth
                         autoFocus
+                        onKeyDown={handleKeyPress}
                         onBlur={handleOnBlur}
                         onChange={handleOnChange} />
                 </div>

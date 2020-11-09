@@ -1,5 +1,5 @@
 const data = {
-    color: 0,
+    background: 0,
     lists: {
     },
     listIds: [],

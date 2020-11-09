@@ -48,13 +48,15 @@ const App = () => {
         alert("Error: Something went wrong. Please try again!");
     }
 
-    let colorValue = jsonObj.color;
-    if ((colorValue + 1) > colors.length) {
-        colorValue = 0;
+    let backgroundValue = jsonObj.background;
+    if (typeof(backgroundValue) === typeof(0)) {
+        if ((backgroundValue + 1) > colors.length) {
+            backgroundValue = 0;
+        }
     }
 
     const [data, setData] = useState(jsonObj);
-    const [defaultBackground, changeBackground] = useState(colorValue);
+    const [defaultBackground, changeBackground] = useState(backgroundValue);
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -175,7 +177,27 @@ const App = () => {
     }
 
     const updateCardTitle = (listId, cardId, newTitle) => {
-        console.log(listId, cardId, newTitle);
+        const cards = data.lists[listId].cards;
+        cards.map(card => {
+            if (card.id === cardId) {
+                card.title = newTitle;
+            }
+            return null;
+        });
+
+        const newState = {
+            ...data,
+            lists: {
+                ...data.lists,
+                [listId]: {
+                    ...data.lists[listId],
+                    cards: cards
+                }
+            }
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
     }
 
     const deleteCard = (listId, cardId) => {
@@ -202,15 +224,15 @@ const App = () => {
         saveLocalStorage(store);
         var jsonObj = getLocalStorageData('data');
         setData(jsonObj);
-        changeBackground(jsonObj.color);
+        changeBackground(jsonObj.background);
     }
 
-    const changeBackgroundColor = (color) => {
-        changeBackground(color);
+    const changeBackgroundColor = (value) => {
+        changeBackground(value);
 
         const newState = {
             ...data,
-            color: color
+            background: value
         }
 
         saveLocalStorage(newState);
@@ -239,7 +261,7 @@ const App = () => {
                                     const list = data.lists[listId];
                                     return <List list={list} key={listId} index={index} />
                                 })}
-                                <InputContainer type='list' listLength={data.listIds.length}/>
+                                <InputContainer type='list' listLength={data.listIds.length} />
                                 {provided.placeholder}
                             </div>
                         )}
