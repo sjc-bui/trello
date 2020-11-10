@@ -77,6 +77,11 @@ const useStyle = makeStyles((theme) => ({
         '&:hover': {
             backgroundColor: '#091e4221',
         }
+    },
+    previewText: {
+        fontSize: '14px',
+        marginTop: theme.spacing(1),
+        color: '#24292e',
     }
 }));
 
@@ -168,11 +173,16 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
                         </div>
                     ) : (
                             <div>
-                                <ReactMarkdown
-                                    source={newDes}
-                                    renderers={{
-                                        code: Component
-                                    }} />
+                                {newDes.length !== 0 ?
+                                    <ReactMarkdown
+                                        source={newDes}
+                                        renderers={{
+                                            code: Component
+                                        }} /> :
+                                    <div className={classes.previewText}>
+                                        プレビューするものはありません
+                                    </div>
+                                }
                             </div>
                         )}
                     <div>
