@@ -91,6 +91,7 @@ const InputCard = ({ setOpen, listId, type }) => {
                 <Paper className={classes.card}>
                     <InputBase
                         multiline
+                        autoFocus
                         fullWidth
                         inputProps={{
                             className: classes.input
