@@ -52,7 +52,13 @@ const useStyle = makeStyles((theme) => ({
     active: {
         cursor: 'pointer',
         fontWeight: 600,
-        padding: theme.spacing(0.5, 1, 0.5, 1),
+    },
+    titleWrap: {
+        minWidth: '500px',
+        marginTop: theme.spacing(2),
+    },
+    newCardTitle: {
+        cursor: 'text',
     }
 }));
 
@@ -62,6 +68,7 @@ const DialogBox = ({ show, setShow, title, description, handleDeleteCard, listTi
     const [newDes, setNewDes] = useState(description);
     const [changed, setChanged] = useState(false);
     const [open, setOpen] = useState(false);
+    const [openEditTitle, setOpenEditTitle] = useState(false);
 
     const handleClose = () => {
         setShow(false);
@@ -97,12 +104,27 @@ const DialogBox = ({ show, setShow, title, description, handleDeleteCard, listTi
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogContent>
-                    <Typography>リスト: {listTitle}</Typography>
+                    <Typography>リスト：{listTitle}</Typography>
                     <Divider />
-                    <TextField className={classes.textArea} fullWidth multiline value={newTitle} onChange={handleOnChange} />
+
+                    {openEditTitle ? (
+                        <TextField
+                            fullWidth
+                            multiline
+                            autoFocus
+                            onFocus={onFocus}
+                            onBlur={() => setOpenEditTitle(false)}
+                            className={classes.textArea}
+                            value={newTitle}
+                            onChange={handleOnChange} />
+                    ) : (
+                            <div className={classes.titleWrap}>
+                                <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography>
+                            </div>
+                        )}
 
                     <Typography className={classes.explainTitle}>
-                        説明&nbsp;&nbsp;
+                        説明：&nbsp;&nbsp;
                         <span className={open ? classes.active : classes.btn} onClick={() => setOpen(true)}>編集</span>
                         &nbsp;&nbsp;
                         <span className={!open ? classes.active : classes.btn} onClick={() => setOpen(false)}>プレビュー</span>
