@@ -11,6 +11,7 @@ import storeApi from '../../utils/storeApi';
 import Divider from '@material-ui/core/Divider';
 import ReactMarkdown from 'react-markdown';
 import DescriptionIcon from '@material-ui/icons/Description';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -34,7 +35,7 @@ const useStyle = makeStyles((theme) => ({
         paddingBottom: theme.spacing(2),
     },
     explainText: {
-        fontSize: '14px',
+        paddingBottom: theme.spacing(1),
     },
     subtitle: {
         fontSize: '11px',
@@ -59,20 +60,37 @@ const useStyle = makeStyles((theme) => ({
     },
     newCardTitle: {
         cursor: 'text',
+    },
+    followFlag: {
+        color: '#00b600',
+        fontWeight: 600,
+        marginLeft: theme.spacing(1),
+    },
+    customIcon: {
+        fontSize: '1.2rem',
+        color: '#959595',
+        marginRight: '4px',
+    },
+    followBtn: {
+        marginTop: theme.spacing(1),
+        backgroundColor: '#091e420a',
+        '&:hover': {
+            backgroundColor: '#091e4221',
+        }
     }
 }));
 
-const DialogBox = ({ show, setShow, title, description, handleDeleteCard, listTitle, handleUpdateCardTitle }) => {
+const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpdateCardTitle }) => {
     const classes = useStyle();
-    const [newTitle, setNewTitle] = useState(title);
-    const [newDes, setNewDes] = useState(description);
+    const [newTitle, setNewTitle] = useState(card.title);
+    const [newDes, setNewDes] = useState(card.description);
     const [changed, setChanged] = useState(false);
     const [open, setOpen] = useState(false);
     const [openEditTitle, setOpenEditTitle] = useState(false);
+    const [follow, setFollow] = useState(card.follow);
 
     const handleClose = () => {
         setShow(false);
-        setChanged(false);
     };
 
     const handleOnChange = (e) => {
@@ -85,9 +103,15 @@ const DialogBox = ({ show, setShow, title, description, handleDeleteCard, listTi
         setChanged(true);
     }
 
+    const handleCardFollow = () => {
+        setFollow(!follow)
+        setChanged(true);
+    }
+
     const updateCardTitle = () => {
         handleClose();
-        handleUpdateCardTitle(newTitle, newDes);
+        handleUpdateCardTitle(newTitle, newDes, follow);
+        setChanged(false);
     }
 
     const onFocus = (e) => {
@@ -151,7 +175,17 @@ const DialogBox = ({ show, setShow, title, description, handleDeleteCard, listTi
                                     }} />
                             </div>
                         )}
-
+                    <div>
+                        <Button
+                            className={classes.followBtn}
+                            onClick={handleCardFollow}>
+                            <VisibilityIcon className={classes.customIcon} />
+                            フォローする
+                              {follow ?
+                                <span className={classes.followFlag}>✔</span> :
+                                ('')}
+                        </Button>
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button color="default" onClick={handleClose}>キャンセル</Button>
@@ -185,8 +219,8 @@ const Card = ({ card, index, listId, listTitle }) => {
         setShow(false);
     }
 
-    const handleUpdateCardTitle = (newTitle, newDes) => {
-        updateCardTitle(listId, card.id, newTitle, newDes);
+    const handleUpdateCardTitle = (newTitle, newDes, follow) => {
+        updateCardTitle(listId, card.id, newTitle, newDes, follow);
     }
 
     return (
@@ -196,16 +230,16 @@ const Card = ({ card, index, listId, listTitle }) => {
                     <div>
                         <Paper onClick={handleCardClick} className={classes.card}>
                             {card.title}
-                            {card.description.length !== 0 ?
-                                <div>
-                                    <DescriptionIcon style={{
-                                        fontSize: '1.2rem',
-                                        color: '#959595',
-                                    }} />
-                                </div>
-                                : ''}
+                            <div>
+                                {card.description.length !== 0 ?
+                                    <DescriptionIcon className={classes.customIcon} />
+                                    : ''}
+                                {card.follow ?
+                                    <VisibilityIcon className={classes.customIcon} />
+                                    : ''}
+                            </div>
                         </Paper>
-                        <DialogBox show={show} setShow={setShow} title={card.title} description={card.description} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
+                        <DialogBox show={show} setShow={setShow} card={card} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
                     </div>
                 </div>
             )}
