@@ -40,20 +40,19 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const ConfirmBox = ({ show, setShow, deleteList, listId }) => {
-
+const ConfirmBox = (props) => {
     const handleClose = () => {
-        setShow(false);
+        props.setShow(false);
     };
 
     const handleDeleteList = () => {
-        deleteList(listId);
-        setShow(false);
+        props.deleteList(props.listId);
+        props.setShow(false);
     }
 
     return (
         <Dialog
-            open={show}
+            open={props.show}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">

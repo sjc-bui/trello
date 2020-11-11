@@ -23,24 +23,24 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const InputContainer = ({ listId, type, listLength, cardLength }) => {
+const InputContainer = (props) => {
     const classes = useStyle();
     const [open, setOpen] = useState(false);
 
     return (
         <div className={classes.root}>
             <Collapse in={open}>
-                <InputCard type={type} setOpen={setOpen} listId={listId} />
+                <InputCard type={props.type} setOpen={setOpen} listId={props.listId} />
             </Collapse>
             <Collapse in={!open}>
                 <Paper onClick={() => { setOpen(!open) }} className={classes.addCard} elevation={0}>
                     <Typography
                         className={classes.title}
                         style={{
-                            color: type === 'card' ? '#262626' : '#ffffff'
+                            color: props.type === 'card' ? '#262626' : '#ffffff'
                         }}
                     >
-                        ＋ {type === 'card' ? cardLength === 0 ? 'カードを追加' : 'さらにカードを追加' : listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
+                        ＋ {props.type === 'card' ? props.cardLength === 0 ? 'カードを追加' : 'さらにカードを追加' : props.listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
                     </Typography>
                 </Paper>
             </Collapse>

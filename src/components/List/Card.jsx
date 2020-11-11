@@ -1,14 +1,14 @@
-import { Paper, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
+import { Paper, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable } from 'react-beautiful-dnd';
+import { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import { useContext } from 'react';
-import storeApi from '../../utils/storeApi';
 import Divider from '@material-ui/core/Divider';
+import storeApi from '../../utils/storeApi';
 import ReactMarkdown from 'react-markdown';
 import DescriptionIcon from '@material-ui/icons/Description';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -16,12 +16,14 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
+import ColorPicker from './ColorPicker';
+
 const useStyle = makeStyles((theme) => ({
     card: {
         padding: theme.spacing(1, 1, 1, 1),
         margin: theme.spacing(1),
         '&:hover': {
-            backgroundColor: '#fafafab5'
+            backgroundColor: '#fafafab5',
         }
     },
     textArea: {
@@ -85,17 +87,21 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpdateCardTitle }) => {
+const DialogBox = (props) => {
     const classes = useStyle();
-    const [newTitle, setNewTitle] = useState(card.title);
-    const [newDes, setNewDes] = useState(card.description);
-    const [changed, setChanged] = useState(false);
+
+    const [follow, setFollow] = useState(props.card.follow);
+    const [newTitle, setNewTitle] = useState(props.card.title);
+    const [newDes, setNewDes] = useState(props.card.description);
+    const [borderColor, setBorderColor] = useState(props.card.label);
+
     const [open, setOpen] = useState(false);
+    const [changed, setChanged] = useState(false);
+    const [colorPickerShow, setPickerShow] = useState(false);
     const [openEditTitle, setOpenEditTitle] = useState(false);
-    const [follow, setFollow] = useState(card.follow);
 
     const handleClose = () => {
-        setShow(false);
+        props.setShow(false);
     };
 
     const handleOnChange = (e) => {
@@ -115,7 +121,7 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
 
     const updateCardTitle = () => {
         handleClose();
-        handleUpdateCardTitle(newTitle, newDes, follow);
+        props.handleUpdateCardTitle(newTitle, newDes, follow, borderColor);
         setChanged(false);
     }
 
@@ -128,94 +134,104 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
     return (
         <div>
             <Dialog
-                open={show}
+                open={props.show}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogContent>
-                    <Typography>リスト：{listTitle}</Typography>
-                    <Divider />
+                aria-describedby="alert-dialog-description"
+            >
+                <div style={{
+                    borderLeft: `8px solid ${borderColor}`
+                }}>
+                    <DialogContent>
+                        <Typography>リスト：{props.listTitle}</Typography>
+                        <Divider />
 
-                    {openEditTitle ? (
-                        <TextField
-                            fullWidth
-                            multiline
-                            autoFocus
-                            onFocus={onFocus}
-                            onBlur={() => setOpenEditTitle(false)}
-                            className={classes.textArea}
-                            value={newTitle}
-                            onChange={handleOnChange} />
-                    ) : (
-                            <div className={classes.titleWrap}>
-                                <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography>
-                            </div>
-                        )}
-
-                    <Typography className={classes.explainTitle}>
-                        説明：&nbsp;&nbsp;
-                        <span className={open ? classes.active : classes.btn} onClick={() => setOpen(true)}>編集</span>
-                        &nbsp;&nbsp;
-                        <span className={!open ? classes.active : classes.btn} onClick={() => setOpen(false)}>プレビュー</span>
-                    </Typography>
-                    {open ? (
-                        <div>
+                        {openEditTitle ? (
                             <TextField
                                 fullWidth
                                 multiline
                                 autoFocus
                                 onFocus={onFocus}
-                                className={classes.explainText}
-                                onChange={handleOnChangeDes}
-                                value={newDes}
-                                placeholder="詳しい説明を追加してください" />
-                            <span className={classes.subtitle}>マークダウン入力可能</span>
-                        </div>
-                    ) : (
+                                onBlur={() => setOpenEditTitle(false)}
+                                className={classes.textArea}
+                                value={newTitle}
+                                onChange={handleOnChange} />
+                        ) : (
+                                <div className={classes.titleWrap}>
+                                    <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography>
+                                </div>
+                            )}
+
+                        <Typography className={classes.explainTitle}>
+                            説明：&nbsp;&nbsp;
+                        <span className={open ? classes.active : classes.btn} onClick={() => setOpen(true)}>編集</span>
+                        &nbsp;&nbsp;
+                        <span className={!open ? classes.active : classes.btn} onClick={() => setOpen(false)}>プレビュー</span>
+                        </Typography>
+                        {open ? (
                             <div>
-                                {newDes.length !== 0 ?
-                                    <ReactMarkdown
-                                        source={newDes}
-                                        renderers={{
-                                            code: Component
-                                        }} /> :
-                                    <div className={classes.previewText}>
-                                        プレビューするものはありません
-                                    </div>
-                                }
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    autoFocus
+                                    onFocus={onFocus}
+                                    className={classes.explainText}
+                                    onChange={handleOnChangeDes}
+                                    value={newDes}
+                                    placeholder="詳しい説明を追加してください" />
+                                <span className={classes.subtitle}>マークダウン入力可能</span>
                             </div>
-                        )}
-                    <div>
+                        ) : (
+                                <div>
+                                    {newDes.length !== 0 ?
+                                        <ReactMarkdown
+                                            source={newDes}
+                                            renderers={{
+                                                code: Component
+                                            }} /> :
+                                        <div className={classes.previewText}>
+                                            プレビューするものはありません
+                                    </div>
+                                    }
+                                </div>
+                            )}
+                        <div>
+                            <Button className={classes.followBtn} onClick={() => setPickerShow(!colorPickerShow)}>ラベル</Button>
+                        &nbsp;&nbsp;&nbsp;
                         <Button
-                            className={classes.followBtn}
-                            onClick={handleCardFollow}>
-                            <VisibilityIcon className={classes.customIcon} />
+                                className={classes.followBtn}
+                                onClick={handleCardFollow}>
+                                <VisibilityIcon className={classes.customIcon} />
                             フォローする
                               {follow ?
-                                <span className={classes.followFlag}>✔</span> :
-                                ('')}
-                        </Button>
-                    </div>
-                </DialogContent>
-                <DialogActions>
-                    <Button color="default" onClick={handleClose}>キャンセル</Button>
-                    <Button color="secondary" onClick={handleDeleteCard}>削除</Button>
-                    <Button disabled={!changed} color="primary" onClick={updateCardTitle}>更新</Button>
-                </DialogActions>
+                                    <span className={classes.followFlag}>✔</span> :
+                                    ('')}
+                            </Button>
+                            {colorPickerShow ?
+                                <ColorPicker setChanged={setChanged} borderColor={borderColor} setBorderColor={setBorderColor} />
+                                : ''}
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="default" onClick={handleClose}>キャンセル</Button>
+                        <Button color="secondary" onClick={props.handleDeleteCard}>削除</Button>
+                        <Button disabled={!changed} color="primary" onClick={updateCardTitle}>更新</Button>
+                    </DialogActions>
+                </div>
             </Dialog>
         </div>
     )
 }
 
-const Component = ({ value, language }) => {
+const Component = (props) => {
     return (
-        <SyntaxHighlighter language={language ?? null} style={docco}>
-            {value ?? ''}
+        <SyntaxHighlighter language={props.language ?? null} style={docco}>
+            {props.value ?? ''}
         </SyntaxHighlighter>
     );
 };
 
-const Card = ({ card, index, listId, listTitle }) => {
+const Card = (props) => {
     const classes = useStyle();
     const [show, setShow] = useState(false);
     const { updateCardTitle, deleteCard } = useContext(storeApi);
@@ -225,31 +241,38 @@ const Card = ({ card, index, listId, listTitle }) => {
     }
 
     const handleDeleteCard = () => {
-        deleteCard(listId, card.id);
+        deleteCard(props.listId, props.card.id);
         setShow(false);
     }
 
-    const handleUpdateCardTitle = (newTitle, newDes, follow) => {
-        updateCardTitle(listId, card.id, newTitle, newDes, follow);
+    const handleUpdateCardTitle = (newTitle, newDes, follow, label) => {
+        updateCardTitle(props.listId, props.card.id, newTitle, newDes, follow, label);
     }
 
     return (
-        <Draggable draggableId={card.id} index={index}>
+        <Draggable draggableId={props.card.id} index={props.index}>
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
                     <div>
-                        <Paper onClick={handleCardClick} className={classes.card}>
-                            {card.title}
+                        <Paper
+                            onClick={handleCardClick}
+                            className={classes.card}
+                            style={{
+                                borderLeft: `4px solid ${props.card.label}`,
+                                borderTopLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
+                                borderBottomLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
+                            }}>
+                            {props.card.title}
                             <div>
-                                {card.description.length !== 0 ?
+                                {props.card.description.length !== 0 ?
                                     <DescriptionIcon className={classes.customIcon} />
                                     : ''}
-                                {card.follow ?
+                                {props.card.follow ?
                                     <VisibilityIcon className={classes.customIcon} />
                                     : ''}
                             </div>
                         </Paper>
-                        <DialogBox show={show} setShow={setShow} card={card} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
+                        <DialogBox show={show} setShow={setShow} card={props.card} handleDeleteCard={handleDeleteCard} listTitle={props.listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
                     </div>
                 </div>
             )}
