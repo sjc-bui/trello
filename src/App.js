@@ -66,6 +66,7 @@ const App = () => {
             title: title,
             description: "",
             follow: false,
+            label: '#ffffff00',
         }
 
         const currentList = data.lists[listId];
@@ -178,13 +179,14 @@ const App = () => {
         }
     }
 
-    const updateCardTitle = (listId, cardId, newTitle, newDes, follow) => {
+    const updateCardTitle = (listId, cardId, newTitle, newDes, follow, label) => {
         const cards = data.lists[listId].cards;
         cards.map(card => {
             if (card.id === cardId) {
                 card.title = newTitle;
                 card.description = newDes;
-                card.follow = follow
+                card.follow = follow;
+                card.label = label;
             }
             return null;
         });

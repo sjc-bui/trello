@@ -42,6 +42,9 @@ const useStyle = makeStyles((theme) => ({
     },
     menuTitle: {
         textAlign: 'center',
+    },
+    btn: {
+        margin: theme.spacing(0, 1, 0, 0),
     }
 }))
 
@@ -81,6 +84,17 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
     const [openColorOptions, setOpenColorOptions] = useState(false);
     const [show, setShow] = useState(false);
 
+    const exportJson = () => {
+        const localData = localStorage.getItem('data');
+        var jsonObj = JSON.parse(localData);
+        var jsonPretty = JSON.stringify(jsonObj, null, 2);
+
+        var x = window.open("", "", "top=500,left=500,width=900,height=500");
+        x.document.open();
+        x.document.write(`<html><header><title>Json Data</title></header><body><pre>${jsonPretty}</pre></body></html>`);
+        x.document.close();
+    }
+
     return (
         <div>
             <Drawer
@@ -99,8 +113,9 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                         </Select>
                     </FormControl>
                     <div className={classes.resetBtn}>
-                        <Button onClick={() => setShow(true)}>データリセット</Button>
+                        <Button className={classes.btn} onClick={() => setShow(true)}>データリセット</Button>
                         <ConfirmBox show={show} setShow={setShow} resetData={resetData} />
+                        <Button onClick={exportJson} className={classes.btn}>エクスポート</Button>
                     </div>
                 </div>
                 <div className={classes.drawer}>
