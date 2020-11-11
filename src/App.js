@@ -70,6 +70,8 @@ const App = () => {
             description: "",
             follow: false,
             label: '#ffffff00',
+            created_at: Date.now(),
+            updated_at: null,
         }
 
         const currentList = data.lists[listId];
@@ -78,7 +80,8 @@ const App = () => {
         const newState = {
             ...data,
             lists: {
-                ...data.lists, [listId]: currentList
+                ...data.lists,
+                [listId]: currentList
             }
         }
 
@@ -92,14 +95,17 @@ const App = () => {
         const newList = {
             id: newListId,
             title,
-            cards: []
+            cards: [],
+            created_at: Date.now(),
+            updated_at: null,
         }
 
         const newState = {
             ...data,
             listIds: [...data.listIds, newListId],
             lists: {
-                ...data.lists, [newListId]: newList
+                ...data.lists,
+                [newListId]: newList
             }
         }
 
@@ -110,6 +116,7 @@ const App = () => {
     const updateListTitle = (listId, newTitle) => {
         const list = data.lists[listId];
         list.title = newTitle;
+        list.updated_at = Date.now();
 
         const newState = {
             ...data,
@@ -190,6 +197,7 @@ const App = () => {
                 card.description = newDes;
                 card.follow = follow;
                 card.label = label;
+                card.updated_at = Date.now();
             }
             return null;
         });
