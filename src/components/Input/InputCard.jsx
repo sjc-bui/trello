@@ -44,7 +44,7 @@ function empty(e) {
     }
 }
 
-const InputCard = ({ setOpen, listId, type }) => {
+const InputCard = (props) => {
 
     const classes = useStyle();
     const { addMoreCard, addMoreList } = useContext(storeApi);
@@ -57,8 +57,8 @@ const InputCard = ({ setOpen, listId, type }) => {
     const addTitle = () => {
         if (empty(title)) return;
 
-        if (type === 'card') {
-            addMoreCard(title, listId);
+        if (props.type === 'card') {
+            addMoreCard(title, props.listId);
         }
         else {
             addMoreList(title);
@@ -76,12 +76,12 @@ const InputCard = ({ setOpen, listId, type }) => {
             addTitle();
             e.preventDefault();
         } else if (e.keyCode === 27) {
-            setOpen(false);
+            props.setOpen(false);
         }
     }
 
     const handleCloseBtn = () => {
-        setOpen(false);
+        props.setOpen(false);
         setTitle('');
     }
 
@@ -100,7 +100,7 @@ const InputCard = ({ setOpen, listId, type }) => {
                         onChange={handleOnChange}
                         onKeyDown={handleOnKeyDown}
                         placeholder={
-                            type === 'card'
+                            props.type === 'card'
                                 ? 'このカードにタイトルを入力...'
                                 : 'リストのタイトルを入力...'
                         } />
@@ -110,7 +110,7 @@ const InputCard = ({ setOpen, listId, type }) => {
                 <Button
                     onClick={handleConfirmBtn}
                     className={classes.confirmBtn}>
-                    {type === 'card' ? 'カードを追加' : 'リストを追加'}
+                    {props.type === 'card' ? 'カードを追加' : 'リストを追加'}
                 </Button>
                 <IconButton
                     onClick={handleCloseBtn}

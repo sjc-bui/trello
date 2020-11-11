@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button, Typography } from '@material-ui/core';
+import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button, Typography, FormGroup } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,6 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Slider from '@material-ui/core/Slider';
 
 const useStyle = makeStyles((theme) => ({
     drawer: {
@@ -45,23 +49,26 @@ const useStyle = makeStyles((theme) => ({
     },
     btn: {
         margin: theme.spacing(0, 1, 0, 0),
+    },
+    effectBoxWrap: {
+        margin: theme.spacing(0, 1, 0, 1),
     }
 }))
 
-const ConfirmBox = ({ show, setShow, resetData }) => {
+const ConfirmBox = (props) => {
 
     const handleClose = () => {
-        setShow(false);
+        props.setShow(false);
     };
 
     const handleDelete = () => {
-        resetData();
-        setShow(false);
+        props.resetData();
+        props.setShow(false);
     }
 
     return (
         <Dialog
-            open={show}
+            open={props.show}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">
@@ -79,10 +86,10 @@ const ConfirmBox = ({ show, setShow, resetData }) => {
     );
 }
 
-const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData }) => {
+const SideBar = (props) => {
     const classes = useStyle();
-    const [openColorOptions, setOpenColorOptions] = useState(false);
     const [show, setShow] = useState(false);
+    const [openColorOptions, setOpenColorOptions] = useState(false);
 
     const exportJson = () => {
         const localData = localStorage.getItem('data');
@@ -95,13 +102,23 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
         x.document.close();
     }
 
+    const handleUseEffect = () => {
+        props.setUseEffect(!props.useEffect);
+        props.changeEffectOnOff(!props.useEffect);
+    }
+
+    const handleSliderChange = (_event, newValue) => {
+        props.setSnowFlake(newValue);
+        props.changeSnowFlakeCount(newValue);
+    }
+
     return (
         <div>
             <Drawer
                 anchor="right"
-                open={openSideMenu}
+                open={props.openSideMenu}
                 onClose={() => {
-                    setOpenSideMenu(false);
+                    props.setOpenSideMenu(false);
                 }}>
                 <div className={classes.selectForm}>
                     <FormControl className={classes.formControl}>
@@ -114,8 +131,21 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                     </FormControl>
                     <div className={classes.resetBtn}>
                         <Button className={classes.btn} onClick={() => setShow(true)}>データリセット</Button>
-                        <ConfirmBox show={show} setShow={setShow} resetData={resetData} />
-                        <Button onClick={exportJson} className={classes.btn}>エクスポート</Button>
+                        <ConfirmBox show={show} setShow={setShow} resetData={props.resetData} />
+                        <Button onClick={exportJson} className={classes.btn}>JSONでエクスポート</Button>
+                        <div className={classes.effectBoxWrap}>
+                            <FormGroup>
+                                <FormControlLabel control={<Switch checked={props.useEffect} onChange={handleUseEffect} />} label="雪を降らせる" />
+                            </FormGroup>
+                            <Slider
+                                disabled={!props.useEffect}
+                                value={props.snowFlake}
+                                valueLabelDisplay="auto"
+                                onChangeCommitted={handleSliderChange}
+                                min={0}
+                                max={750}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className={classes.drawer}>
@@ -153,7 +183,7 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                                             style={{
                                                 background: color
                                             }}
-                                            onClick={() => changeBackground(index)}
+                                            onClick={() => props.changeBackground(index)}
                                         >
                                         </div>
                                     );
@@ -172,7 +202,7 @@ const SideBar = ({ openSideMenu, setOpenSideMenu, changeBackground, resetData })
                                                 backgroundRepeat: 'no-repeat',
                                                 backgroundSize: 'cover',
                                             }}
-                                            onClick={() => changeBackground(image)}
+                                            onClick={() => props.changeBackground(image)}
                                         >
                                         </div>
                                     );

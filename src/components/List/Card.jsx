@@ -1,14 +1,14 @@
-import { Paper, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
+import { Paper, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable } from 'react-beautiful-dnd';
+import { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import { useContext } from 'react';
-import storeApi from '../../utils/storeApi';
 import Divider from '@material-ui/core/Divider';
+import storeApi from '../../utils/storeApi';
 import ReactMarkdown from 'react-markdown';
 import DescriptionIcon from '@material-ui/icons/Description';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -87,19 +87,21 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpdateCardTitle }) => {
+const DialogBox = (props) => {
     const classes = useStyle();
-    const [newTitle, setNewTitle] = useState(card.title);
-    const [newDes, setNewDes] = useState(card.description);
-    const [changed, setChanged] = useState(false);
+
+    const [follow, setFollow] = useState(props.card.follow);
+    const [newTitle, setNewTitle] = useState(props.card.title);
+    const [newDes, setNewDes] = useState(props.card.description);
+    const [borderColor, setBorderColor] = useState(props.card.label);
+
     const [open, setOpen] = useState(false);
-    const [openEditTitle, setOpenEditTitle] = useState(false);
-    const [follow, setFollow] = useState(card.follow);
+    const [changed, setChanged] = useState(false);
     const [colorPickerShow, setPickerShow] = useState(false);
-    const [borderColor, setBorderColor] = useState(card.label);
+    const [openEditTitle, setOpenEditTitle] = useState(false);
 
     const handleClose = () => {
-        setShow(false);
+        props.setShow(false);
     };
 
     const handleOnChange = (e) => {
@@ -119,7 +121,7 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
 
     const updateCardTitle = () => {
         handleClose();
-        handleUpdateCardTitle(newTitle, newDes, follow, borderColor);
+        props.handleUpdateCardTitle(newTitle, newDes, follow, borderColor);
         setChanged(false);
     }
 
@@ -132,7 +134,7 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
     return (
         <div>
             <Dialog
-                open={show}
+                open={props.show}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -141,7 +143,7 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
                     borderLeft: `8px solid ${borderColor}`
                 }}>
                     <DialogContent>
-                        <Typography>リスト：{listTitle}</Typography>
+                        <Typography>リスト：{props.listTitle}</Typography>
                         <Divider />
 
                         {openEditTitle ? (
@@ -212,7 +214,7 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
                     </DialogContent>
                     <DialogActions>
                         <Button color="default" onClick={handleClose}>キャンセル</Button>
-                        <Button color="secondary" onClick={handleDeleteCard}>削除</Button>
+                        <Button color="secondary" onClick={props.handleDeleteCard}>削除</Button>
                         <Button disabled={!changed} color="primary" onClick={updateCardTitle}>更新</Button>
                     </DialogActions>
                 </div>
@@ -221,15 +223,15 @@ const DialogBox = ({ show, setShow, card, handleDeleteCard, listTitle, handleUpd
     )
 }
 
-const Component = ({ value, language }) => {
+const Component = (props) => {
     return (
-        <SyntaxHighlighter language={language ?? null} style={docco}>
-            {value ?? ''}
+        <SyntaxHighlighter language={props.language ?? null} style={docco}>
+            {props.value ?? ''}
         </SyntaxHighlighter>
     );
 };
 
-const Card = ({ card, index, listId, listTitle }) => {
+const Card = (props) => {
     const classes = useStyle();
     const [show, setShow] = useState(false);
     const { updateCardTitle, deleteCard } = useContext(storeApi);
@@ -239,16 +241,16 @@ const Card = ({ card, index, listId, listTitle }) => {
     }
 
     const handleDeleteCard = () => {
-        deleteCard(listId, card.id);
+        deleteCard(props.listId, props.card.id);
         setShow(false);
     }
 
     const handleUpdateCardTitle = (newTitle, newDes, follow, label) => {
-        updateCardTitle(listId, card.id, newTitle, newDes, follow, label);
+        updateCardTitle(props.listId, props.card.id, newTitle, newDes, follow, label);
     }
 
     return (
-        <Draggable draggableId={card.id} index={index}>
+        <Draggable draggableId={props.card.id} index={props.index}>
             {(provided) => (
                 <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
                     <div>
@@ -256,21 +258,21 @@ const Card = ({ card, index, listId, listTitle }) => {
                             onClick={handleCardClick}
                             className={classes.card}
                             style={{
-                                borderLeft: `4px solid ${card.label}`,
-                                borderTopLeftRadius: card.label !== '#ffffff00' ? '0px' : '4px',
-                                borderBottomLeftRadius: card.label !== '#ffffff00' ? '0px' : '4px',
+                                borderLeft: `4px solid ${props.card.label}`,
+                                borderTopLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
+                                borderBottomLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
                             }}>
-                            {card.title}
+                            {props.card.title}
                             <div>
-                                {card.description.length !== 0 ?
+                                {props.card.description.length !== 0 ?
                                     <DescriptionIcon className={classes.customIcon} />
                                     : ''}
-                                {card.follow ?
+                                {props.card.follow ?
                                     <VisibilityIcon className={classes.customIcon} />
                                     : ''}
                             </div>
                         </Paper>
-                        <DialogBox show={show} setShow={setShow} card={card} handleDeleteCard={handleDeleteCard} listTitle={listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
+                        <DialogBox show={show} setShow={setShow} card={props.card} handleDeleteCard={handleDeleteCard} listTitle={props.listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
                     </div>
                 </div>
             )}

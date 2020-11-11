@@ -18,22 +18,22 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const ColorPicker = ({ setChanged, borderColor, setBorderColor }) => {
+const ColorPicker = (props) => {
     const classes = useStyle();
 
     const handleOnChange = (color) => {
-        setBorderColor(color.hex);
-        setChanged(true);
+        props.setBorderColor(color.hex);
+        props.setChanged(true);
     }
 
     const removeLabel = () => {
-        setBorderColor('#ffffff00');
-        setChanged(true);
+        props.setBorderColor('#ffffff00');
+        props.setChanged(true);
     }
 
     return (
         <div className={classes.root}>
-            <TwitterPicker color={borderColor} onChangeComplete={handleOnChange} />
+            <TwitterPicker color={props.borderColor} onChangeComplete={handleOnChange} />
             <div className={classes.labelWrap}>
                 <span onClick={removeLabel} className={classes.deleteLabel}>ラベル削除</span>
             </div>

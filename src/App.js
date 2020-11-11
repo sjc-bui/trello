@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
+import Snowfall from 'react-snowfall';
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -49,7 +50,7 @@ const App = () => {
     }
 
     let backgroundValue = jsonObj.background;
-    if (typeof(backgroundValue) === typeof(0)) {
+    if (typeof (backgroundValue) === typeof (0)) {
         if ((backgroundValue + 1) > colors.length) {
             backgroundValue = 0;
         }
@@ -57,6 +58,8 @@ const App = () => {
 
     const [data, setData] = useState(jsonObj);
     const [defaultBackground, changeBackground] = useState(backgroundValue);
+    const [useEffect, setUseEffect] = useState(data.snowEffect.turnOn);
+    const [snowFlake, setSnowFlake] = useState(data.snowEffect.snowFlake);
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -246,6 +249,8 @@ const App = () => {
         var jsonObj = getLocalStorageData('data');
         setData(jsonObj);
         changeBackground(jsonObj.background);
+        setUseEffect(jsonObj.snowEffect.turnOn);
+        setSnowFlake(jsonObj.snowEffect.snowFlake);
     }
 
     const changeBackgroundColor = (value) => {
@@ -254,6 +259,32 @@ const App = () => {
         const newState = {
             ...data,
             background: value
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
+    }
+
+    const changeEffectOnOff = (turn) => {
+        const newState = {
+            ...data,
+            snowEffect: {
+                ...data.snowEffect,
+                turnOn: turn,
+            }
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
+    }
+
+    const changeSnowFlakeCount = (newVal) => {
+        const newState = {
+            ...data,
+            snowEffect: {
+                ...data.snowEffect,
+                snowFlake: newVal,
+            }
         }
 
         saveLocalStorage(newState);
@@ -269,7 +300,20 @@ const App = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
             }}>
-            <Navigation changeBackground={changeBackgroundColor} resetData={resetData} />
+            <div>
+                {useEffect ?
+                    <Snowfall snowflakeCount={snowFlake} />
+                    : ''}
+            </div>
+            <Navigation
+                useEffect={useEffect}
+                setUseEffect={setUseEffect}
+                snowFlake={snowFlake}
+                setSnowFlake={setSnowFlake}
+                changeEffectOnOff={changeEffectOnOff}
+                changeSnowFlakeCount={changeSnowFlakeCount}
+                changeBackground={changeBackgroundColor}
+                resetData={resetData} />
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
