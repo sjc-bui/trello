@@ -10,6 +10,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import ColorPicker from './ColorPicker';
 import SyntaxHighlight from './SyntaxHighlight';
 import { makeStyles } from '@material-ui/core/styles';
+import { isNullOrWhiteSpaces } from '../../utils/helper';
 
 const useStyle = makeStyles((theme) => ({
     textArea: {
@@ -106,9 +107,14 @@ const CardOptionDialog = (props) => {
     }
 
     const updateCardTitle = () => {
+        if (isNullOrWhiteSpaces(newTitle)) return;
+        props.handleUpdateCardTitle(newTitle.trim(), newDes, follow, borderColor);
         handleClose();
-        props.handleUpdateCardTitle(newTitle, newDes, follow, borderColor);
         setChanged(false);
+    }
+
+    const handleOnBlur = () => {
+        setOpenEditTitle(false);
     }
 
     const onFocus = (e) => {
@@ -138,7 +144,7 @@ const CardOptionDialog = (props) => {
                                 multiline
                                 autoFocus
                                 onFocus={onFocus}
-                                onBlur={() => setOpenEditTitle(false)}
+                                onBlur={handleOnBlur}
                                 className={classes.textArea}
                                 value={newTitle}
                                 onChange={handleOnChange} />

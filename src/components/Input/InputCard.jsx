@@ -5,6 +5,7 @@ import { makeStyles, fade } from '@material-ui/core/styles';
 import { useState } from 'react';
 import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
+import { isNullOrWhiteSpaces } from '../../utils/helper';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -30,20 +31,6 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const empty = (e) => {
-    switch (e) {
-        case "":
-        case 0:
-        case "0":
-        case null:
-        case false:
-        case typeof (e) == "undefined":
-            return true;
-        default:
-            return false;
-    }
-}
-
 const InputCard = (props) => {
 
     const classes = useStyle();
@@ -55,13 +42,13 @@ const InputCard = (props) => {
     }
 
     const addTitle = () => {
-        if (empty(title)) return;
+        if (isNullOrWhiteSpaces(title)) return;
 
         if (props.type === 'card') {
-            addMoreCard(title, props.listId);
+            addMoreCard(title.trim(), props.listId);
         }
         else {
-            addMoreList(title);
+            addMoreList(title.trim());
         }
 
         setTitle('');
