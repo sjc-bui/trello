@@ -3,15 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button, Typography, FormGroup } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider from '@material-ui/core/Slider';
+import ResetDataConfirmDialog from './ResetDataConfirmDialog';
 
 const useStyle = makeStyles((theme) => ({
     drawer: {
@@ -55,38 +50,8 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const ConfirmBox = (props) => {
-
-    const handleClose = () => {
-        props.setShow(false);
-    };
-
-    const handleDelete = () => {
-        props.resetData();
-        props.setShow(false);
-    }
-
-    return (
-        <Dialog
-            open={props.show}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description">
-            <DialogTitle id="alert-dialog-title">{"全てのデータをリセットしますか?"}</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    既存のデータは削除され、この操作は元に戻せません！
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} color="default">キャンセル</Button>
-                <Button onClick={handleDelete} color="secondary">リセット</Button>
-            </DialogActions>
-        </Dialog>
-    );
-}
-
 const SideBar = (props) => {
+
     const classes = useStyle();
     const [show, setShow] = useState(false);
     const [openColorOptions, setOpenColorOptions] = useState(false);
@@ -131,7 +96,7 @@ const SideBar = (props) => {
                     </FormControl>
                     <div className={classes.resetBtn}>
                         <Button className={classes.btn} onClick={() => setShow(true)}>データリセット</Button>
-                        <ConfirmBox show={show} setShow={setShow} resetData={props.resetData} />
+                        <ResetDataConfirmDialog show={show} setShow={setShow} resetData={props.resetData} />
                         <Button onClick={exportJson} className={classes.btn}>JSONでエクスポート</Button>
                         <div className={classes.effectBoxWrap}>
                             <FormGroup>
