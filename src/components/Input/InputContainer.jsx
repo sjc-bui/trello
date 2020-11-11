@@ -1,12 +1,12 @@
 import React from 'react';
-import { Collapse, Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core';
 import InputCard from './InputCard';
 import { useState } from 'react';
 
 const useStyle = makeStyles((theme) => ({
     root: {
-        width: '295px',
+        paddingBottom: '1px',
     },
     addCard: {
         padding: theme.spacing(1, 1, 1, 2),
@@ -20,7 +20,7 @@ const useStyle = makeStyles((theme) => ({
     },
     title: {
         fontSize: '14px',
-    }
+    },
 }));
 
 const InputContainer = (props) => {
@@ -29,21 +29,23 @@ const InputContainer = (props) => {
 
     return (
         <div className={classes.root}>
-            <Collapse in={open}>
-                <InputCard type={props.type} setOpen={setOpen} listId={props.listId} />
-            </Collapse>
-            <Collapse in={!open}>
-                <Paper onClick={() => { setOpen(!open) }} className={classes.addCard} elevation={0}>
-                    <Typography
-                        className={classes.title}
-                        style={{
-                            color: props.type === 'card' ? '#262626' : '#ffffff'
-                        }}
-                    >
-                        ＋ {props.type === 'card' ? props.cardLength === 0 ? 'カードを追加' : 'さらにカードを追加' : props.listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
-                    </Typography>
-                </Paper>
-            </Collapse>
+            {open ?
+                <div>
+                    <InputCard type={props.type} setOpen={setOpen} listId={props.listId} />
+                </div>
+                :
+                <div>
+                    <Paper onClick={() => { setOpen(!open) }} className={classes.addCard} elevation={0}>
+                        <Typography
+                            className={classes.title}
+                            style={{
+                                color: props.type === 'card' ? '#262626' : '#ffffff'
+                            }}>
+                            ＋ {props.type === 'card' ? props.cardLength === 0 ? 'カードを追加' : 'さらにカードを追加' : props.listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
+                        </Typography>
+                    </Paper>
+                </div>
+            }
         </div>
     )
 }

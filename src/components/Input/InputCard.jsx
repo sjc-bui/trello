@@ -75,7 +75,9 @@ const InputCard = (props) => {
     return (
         <div>
             <div>
-                <Paper className={classes.card}>
+                <Paper className={classes.card} style={{
+                    width: props.type === 'list' ? '283px' : 'auto',
+                }}>
                     <InputBase
                         multiline
                         autoFocus
