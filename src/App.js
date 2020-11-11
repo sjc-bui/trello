@@ -300,11 +300,14 @@ const App = () => {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
             }}>
+
             <div>
                 {useEffect ?
                     <Snowfall snowflakeCount={snowFlake} />
                     : ''}
             </div>
+
+            {/* Navigation */}
             <Navigation
                 useEffect={useEffect}
                 setUseEffect={setUseEffect}
@@ -314,6 +317,7 @@ const App = () => {
                 changeSnowFlakeCount={changeSnowFlakeCount}
                 changeBackground={changeBackgroundColor}
                 resetData={resetData} />
+
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">

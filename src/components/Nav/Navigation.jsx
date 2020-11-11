@@ -3,6 +3,7 @@ import TopBar from './TopBar';
 import SideBar from './SideBar';
 
 const Navigation = (props) => {
+
     const [openSideMenu, setOpenSideMenu] = useState(false);
 
     return (

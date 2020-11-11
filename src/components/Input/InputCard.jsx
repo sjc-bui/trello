@@ -30,7 +30,7 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-function empty(e) {
+const empty = (e) => {
     switch (e) {
         case "":
         case 0:
