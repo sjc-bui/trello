@@ -114,6 +114,7 @@ const CardOptionDialog = (props) => {
     }
 
     const handleOnBlur = () => {
+        if (isNullOrWhiteSpaces(newTitle)) return;
         setOpenEditTitle(false);
     }
 
