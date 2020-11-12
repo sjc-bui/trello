@@ -10,6 +10,9 @@ import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
 import Snowfall from 'react-snowfall';
 
+import { withNamespaces } from 'react-i18next';
+import { saveLocalStorage, getLocalStorageData, resetLocalData } from './utils/helper';
+
 const useStyle = makeStyles(() => ({
     root: {
         display: 'flex',
@@ -19,21 +22,7 @@ const useStyle = makeStyles(() => ({
     },
 }))
 
-const saveLocalStorage = (newState) => {
-    localStorage.setItem('data', JSON.stringify(newState));
-}
-
-const getLocalStorageData = (type) => {
-    const localData = localStorage.getItem(type);
-    const jsonObj = JSON.parse(localData);
-    return jsonObj;
-}
-
-const resetLocalData = () => {
-    localStorage.removeItem('data');
-}
-
-const App = () => {
+const App = ({ t }) => {
     if (localStorage.getItem('data') == null) {
         saveLocalStorage(store);
     }
@@ -325,7 +314,6 @@ const App = () => {
                 changeSnowFlakeCount={changeSnowFlakeCount}
                 changeBackground={changeBackgroundColor}
                 resetData={resetData} />
-
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList }}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
@@ -349,4 +337,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default withNamespaces()(App);

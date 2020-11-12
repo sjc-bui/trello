@@ -1,6 +1,7 @@
 import React from 'react';
 import { TwitterPicker } from 'react-color';
 import { makeStyles } from '@material-ui/core/styles';
+import { withNamespaces } from 'react-i18next';
 
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -35,10 +36,10 @@ const ColorPicker = (props) => {
         <div className={classes.root}>
             <TwitterPicker color={props.borderColor} onChangeComplete={handleOnChange} />
             <div className={classes.labelWrap}>
-                <span onClick={removeLabel} className={classes.deleteLabel}>ラベル削除</span>
+                <span onClick={removeLabel} className={classes.deleteLabel}>{props.t('clearLabel')}</span>
             </div>
         </div>
     )
 }
 
-export default ColorPicker;
+export default withNamespaces()(ColorPicker);

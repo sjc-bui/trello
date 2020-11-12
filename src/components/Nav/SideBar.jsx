@@ -8,6 +8,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider from '@material-ui/core/Slider';
 import ResetDataConfirmDialog from './ResetDataConfirmDialog';
 
+import { withNamespaces } from 'react-i18next';
+import { defaultLanguage, getLocalStorageData } from '../../utils/helper';
+
 const useStyle = makeStyles((theme) => ({
     drawer: {
         width: '300px'
@@ -41,9 +44,12 @@ const useStyle = makeStyles((theme) => ({
     },
     menuTitle: {
         textAlign: 'center',
+        color: '#172b4d',
+        fontSize: '14px',
     },
     btn: {
         margin: theme.spacing(0, 1, 0, 0),
+        textTransform: 'none',
     },
     effectBoxWrap: {
         margin: theme.spacing(0, 1, 0, 1),
@@ -53,12 +59,14 @@ const useStyle = makeStyles((theme) => ({
 const SideBar = (props) => {
 
     const classes = useStyle();
+    const lang = defaultLanguage();
+
     const [show, setShow] = useState(false);
     const [openColorOptions, setOpenColorOptions] = useState(false);
+    const [lng, setLng] = useState(lang);
 
     const exportJson = () => {
-        const localData = localStorage.getItem('data');
-        var jsonObj = JSON.parse(localData);
+        var jsonObj = getLocalStorageData('data');
         var jsonPretty = JSON.stringify(jsonObj, null, 2);
 
         var x = window.open("", "", "top=500,left=500,width=900,height=500");
@@ -77,6 +85,12 @@ const SideBar = (props) => {
         props.changeSnowFlakeCount(newValue);
     }
 
+    const onChangeLanguage = (e) => {
+        const selectedLang = e.target.value;
+        setLng(selectedLang);
+        console.log(selectedLang);
+    }
+
     return (
         <div>
             <Drawer
@@ -87,20 +101,20 @@ const SideBar = (props) => {
                 }}>
                 <div className={classes.selectForm}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>言語</InputLabel>
-                        <Select>
-                            <MenuItem selected="true">英語</MenuItem>
-                            <MenuItem>ベトナム語</MenuItem>
-                            <MenuItem>日本語</MenuItem>
+                        <InputLabel>{props.t('language')}</InputLabel>
+                        <Select value={lng} onChange={onChangeLanguage}>
+                            <MenuItem value={"en"}>{props.t('english')}</MenuItem>
+                            <MenuItem value={"ja"}>{props.t('japanese')}</MenuItem>
+                            <MenuItem value={"vi"}>{props.t('vietnamese')}</MenuItem>
                         </Select>
                     </FormControl>
                     <div className={classes.resetBtn}>
-                        <Button className={classes.btn} onClick={() => setShow(true)}>データリセット</Button>
+                        <Button className={classes.btn} onClick={() => setShow(true)}>{props.t('resetDataBtn')}</Button>
                         <ResetDataConfirmDialog show={show} setShow={setShow} resetData={props.resetData} />
-                        <Button onClick={exportJson} className={classes.btn}>JSONでエクスポート</Button>
+                        <Button onClick={exportJson} className={classes.btn}>{props.t('exportBtn')}</Button>
                         <div className={classes.effectBoxWrap}>
                             <FormGroup>
-                                <FormControlLabel control={<Switch checked={props.useEffect} onChange={handleUseEffect} />} label="雪を降らせる" />
+                                <FormControlLabel control={<Switch checked={props.useEffect} onChange={handleUseEffect} />} label={props.t('effectLabel')} />
                             </FormGroup>
                             <Slider
                                 disabled={!props.useEffect}
@@ -135,7 +149,9 @@ const SideBar = (props) => {
                         </div>
                     </div>
                     <Typography className={classes.menuTitle}>
-                        {openColorOptions ? '色' : '写真'}
+                        {openColorOptions ?
+                            <span>{props.t('colors')}</span> :
+                            <span>{props.t('photos')}</span>}
                     </Typography>
                     {openColorOptions ?
                         <Grow in={true}>
@@ -181,4 +197,4 @@ const SideBar = (props) => {
     )
 }
 
-export default SideBar;
+export default withNamespaces()(SideBar);

@@ -3,6 +3,7 @@ import { Paper, Typography } from '@material-ui/core';
 import { makeStyles, fade } from '@material-ui/core';
 import InputCard from './InputCard';
 import { useState } from 'react';
+import { withNamespaces } from 'react-i18next';
 
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -41,7 +42,13 @@ const InputContainer = (props) => {
                             style={{
                                 color: props.type === 'card' ? '#5e6c84' : '#ffffff'
                             }}>
-                            ＋ {props.type === 'card' ? props.cardLength === 0 ? 'カードを追加' : 'さらにカードを追加' : props.listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
+                            ＋ {props.type === 'card' ?
+                                props.cardLength === 0 ?
+                                    <span>{props.t('addCard')}</span> :
+                                    <span>{props.t('addAnotherCard')}</span>
+                                : props.listLength === 0 ?
+                                    <span>{props.t('addList')}</span> :
+                                    <span>{props.t('addAnotherList')}</span>}
                         </Typography>
                     </Paper>
                 </div>
@@ -50,4 +57,4 @@ const InputContainer = (props) => {
     )
 }
 
-export default InputContainer;
+export default withNamespaces()(InputContainer);

@@ -2,7 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
 
-const useStyle = makeStyles((theme) => ({
+import { withNamespaces } from 'react-i18next';
+
+const useStyle = makeStyles(() => ({
     AppBar: {
         background: 'None'
     },
@@ -12,15 +14,15 @@ const useStyle = makeStyles((theme) => ({
     changeBackgroundBtn: {
         color: '#fff',
         backgroundColor: '#dadde13b',
-        fontWeight: 600,
-        padding: theme.spacing(0.5, 2, 0.5, 2),
+        padding: '4px 8px',
+        textTransform: 'none',
         '&:hover': {
             backgroundColor: '#dadde166',
         }
     }
 }))
 
-const TopBar = ({ setOpenSideMenu }) => {
+const TopBar = ({ setOpenSideMenu, t }) => {
     const classes = useStyle();
 
     return (
@@ -29,7 +31,7 @@ const TopBar = ({ setOpenSideMenu }) => {
                 <Toolbar>
                     <div className={classes.title}>
                         <Typography variant="h6">
-                            ボードリスト
+                            {t('dashboard')}
                         </Typography>
                     </div>
                     <Button
@@ -37,7 +39,7 @@ const TopBar = ({ setOpenSideMenu }) => {
                             setOpenSideMenu(true)
                         }}
                         className={classes.changeBackgroundBtn}>
-                        オプション
+                        {t('showMenu')}
                     </Button>
                 </Toolbar>
             </AppBar>
@@ -45,4 +47,4 @@ const TopBar = ({ setOpenSideMenu }) => {
     )
 }
 
-export default TopBar;
+export default withNamespaces()(TopBar);

@@ -5,8 +5,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { withNamespaces } from 'react-i18next';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyle = makeStyles(() => ({
+    btn: {
+        textTransform: 'none',
+        padding: '6px 12px',
+    }
+}));
 
 const ResetDataConfirmDialog = (props) => {
+
+    const classes = useStyle();
 
     const handleClose = () => {
         props.setShow(false);
@@ -23,18 +34,18 @@ const ResetDataConfirmDialog = (props) => {
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">
-            <DialogTitle id="alert-dialog-title">{"全てのデータをリセットしますか?"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{props.t('resetDialogTitle')}</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    既存のデータは削除され、この操作は元に戻せません！
+                    {props.t('resetDialogContent')}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="default">キャンセル</Button>
-                <Button onClick={handleDelete} color="secondary">リセット</Button>
+                <Button className={classes.btn} onClick={handleClose} color="default">{props.t('cancelBtn')}</Button>
+                <Button className={classes.btn} onClick={handleDelete} color="secondary">{props.t('resetBtn')}</Button>
             </DialogActions>
         </Dialog>
     );
 }
 
-export default ResetDataConfirmDialog;
+export default withNamespaces()(ResetDataConfirmDialog);
