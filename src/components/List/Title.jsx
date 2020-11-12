@@ -62,7 +62,7 @@ const Title = ({ title, listId }) => {
 
     const updateTitle = () => {
         setOpen(!open);
-        updateListTitle(listId, newTitle);
+        updateListTitle(listId, newTitle.trim());
     }
 
     const optionClick = () => {

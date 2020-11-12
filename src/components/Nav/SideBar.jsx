@@ -111,7 +111,7 @@ const SideBar = (props) => {
 
             setTimeout(() => {
                 window.location.reload();
-            }, 500);
+            }, 250);
         }, 2500);
     }
 
@@ -149,7 +149,14 @@ const SideBar = (props) => {
                         <Button onClick={exportJson} className={classes.btn}>{props.t('exportBtn')}</Button>
                         <div className={classes.effectBoxWrap}>
                             <FormGroup>
-                                <FormControlLabel control={<Switch checked={props.useEffect} onChange={handleUseEffect} />} label={props.t('effectLabel')} />
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            color="primary"
+                                            checked={props.useEffect}
+                                            onChange={handleUseEffect} />
+                                    }
+                                    label={props.t('effectLabel')} />
                             </FormGroup>
                             <Slider
                                 disabled={!props.useEffect}
@@ -157,8 +164,7 @@ const SideBar = (props) => {
                                 valueLabelDisplay="auto"
                                 onChangeCommitted={handleSliderChange}
                                 min={0}
-                                max={750}
-                            />
+                                max={750} />
                         </div>
                     </div>
                 </div>
@@ -199,8 +205,7 @@ const SideBar = (props) => {
                                             style={{
                                                 background: color
                                             }}
-                                            onClick={() => props.changeBackground(index)}
-                                        >
+                                            onClick={() => props.changeBackground(index)}>
                                         </div>
                                     );
                                 })}
@@ -218,8 +223,7 @@ const SideBar = (props) => {
                                                 backgroundRepeat: 'no-repeat',
                                                 backgroundSize: 'cover',
                                             }}
-                                            onClick={() => props.changeBackground(image)}
-                                        >
+                                            onClick={() => props.changeBackground(image)}>
                                         </div>
                                     );
                                 })}
