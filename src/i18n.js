@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { reactI18nextModule } from "react-i18next";
 import translationEN from './public/locales/en/translation.json';
 import translationJP from './public/locales/ja/translation.json';
+import translationVI from './public/locales/vi/translation.json';
 import { defaultLanguage } from './utils/helper';
 
 const resources = {
@@ -10,6 +11,9 @@ const resources = {
     },
     ja: {
         translation: translationJP
+    },
+    vi: {
+        translation: translationVI
     }
 };
 

@@ -10,7 +10,6 @@ import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
 import Snowfall from 'react-snowfall';
 
-import { withNamespaces } from 'react-i18next';
 import { saveLocalStorage, getLocalStorageData, resetLocalData } from './utils/helper';
 
 const useStyle = makeStyles(() => ({
@@ -22,7 +21,7 @@ const useStyle = makeStyles(() => ({
     },
 }))
 
-const App = ({ t }) => {
+const App = () => {
     if (localStorage.getItem('data') == null) {
         saveLocalStorage(store);
     }
@@ -288,6 +287,16 @@ const App = ({ t }) => {
         setData(newState);
     }
 
+    const changeDisplayLanguage = (lang) => {
+        const newState = {
+            ...data,
+            language: lang,
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
+    }
+
     return (
         <div
             style={{
@@ -304,17 +313,16 @@ const App = ({ t }) => {
                     : ''}
             </div>
 
-            {/* Navigation */}
-            <Navigation
-                useEffect={useEffect}
-                setUseEffect={setUseEffect}
-                snowFlake={snowFlake}
-                setSnowFlake={setSnowFlake}
-                changeEffectOnOff={changeEffectOnOff}
-                changeSnowFlakeCount={changeSnowFlakeCount}
-                changeBackground={changeBackgroundColor}
-                resetData={resetData} />
-            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList }}>
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage }}>
+                <Navigation
+                    useEffect={useEffect}
+                    setUseEffect={setUseEffect}
+                    snowFlake={snowFlake}
+                    setSnowFlake={setSnowFlake}
+                    changeEffectOnOff={changeEffectOnOff}
+                    changeSnowFlakeCount={changeSnowFlakeCount}
+                    changeBackground={changeBackgroundColor}
+                    resetData={resetData} />
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
                         {(provided) => (
@@ -337,4 +345,4 @@ const App = ({ t }) => {
     )
 }
 
-export default withNamespaces()(App);
+export default App;

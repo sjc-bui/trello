@@ -18,16 +18,21 @@ export const resetLocalData = () => {
 }
 
 export const defaultLanguage = () => {
-    var data = getLocalStorageData('data');
     var defaultLang = "en";
-    var allowLang = ["en", "ja", "vi"];
+    try {
+        var data = getLocalStorageData('data');
+        var allowLang = ["en", "ja", "vi"];
 
-    var lang = data.language;
-    var langValid = allowLang.indexOf(lang) > -1;
+        var lang = data.language;
+        var langValid = allowLang.indexOf(lang) > -1;
 
-    if (lang.length === 2 && langValid) {
-        defaultLang = lang;
+        if (lang.length === 2 && langValid) {
+            defaultLang = lang;
+        }
+
+        return defaultLang;
+    } catch (error) {
+        console.log("Lỗi sai dữ liệu");
+        return defaultLang;
     }
-
-    return defaultLang;
 }

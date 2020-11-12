@@ -10,6 +10,10 @@ import ResetDataConfirmDialog from './ResetDataConfirmDialog';
 
 import { withNamespaces } from 'react-i18next';
 import { defaultLanguage, getLocalStorageData } from '../../utils/helper';
+import { useContext } from 'react';
+import storeApi from '../../utils/storeApi';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyle = makeStyles((theme) => ({
     drawer: {
@@ -34,7 +38,7 @@ const useStyle = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
     selectForm: {
-        margin: theme.spacing(1, 1, 1, 1)
+        margin: theme.spacing(3, 1, 1, 1)
     },
     formControl: {
         minWidth: 150
@@ -53,6 +57,14 @@ const useStyle = makeStyles((theme) => ({
     },
     effectBoxWrap: {
         margin: theme.spacing(0, 1, 0, 1),
+    },
+    loading: {
+        width: '100%',
+        justifyContent: 'center',
+        textAlign: 'center',
+        margin: '20px auto',
+        position: 'relative',
+        outline: 'none',
     }
 }))
 
@@ -61,8 +73,11 @@ const SideBar = (props) => {
     const classes = useStyle();
     const lang = defaultLanguage();
 
+    const { changeDisplayLanguage } = useContext(storeApi);
+
     const [show, setShow] = useState(false);
     const [openColorOptions, setOpenColorOptions] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [lng, setLng] = useState(lang);
 
     const exportJson = () => {
@@ -88,7 +103,16 @@ const SideBar = (props) => {
     const onChangeLanguage = (e) => {
         const selectedLang = e.target.value;
         setLng(selectedLang);
-        console.log(selectedLang);
+        setLoading(true);
+
+        setTimeout(() => {
+            changeDisplayLanguage(selectedLang);
+            setLoading(false);
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }, 2500);
     }
 
     return (
@@ -103,11 +127,22 @@ const SideBar = (props) => {
                     <FormControl className={classes.formControl}>
                         <InputLabel>{props.t('language')}</InputLabel>
                         <Select value={lng} onChange={onChangeLanguage}>
-                            <MenuItem value={"en"}>{props.t('english')}</MenuItem>
-                            <MenuItem value={"ja"}>{props.t('japanese')}</MenuItem>
-                            <MenuItem value={"vi"}>{props.t('vietnamese')}</MenuItem>
+                            <MenuItem value="en">{props.t('english')}</MenuItem>
+                            <MenuItem value="ja">{props.t('japanese')}</MenuItem>
+                            <MenuItem value="vi">{props.t('vietnamese')}</MenuItem>
                         </Select>
                     </FormControl>
+                    {loading ?
+                        <div className={classes.loading}>
+                            <CircularProgress />
+                            <div>{lng === 'en' ?
+                                <span>{props.t('toEn')}</span> :
+                                lng === 'ja' ?
+                                    <span>{props.t('toJa')}</span> :
+                                    <span>{props.t('toVi')}</span>}
+                            </div>
+                        </div>
+                        : ''}
                     <div className={classes.resetBtn}>
                         <Button className={classes.btn} onClick={() => setShow(true)}>{props.t('resetDataBtn')}</Button>
                         <ResetDataConfirmDialog show={show} setShow={setShow} resetData={props.resetData} />
