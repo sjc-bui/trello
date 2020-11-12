@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Divider from '@material-ui/core/Divider';
 import ReactMarkdown from 'react-markdown';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import ColorPicker from './ColorPicker';
 import SyntaxHighlight from './SyntaxHighlight';
 import { makeStyles } from '@material-ui/core/styles';
@@ -194,7 +194,7 @@ const CardOptionDialog = (props) => {
                         <Button
                                 className={classes.followBtn}
                                 onClick={handleCardFollow}>
-                                <VisibilityIcon className={classes.customIcon} />
+                                <VisibilityOutlinedIcon className={classes.customIcon} />
                             フォローする
                               {follow ?
                                     <span className={classes.followFlag}>✔</span> :

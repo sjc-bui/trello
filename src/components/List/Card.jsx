@@ -5,7 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
 import DescriptionIcon from '@material-ui/icons/Description';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import CardOptionDialog from './CardOptionDialog';
 
 const useStyle = makeStyles((theme) => ({
@@ -60,7 +60,7 @@ const Card = (props) => {
                                     <DescriptionIcon className={classes.customIcon} />
                                     : ''}
                                 {props.card.follow ?
-                                    <VisibilityIcon className={classes.customIcon} />
+                                    <VisibilityOutlinedIcon className={classes.customIcon} />
                                     : ''}
                             </div>
                         </Paper>

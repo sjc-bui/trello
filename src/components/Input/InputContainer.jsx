@@ -9,7 +9,7 @@ const useStyle = makeStyles((theme) => ({
         paddingBottom: '1px',
     },
     addCard: {
-        padding: theme.spacing(1, 1, 1, 2),
+        padding: '8px 8px',
         margin: theme.spacing(0, 1, 1, 1),
         background: '#ebecf099',
         minWidth: '283px',
@@ -39,7 +39,7 @@ const InputContainer = (props) => {
                         <Typography
                             className={classes.title}
                             style={{
-                                color: props.type === 'card' ? '#262626' : '#ffffff'
+                                color: props.type === 'card' ? '#5e6c84' : '#ffffff'
                             }}>
                             ＋ {props.type === 'card' ? props.cardLength === 0 ? 'カードを追加' : 'さらにカードを追加' : props.listLength === 0 ? 'リストを追加' : 'もう1つリストを追加'}
                         </Typography>

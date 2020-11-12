@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, IconButton, InputBase, Paper } from '@material-ui/core';
-import ClearIcon from '@material-ui/icons/Clear';
+import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import { useState } from 'react';
 import { useContext } from 'react';
@@ -24,10 +24,15 @@ const useStyle = makeStyles((theme) => ({
     confirmBtn: {
         background: '#61bd4f',
         color: '#fff',
+        padding: '6px 12px',
         '&:hover': {
             background: fade('#5aac44', 0.65)
         },
-        marginRight: theme.spacing(1)
+    },
+    clearBtn: {
+        '&:hover': {
+            background: 'none',
+        },
     }
 }));
 
@@ -103,10 +108,8 @@ const InputCard = (props) => {
                 </Button>
                 <IconButton
                     onClick={handleCloseBtn}
-                    style={{
-                        color: "gray"
-                    }}>
-                    <ClearIcon />
+                    className={classes.clearBtn}>
+                    <ClearOutlinedIcon />
                 </IconButton>
             </div>
         </div>
