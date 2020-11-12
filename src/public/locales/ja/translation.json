@@ -36,5 +36,6 @@
     "resetDialogContent": "既存のデータは削除され、この操作は元に戻せません！",
     "toEn": "Setting Language...",
     "toJa": "言語を設定中...",
-    "toVi": "Đang đặt Ngôn ngữ..."
+    "toVi": "Đang đặt Ngôn ngữ...",
+    "markdownSupport": "マークダウン入力可能"
 }

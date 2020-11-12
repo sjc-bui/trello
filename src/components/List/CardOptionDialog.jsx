@@ -45,6 +45,7 @@ const useStyle = makeStyles((theme) => ({
     active: {
         cursor: 'pointer',
         fontWeight: 600,
+        padding: '6px 12px',
     },
     titleWrap: {
         minWidth: '500px',
@@ -183,7 +184,7 @@ const CardOptionDialog = (props) => {
                                     onChange={handleOnChangeDes}
                                     value={newDes}
                                     placeholder={props.t('inputDesPlaceholder')} />
-                                <span className={classes.subtitle}>マークダウン入力可能</span>
+                                <span className={classes.subtitle}>{props.t('markdownSupport')}</span>
                             </div>
                         ) : (
                                 <div>

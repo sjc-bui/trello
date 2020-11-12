@@ -36,5 +36,6 @@
     "resetDialogContent": "Existing data will be deleted and this operation can not be undone.",
     "toEn": "Setting Language...",
     "toJa": "言語を設定中...",
-    "toVi": "Đang đặt Ngôn ngữ..."
+    "toVi": "Đang đặt Ngôn ngữ...",
+    "markdownSupport": "Markdown Support"
 }

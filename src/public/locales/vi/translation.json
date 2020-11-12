@@ -21,7 +21,7 @@
     "vietnamese": "Tiếng Việt",
     "deleteListTitle": "Bạn có muốn xóa danh sách này không?",
     "cancelBtn": "Hủy",
-    "deleteBtn": "xóa",
+    "deleteBtn": "Xóa",
     "inListTitle": "trong danh sách",
     "editBtn": "Sửa",
     "updateBtn": "Cập nhật",
@@ -36,5 +36,6 @@
     "resetDialogContent": "Dữ liệu hiện tại sẽ bị xóa và hành động này không thể khôi phục.",
     "toEn": "Setting Language...",
     "toJa": "言語を設定中...",
-    "toVi": "Đang đặt Ngôn ngữ..."
+    "toVi": "Đang đặt Ngôn ngữ...",
+    "markdownSupport": "Hỗ trợ Markdown"
 }
