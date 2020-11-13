@@ -7,6 +7,7 @@ import storeApi from '../../utils/storeApi';
 import DescriptionIcon from '@material-ui/icons/Description';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import CardOptionDialog from './CardOptionDialog';
+import { withNamespaces } from 'react-i18next';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -57,10 +58,14 @@ const Card = (props) => {
                             {props.card.title}
                             <div>
                                 {props.card.description.length !== 0 ?
-                                    <DescriptionIcon className={classes.customIcon} />
+                                    <span title={props.t('cardDescriptionTitle')}>
+                                        <DescriptionIcon className={classes.customIcon} />
+                                    </span>
                                     : ''}
                                 {props.card.follow ?
-                                    <VisibilityOutlinedIcon className={classes.customIcon} />
+                                    <span title={props.t('cardFollowTitle')}>
+                                        <VisibilityOutlinedIcon className={classes.customIcon} />
+                                    </span>
                                     : ''}
                             </div>
                         </Paper>
@@ -72,4 +77,4 @@ const Card = (props) => {
     )
 }
 
-export default Card;
+export default withNamespaces()(Card);

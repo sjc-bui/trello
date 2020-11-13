@@ -29,6 +29,9 @@ const useStyle = makeStyles((theme) => ({
     },
     subtitle: {
         fontSize: '11px',
+        backgroundColor: 'rgba(187,239,253,0.3)',
+        borderBottom: '1px solid rgba(0,0,0,0.2)',
+        color: '#1a1a1a',
     },
     editDes: {
         textDecoration: 'underline',
@@ -78,10 +81,17 @@ const useStyle = makeStyles((theme) => ({
         color: '#24292e',
     },
     listLabel: {
-        textDecoration: 'underline',
+        backgroundColor: 'rgba(187,239,253,0.3)',
+        borderBottom: '1px solid rgba(0,0,0,0.2)',
+        color: '#1a1a1a',
+        fontSize: '16px',
+        '&:hover': {
+            backgroundColor: '#bbeffd',
+            borderBottomColor: '#1a1a1a',
+        }
     },
     listTitleWrap: {
-        fontSize: '14px',
+        fontSize: '15px',
         color: '#5e6c84',
     }
 }));
