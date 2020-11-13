@@ -66,17 +66,15 @@ const Card = (props) => {
                                 borderTopLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
                                 borderBottomLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
                             }}>
-                            {props.card.title}
+                            <div>
+                                {props.card.title}
+                            </div>
                             <div className={classes.statusWrap}>
                                 {props.card.description.length !== 0 ?
-                                    <span title={props.t('cardDescriptionTitle')}>
-                                        <DescriptionIcon className={classes.customIcon} />
-                                    </span>
+                                    <DescriptionIcon className={classes.customIcon} />
                                     : ''}
                                 {props.card.follow ?
-                                    <span title={props.t('cardFollowTitle')}>
-                                        <VisibilityOutlinedIcon className={classes.customIcon} />
-                                    </span>
+                                    <VisibilityOutlinedIcon className={classes.customIcon} />
                                     : ''}
                                 {props.card.due_date.length !== 0 ?
                                     <DueDate card={props.card} />

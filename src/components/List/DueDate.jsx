@@ -12,13 +12,13 @@ const HandleDueDate = (card) => {
     const now = Date.now();
 
     if (due > now) {
-        return 1;
+        return 1; // due later
     } else {
         if (card.due_date_complete) {
-            return 2;
+            return 2; // due date completed
         }
 
-        return 0;
+        return 0; // over due
     }
 }
 
