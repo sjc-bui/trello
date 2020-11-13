@@ -39,5 +39,6 @@
     "toVi": "Đang đặt Ngôn ngữ...",
     "markdownSupport": "Markdown Support",
     "cardFollowTitle": "You are watching this card",
-    "cardDescriptionTitle": "This card has a description"
+    "cardDescriptionTitle": "This card has a description",
+    "dueDateLabel": "Due Date"
 }

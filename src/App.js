@@ -58,6 +58,8 @@ const App = () => {
             description: "",
             follow: false,
             label: '#ffffff00',
+            due_date: "",
+            due_date_complete: false,
             created_at: Date.now(),
             updated_at: null,
         }
@@ -177,7 +179,7 @@ const App = () => {
         }
     }
 
-    const updateCardTitle = (listId, cardId, newTitle, newDes, follow, label) => {
+    const updateCardTitle = (listId, cardId, newTitle, newDes, follow, label, dueDate, dueDateComplete) => {
         const cards = data.lists[listId].cards;
         cards.map(card => {
             if (card.id === cardId) {
@@ -185,6 +187,8 @@ const App = () => {
                 card.description = newDes;
                 card.follow = follow;
                 card.label = label;
+                card.due_date = dueDate;
+                card.due_date_complete = dueDateComplete;
                 card.updated_at = Date.now();
             }
             return null;

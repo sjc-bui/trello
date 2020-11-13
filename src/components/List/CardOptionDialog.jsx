@@ -12,6 +12,7 @@ import SyntaxHighlight from './SyntaxHighlight';
 import { makeStyles } from '@material-ui/core/styles';
 import { isNullOrWhiteSpaces } from '../../utils/helper';
 import { withNamespaces } from 'react-i18next';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyle = makeStyles((theme) => ({
     textArea: {
@@ -93,6 +94,9 @@ const useStyle = makeStyles((theme) => ({
     listTitleWrap: {
         fontSize: '15px',
         color: '#5e6c84',
+    },
+    datePickerWrap: {
+        marginTop: theme.spacing(1),
     }
 }));
 
@@ -103,6 +107,8 @@ const CardOptionDialog = (props) => {
     const [newTitle, setNewTitle] = useState(props.card.title);
     const [newDes, setNewDes] = useState(props.card.description);
     const [borderColor, setBorderColor] = useState(props.card.label);
+    const [dueDate, setDueDate] = useState(props.card.due_date);
+    const [dueDateComplete, setDueDateComplete] = useState(props.card.due_date_complete);
 
     const [open, setOpen] = useState(false);
     const [changed, setChanged] = useState(false);
@@ -130,7 +136,7 @@ const CardOptionDialog = (props) => {
 
     const updateCardTitle = () => {
         if (isNullOrWhiteSpaces(newTitle)) return;
-        props.handleUpdateCardTitle(newTitle.trim(), newDes, follow, borderColor);
+        props.handleUpdateCardTitle(newTitle.trim(), newDes, follow, borderColor, dueDate, dueDateComplete);
         handleClose();
         setChanged(false);
     }
@@ -144,6 +150,21 @@ const CardOptionDialog = (props) => {
         var temp_val = e.target.value;
         e.target.value = '';
         e.target.value = temp_val;
+    }
+
+    const handleChangeDueDate = (e) => {
+        setDueDate(e.target.value);
+        setChanged(true);
+    }
+
+    const clearDueDate = () => {
+        setDueDate("");
+        setChanged(true);
+    }
+
+    const handleChangeDueDateComplete = (e) => {
+        setDueDateComplete(e.target.checked);
+        setChanged(true);
     }
 
     return (
@@ -226,6 +247,29 @@ const CardOptionDialog = (props) => {
                             </Button>
                             {colorPickerShow ?
                                 <ColorPicker setChanged={setChanged} borderColor={borderColor} setBorderColor={setBorderColor} />
+                                : ''}
+
+                            <div className={classes.datePickerWrap}>
+                                <TextField
+                                    id="date"
+                                    label={props.t('dueDateLabel')}
+                                    type="datetime-local"
+                                    value={dueDate}
+                                    className={classes.textField}
+                                    onChange={handleChangeDueDate}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }} />
+                            </div>
+                            {dueDate.length !== 0 ?
+                                <div>
+                                    <Checkbox
+                                        checked={dueDateComplete}
+                                        onChange={handleChangeDueDateComplete}
+                                        inputProps={{ 'aria-label': 'primary checkbox' }} />
+                                    <span>完了済み</span>&nbsp;|&nbsp;
+                                    <span onClick={clearDueDate}>期限削除</span>
+                                </div>
                                 : ''}
                         </div>
                     </DialogContent>

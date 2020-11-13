@@ -27,7 +27,7 @@ const useStyle = makeStyles((theme) => ({
     box: {
         width: '46%',
         height: '90px',
-        borderRadius: '9px',
+        borderRadius: '8px',
         marginBottom: theme.spacing(2),
         cursor: 'pointer',
     },
@@ -176,6 +176,7 @@ const SideBar = (props) => {
                                 backgroundImage: 'url(https://512pixels.net/downloads/macos-wallpapers-thumbs/10-14-Night-Thumb.jpg)',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundSize: 'cover',
+                                border: !openColorOptions ? '5px solid #e2e2e2' : 'none',
                             }}
                             onClick={() => setOpenColorOptions(false)}>
                         </div>
@@ -185,6 +186,7 @@ const SideBar = (props) => {
                                 backgroundImage: 'url(https://www.color-hex.com/palettes/7900.png)',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundSize: 'cover',
+                                border: openColorOptions ? '5px solid #e2e2e2' : 'none',
                             }}
                             onClick={() => setOpenColorOptions(true)}>
                         </div>

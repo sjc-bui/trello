@@ -39,5 +39,6 @@
     "toVi": "Đang đặt Ngôn ngữ...",
     "markdownSupport": "Hỗ trợ Markdown",
     "cardFollowTitle": "Bạn đang theo dõi thẻ này",
-    "cardDescriptionTitle": "Thẻ đã có mô tả"
+    "cardDescriptionTitle": "Thẻ đã có mô tả",
+    "dueDateLabel": "Ngày hết hạn"
 }

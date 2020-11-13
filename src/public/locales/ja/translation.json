@@ -39,5 +39,6 @@
     "toVi": "Đang đặt Ngôn ngữ...",
     "markdownSupport": "マークダウン入力可能",
     "cardFollowTitle": "このカードをフォローしています。",
-    "cardDescriptionTitle": "このカードには詳細説明があります。"
+    "cardDescriptionTitle": "このカードには詳細説明があります。",
+    "dueDateLabel": "期限"
 }
