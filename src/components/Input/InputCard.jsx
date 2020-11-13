@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
 import { isNullOrWhiteSpaces } from '../../utils/helper';
+import { withNamespaces } from 'react-i18next';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -25,6 +26,7 @@ const useStyle = makeStyles((theme) => ({
         background: '#61bd4f',
         color: '#fff',
         padding: '6px 12px',
+        textTransform: 'none',
         '&:hover': {
             background: fade('#5aac44', 0.65)
         },
@@ -95,8 +97,8 @@ const InputCard = (props) => {
                         onKeyDown={handleOnKeyDown}
                         placeholder={
                             props.type === 'card'
-                                ? 'このカードにタイトルを入力...'
-                                : 'リストのタイトルを入力...'
+                                ? props.t('inputCardPlace')
+                                : props.t('inputListPlace')
                         } />
                 </Paper>
             </div>
@@ -104,7 +106,9 @@ const InputCard = (props) => {
                 <Button
                     onClick={handleConfirmBtn}
                     className={classes.confirmBtn}>
-                    {props.type === 'card' ? 'カードを追加' : 'リストを追加'}
+                    {props.type === 'card' ?
+                        <span>{props.t('addCardBtn')}</span> :
+                        <span>{props.t('addListBtn')}</span>}
                 </Button>
                 <IconButton
                     onClick={handleCloseBtn}
@@ -116,4 +120,4 @@ const InputCard = (props) => {
     )
 }
 
-export default InputCard;
+export default withNamespaces()(InputCard);

@@ -10,6 +10,8 @@ import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
 import Snowfall from 'react-snowfall';
 
+import { saveLocalStorage, getLocalStorageData, resetLocalData } from './utils/helper';
+
 const useStyle = makeStyles(() => ({
     root: {
         display: 'flex',
@@ -18,20 +20,6 @@ const useStyle = makeStyles(() => ({
         overflowY: 'auto'
     },
 }))
-
-const saveLocalStorage = (newState) => {
-    localStorage.setItem('data', JSON.stringify(newState));
-}
-
-const getLocalStorageData = (type) => {
-    const localData = localStorage.getItem(type);
-    const jsonObj = JSON.parse(localData);
-    return jsonObj;
-}
-
-const resetLocalData = () => {
-    localStorage.removeItem('data');
-}
 
 const App = () => {
     if (localStorage.getItem('data') == null) {
@@ -299,6 +287,16 @@ const App = () => {
         setData(newState);
     }
 
+    const changeDisplayLanguage = (lang) => {
+        const newState = {
+            ...data,
+            language: lang,
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
+    }
+
     return (
         <div
             style={{
@@ -315,18 +313,16 @@ const App = () => {
                     : ''}
             </div>
 
-            {/* Navigation */}
-            <Navigation
-                useEffect={useEffect}
-                setUseEffect={setUseEffect}
-                snowFlake={snowFlake}
-                setSnowFlake={setSnowFlake}
-                changeEffectOnOff={changeEffectOnOff}
-                changeSnowFlakeCount={changeSnowFlakeCount}
-                changeBackground={changeBackgroundColor}
-                resetData={resetData} />
-
-            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList }}>
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage }}>
+                <Navigation
+                    useEffect={useEffect}
+                    setUseEffect={setUseEffect}
+                    snowFlake={snowFlake}
+                    setSnowFlake={setSnowFlake}
+                    changeEffectOnOff={changeEffectOnOff}
+                    changeSnowFlakeCount={changeSnowFlakeCount}
+                    changeBackground={changeBackgroundColor}
+                    resetData={resetData} />
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="app" type='list' direction="horizontal">
                         {(provided) => (

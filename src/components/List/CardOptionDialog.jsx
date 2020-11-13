@@ -11,6 +11,7 @@ import ColorPicker from './ColorPicker';
 import SyntaxHighlight from './SyntaxHighlight';
 import { makeStyles } from '@material-ui/core/styles';
 import { isNullOrWhiteSpaces } from '../../utils/helper';
+import { withNamespaces } from 'react-i18next';
 
 const useStyle = makeStyles((theme) => ({
     textArea: {
@@ -38,10 +39,13 @@ const useStyle = makeStyles((theme) => ({
     },
     btn: {
         cursor: 'pointer',
+        textTransform: 'none',
+        padding: '6px 12px',
     },
     active: {
         cursor: 'pointer',
         fontWeight: 600,
+        padding: '6px 12px',
     },
     titleWrap: {
         minWidth: '500px',
@@ -63,6 +67,7 @@ const useStyle = makeStyles((theme) => ({
     followBtn: {
         marginTop: theme.spacing(1),
         backgroundColor: '#091e420a',
+        textTransform: 'none',
         '&:hover': {
             backgroundColor: '#091e4221',
         }
@@ -71,6 +76,13 @@ const useStyle = makeStyles((theme) => ({
         fontSize: '14px',
         marginTop: theme.spacing(1),
         color: '#24292e',
+    },
+    listLabel: {
+        textDecoration: 'underline',
+    },
+    listTitleWrap: {
+        fontSize: '14px',
+        color: '#5e6c84',
     }
 }));
 
@@ -136,7 +148,7 @@ const CardOptionDialog = (props) => {
                     borderLeft: `8px solid ${borderColor}`
                 }}>
                     <DialogContent>
-                        <Typography>リスト：{props.listTitle}</Typography>
+                        <Typography className={classes.listTitleWrap}>{props.t('inListTitle')}&nbsp;<span className={classes.listLabel}>{props.listTitle}</span></Typography>
                         <Divider />
 
                         {openEditTitle ? (
@@ -156,10 +168,10 @@ const CardOptionDialog = (props) => {
                             )}
 
                         <Typography className={classes.explainTitle}>
-                            説明：&nbsp;&nbsp;
-                        <span className={open ? classes.active : classes.btn} onClick={() => setOpen(true)}>編集</span>
+                            {props.t('descriptionLabel')}: &nbsp;&nbsp;
+                        <span className={open ? classes.active : classes.btn} onClick={() => setOpen(true)}>{props.t('editBtn')}</span>
                         &nbsp;&nbsp;
-                        <span className={!open ? classes.active : classes.btn} onClick={() => setOpen(false)}>プレビュー</span>
+                        <span className={!open ? classes.active : classes.btn} onClick={() => setOpen(false)}>{props.t('previewBtn')}</span>
                         </Typography>
                         {open ? (
                             <div>
@@ -171,8 +183,8 @@ const CardOptionDialog = (props) => {
                                     className={classes.explainText}
                                     onChange={handleOnChangeDes}
                                     value={newDes}
-                                    placeholder="詳しい説明を追加してください" />
-                                <span className={classes.subtitle}>マークダウン入力可能</span>
+                                    placeholder={props.t('inputDesPlaceholder')} />
+                                <span className={classes.subtitle}>{props.t('markdownSupport')}</span>
                             </div>
                         ) : (
                                 <div>
@@ -183,20 +195,22 @@ const CardOptionDialog = (props) => {
                                                 code: SyntaxHighlight
                                             }} /> :
                                         <div className={classes.previewText}>
-                                            プレビューするものはありません
-                                    </div>
+                                            {props.t('nothingPreviewLabel')}
+                                        </div>
                                     }
                                 </div>
                             )}
                         <div>
-                            <Button className={classes.followBtn} onClick={() => setPickerShow(!colorPickerShow)}>ラベル</Button>
-                        &nbsp;&nbsp;&nbsp;
-                        <Button
+                            <Button className={classes.followBtn} onClick={() => setPickerShow(!colorPickerShow)}>
+                                {props.t('labelsBtn')}
+                            </Button>
+                            &nbsp;&nbsp;&nbsp;
+                            <Button
                                 className={classes.followBtn}
                                 onClick={handleCardFollow}>
                                 <VisibilityOutlinedIcon className={classes.customIcon} />
-                            フォローする
-                              {follow ?
+                                {props.t('watchBtn')}
+                                {follow ?
                                     <span className={classes.followFlag}>✔</span> :
                                     ('')}
                             </Button>
@@ -206,9 +220,9 @@ const CardOptionDialog = (props) => {
                         </div>
                     </DialogContent>
                     <DialogActions>
-                        <Button color="default" onClick={handleClose}>キャンセル</Button>
-                        <Button color="secondary" onClick={props.handleDeleteCard}>削除</Button>
-                        <Button disabled={!changed} color="primary" onClick={updateCardTitle}>更新</Button>
+                        <Button className={classes.btn} color="default" onClick={handleClose}>{props.t('cancelBtn')}</Button>
+                        <Button className={classes.btn} color="secondary" onClick={props.handleDeleteCard}>{props.t('deleteBtn')}</Button>
+                        <Button className={classes.btn} disabled={!changed} color="primary" onClick={updateCardTitle}>{props.t('updateBtn')}</Button>
                     </DialogActions>
                 </div>
             </Dialog>
@@ -216,4 +230,4 @@ const CardOptionDialog = (props) => {
     )
 }
 
-export default CardOptionDialog;
+export default withNamespaces()(CardOptionDialog);
