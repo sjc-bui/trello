@@ -7,6 +7,8 @@ import storeApi from '../../utils/storeApi';
 import DescriptionIcon from '@material-ui/icons/Description';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import CardOptionDialog from './CardOptionDialog';
+import { withNamespaces } from 'react-i18next';
+import DueDate from './DueDate';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -21,6 +23,16 @@ const useStyle = makeStyles((theme) => ({
         color: '#959595',
         marginRight: '4px',
     },
+    statusWrap: {
+        display: 'flex',
+        color: '#5e6c84',
+    },
+    dueDateText: {
+        fontSize: '13px',
+        backgroundColor: '#bbeffd',
+        padding: '3px 6px 1px',
+        borderRadius: '3px',
+    }
 }));
 
 const Card = (props) => {
@@ -37,8 +49,8 @@ const Card = (props) => {
         setShow(false);
     }
 
-    const handleUpdateCardTitle = (newTitle, newDes, follow, label) => {
-        updateCardTitle(props.listId, props.card.id, newTitle, newDes, follow, label);
+    const handleUpdateCardTitle = (newTitle, newDes, follow, label, dueDate, dueDateComplete) => {
+        updateCardTitle(props.listId, props.card.id, newTitle, newDes, follow, label, dueDate, dueDateComplete);
     }
 
     return (
@@ -54,14 +66,20 @@ const Card = (props) => {
                                 borderTopLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
                                 borderBottomLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
                             }}>
-                            {props.card.title}
                             <div>
+                                {props.card.title}
+                            </div>
+                            <div className={classes.statusWrap}>
                                 {props.card.description.length !== 0 ?
                                     <DescriptionIcon className={classes.customIcon} />
                                     : ''}
                                 {props.card.follow ?
                                     <VisibilityOutlinedIcon className={classes.customIcon} />
                                     : ''}
+                                {props.card.due_date.length !== 0 ?
+                                    <DueDate card={props.card} />
+                                    :
+                                    ""}
                             </div>
                         </Paper>
                         <CardOptionDialog show={show} setShow={setShow} card={props.card} handleDeleteCard={handleDeleteCard} listTitle={props.listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
@@ -72,4 +90,4 @@ const Card = (props) => {
     )
 }
 
-export default Card;
+export default withNamespaces()(Card);

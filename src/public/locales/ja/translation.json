@@ -37,5 +37,8 @@
     "toEn": "Setting Language...",
     "toJa": "言語を設定中...",
     "toVi": "Đang đặt Ngôn ngữ...",
-    "markdownSupport": "マークダウン入力可能"
+    "markdownSupport": "マークダウン入力可能",
+    "cardFollowTitle": "このカードをフォローしています。",
+    "cardDescriptionTitle": "このカードには詳細説明があります。",
+    "dueDateLabel": "期限"
 }

@@ -12,6 +12,7 @@ const useStyle = makeStyles((theme) => ({
         flexGrow: 1,
         fontSize: '14px',
         fontWeight: 600,
+        padding: '4px 4px',
     },
     editableContainer: {
         display: "flex",
@@ -21,11 +22,10 @@ const useStyle = makeStyles((theme) => ({
         fontSize: '14px',
         fontWeight: 600,
         margin: theme.spacing(1),
-        '&:focus': {
-            backgroundColor: '#ddd',
-            boder: 'none',
-            boxShadow: 'box-shadow:inset 0 0 0 2px #0079bf'
-        }
+        boxShadow: 'inset 0 0 0 2px #0079bf',
+        borderRadius: '4px',
+        backgroundColor: '#fff',
+        paddingLeft: '4px',
     },
     optionBtn: {
         borderRadius: 2,
@@ -44,6 +44,10 @@ const Title = ({ title, listId }) => {
     const [show, setShow] = useState(false);
     const { updateListTitle, deleteList } = useContext(storeApi);
     const classes = useStyle();
+
+    const onFocus = (e) => {
+        e.target.select();
+    }
 
     const handleOnChange = (e) => {
         setNewTitle(e.target.value);
@@ -84,16 +88,16 @@ const Title = ({ title, listId }) => {
                         autoFocus
                         onKeyDown={handleKeyPress}
                         onBlur={handleOnBlur}
+                        onFocus={onFocus}
                         onChange={handleOnChange} />
                 </div>
             ) : (
                     <div className={classes.editableContainer}>
                         <Typography
-                            variant="h6"
                             className={classes.editableTitle}
                             onClick={() => setOpen(!open)}>{newTitle}</Typography>
                         <CloseIcon className={classes.optionBtn} onClick={optionClick} />
-                        <DeleteConfirmDialog show={show} setShow={setShow} deleteList={deleteList} listId={listId}/>
+                        <DeleteConfirmDialog show={show} setShow={setShow} deleteList={deleteList} listId={listId} />
                     </div>
                 )}
         </div>

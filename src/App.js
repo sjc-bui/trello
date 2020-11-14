@@ -46,8 +46,8 @@ const App = () => {
 
     const [data, setData] = useState(jsonObj);
     const [defaultBackground, changeBackground] = useState(backgroundValue);
-    const [useEffect, setUseEffect] = useState(data.snowEffect.turnOn);
-    const [snowFlake, setSnowFlake] = useState(data.snowEffect.snowFlake);
+    const [useEffect, setUseEffect] = useState(data.snow_effect.turn_on);
+    const [snowFlake, setSnowFlake] = useState(data.snow_effect.snow_flake);
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -58,6 +58,8 @@ const App = () => {
             description: "",
             follow: false,
             label: '#ffffff00',
+            due_date: "",
+            due_date_complete: false,
             created_at: Date.now(),
             updated_at: null,
         }
@@ -177,7 +179,7 @@ const App = () => {
         }
     }
 
-    const updateCardTitle = (listId, cardId, newTitle, newDes, follow, label) => {
+    const updateCardTitle = (listId, cardId, newTitle, newDes, follow, label, dueDate, dueDateComplete) => {
         const cards = data.lists[listId].cards;
         cards.map(card => {
             if (card.id === cardId) {
@@ -185,6 +187,8 @@ const App = () => {
                 card.description = newDes;
                 card.follow = follow;
                 card.label = label;
+                card.due_date = dueDate;
+                card.due_date_complete = dueDateComplete;
                 card.updated_at = Date.now();
             }
             return null;
@@ -245,8 +249,8 @@ const App = () => {
         var jsonObj = getLocalStorageData('data');
         setData(jsonObj);
         changeBackground(jsonObj.background);
-        setUseEffect(jsonObj.snowEffect.turnOn);
-        setSnowFlake(jsonObj.snowEffect.snowFlake);
+        setUseEffect(jsonObj.snow_effect.turn_on);
+        setSnowFlake(jsonObj.snow_effect.snow_flake);
     }
 
     const changeBackgroundColor = (value) => {
@@ -264,9 +268,9 @@ const App = () => {
     const changeEffectOnOff = (turn) => {
         const newState = {
             ...data,
-            snowEffect: {
-                ...data.snowEffect,
-                turnOn: turn,
+            snow_effect: {
+                ...data.snow_effect,
+                turn_on: turn,
             }
         }
 
@@ -277,9 +281,9 @@ const App = () => {
     const changeSnowFlakeCount = (newVal) => {
         const newState = {
             ...data,
-            snowEffect: {
-                ...data.snowEffect,
-                snowFlake: newVal,
+            snow_effect: {
+                ...data.snow_effect,
+                snow_flake: newVal,
             }
         }
 
@@ -291,6 +295,16 @@ const App = () => {
         const newState = {
             ...data,
             language: lang,
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
+    }
+
+    const updateBoardName = (newBoardName) => {
+        const newState = {
+            ...data,
+            board_name: newBoardName,
         }
 
         saveLocalStorage(newState);
@@ -313,8 +327,9 @@ const App = () => {
                     : ''}
             </div>
 
-            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage }}>
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage, updateBoardName }}>
                 <Navigation
+                    boardName={data.board_name}
                     useEffect={useEffect}
                     setUseEffect={setUseEffect}
                     snowFlake={snowFlake}
