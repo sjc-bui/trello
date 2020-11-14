@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Typography } from '@material-ui/core';
+import { InputBase, TextField, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -16,9 +16,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyle = makeStyles((theme) => ({
     textArea: {
-        minWidth: '500px',
-        maxWidth: '600px',
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(2),
+        boxShadow: 'inset 0 0 0 2px #0079bf',
+        borderRadius: '4px',
+        padding: '4px 8px',
+        lineHeight: '1.5',
+        letterSpacing: '0.00938em'
     },
     explainTitle: {
         marginTop: theme.spacing(2),
@@ -57,6 +60,7 @@ const useStyle = makeStyles((theme) => ({
     },
     newCardTitle: {
         cursor: 'text',
+        padding: '4px 8px',
     },
     followFlag: {
         color: '#00b600',
@@ -176,14 +180,15 @@ const CardOptionDialog = (props) => {
                 aria-describedby="alert-dialog-description"
             >
                 <div style={{
-                    borderLeft: `8px solid ${borderColor}`
+                    borderLeft: `8px solid ${borderColor}`,
+                    width: '600px',
                 }}>
                     <DialogContent>
                         <Typography className={classes.listTitleWrap}>{props.t('inListTitle')}&nbsp;<span className={classes.listLabel}>{props.listTitle}</span></Typography>
                         <Divider />
 
                         {openEditTitle ? (
-                            <TextField
+                            <InputBase
                                 fullWidth
                                 multiline
                                 autoFocus

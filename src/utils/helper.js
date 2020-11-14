@@ -19,6 +19,7 @@ export const resetLocalData = () => {
 
 export const defaultLanguage = () => {
     var defaultLang = "en";
+
     try {
         var data = getLocalStorageData('data');
         var allowLang = ["en", "ja", "vi"];
@@ -29,10 +30,9 @@ export const defaultLanguage = () => {
         if (lang.length === 2 && langValid) {
             defaultLang = lang;
         }
-
-        return defaultLang;
     } catch (error) {
         console.log("Lỗi sai dữ liệu");
-        return defaultLang;
     }
+
+    return defaultLang;
 }

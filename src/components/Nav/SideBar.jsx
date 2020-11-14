@@ -112,7 +112,7 @@ const SideBar = (props) => {
             setTimeout(() => {
                 window.location.reload();
             }, 250);
-        }, 2500);
+        }, 1000);
     }
 
     return (
