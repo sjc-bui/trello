@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyle = makeStyles(() => ({
     dueDateText: {
         fontSize: '13px',
+        padding: '2px 6px 1px',
+        borderRadius: '4px',
     }
 }));
 
@@ -30,7 +32,8 @@ const DueDate = (props) => {
         <span
             className={classes.dueDateText}
             style={{
-                color: due_time === 0 ? '#eb5a46' : due_time === 2 ? '#61bd4f' : '#5e6c84',
+                background: due_time === 0 ? '#eb5a46' : due_time === 2 ? '#61bd4f' : 'none',
+                color: due_time === 1 ? '#262626' : '#ffffff',
             }}>
             {props.card.due_date}
         </span>

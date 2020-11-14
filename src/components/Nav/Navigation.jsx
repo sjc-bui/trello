@@ -8,7 +8,9 @@ const Navigation = (props) => {
 
     return (
         <div>
-            <TopBar setOpenSideMenu={setOpenSideMenu} />
+            <TopBar
+                boardName={props.boardName}
+                setOpenSideMenu={setOpenSideMenu} />
             <SideBar
                 useEffect={props.useEffect}
                 setUseEffect={props.setUseEffect}
