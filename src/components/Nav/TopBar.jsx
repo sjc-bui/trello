@@ -26,9 +26,12 @@ const useStyle = makeStyles(() => ({
 }))
 
 const TopBar = ({ setOpenSideMenu, t, boardName }) => {
+
     const classes = useStyle();
+
     const [openEditTitle, setOpenEditTitle] = useState(false);
     const [boardTitle, setBoardTitle] = useState(boardName);
+    const [titleChanged, setTitleChanged] = useState(false);
 
     const { updateBoardName } = useContext(storeApi);
 
@@ -37,12 +40,18 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
     }
 
     const handleChangeBoardName = (boardName) => {
+        if (!titleChanged) {
+            setOpenEditTitle(false);
+            return;
+        }
+
         const board_name = boardName.trim();
 
         if (board_name.length !== 0) {
             updateBoardName(board_name);
             setBoardTitle(board_name);
             setOpenEditTitle(false);
+            setTitleChanged(false);
         } else {
             setOpenEditTitle(true);
         }
@@ -56,6 +65,11 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
         if (e.keyCode === 13 || e.keyCode === 27) {
             handleChangeBoardName(boardTitle);
         }
+    }
+
+    const handleOnChange = (e) => {
+        setBoardTitle(e.target.value);
+        setTitleChanged(true);
     }
 
     return (
@@ -94,7 +108,7 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
                                 onBlur={handleOnBlur}
                                 onFocus={onFocus}
                                 value={boardTitle}
-                                onChange={(e) => setBoardTitle(e.target.value)} />
+                                onChange={handleOnChange} />
                         }
                     </div>
                     <Button

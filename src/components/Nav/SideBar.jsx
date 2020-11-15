@@ -3,15 +3,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Drawer, Grow, FormControl, InputLabel, Select, MenuItem, Button, Typography, FormGroup } from '@material-ui/core';
 import colors from '../../utils/color';
 import images from '../../utils/images';
+import dateTimeFormat from '../../utils/datetimeFormat';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider from '@material-ui/core/Slider';
 import ResetDataConfirmDialog from './ResetDataConfirmDialog';
 
 import { withNamespaces } from 'react-i18next';
-import { defaultLanguage, getLocalStorageData } from '../../utils/helper';
+import { getLocalStorageData } from '../../utils/helper';
 import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
+import moment from 'moment';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -41,7 +43,7 @@ const useStyle = makeStyles((theme) => ({
         margin: theme.spacing(3, 1, 1, 1)
     },
     formControl: {
-        minWidth: 150
+        minWidth: '200px',
     },
     resetBtn: {
         marginTop: theme.spacing(3)
@@ -71,14 +73,14 @@ const useStyle = makeStyles((theme) => ({
 const SideBar = (props) => {
 
     const classes = useStyle();
-    const lang = defaultLanguage();
 
-    const { changeDisplayLanguage } = useContext(storeApi);
+    const { changeDisplayLanguage, changeDateTimeFormatType } = useContext(storeApi);
 
     const [show, setShow] = useState(false);
     const [openColorOptions, setOpenColorOptions] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [lng, setLng] = useState(lang);
+    const [lng, setLng] = useState(props.lang);
+    const [formatType, setFormatType] = useState(props.formatType);
 
     const exportJson = () => {
         var jsonObj = getLocalStorageData('data');
@@ -112,8 +114,16 @@ const SideBar = (props) => {
             setTimeout(() => {
                 window.location.reload();
             }, 250);
-        }, 2500);
+        }, 1000);
     }
+
+    const onChangeFormatType = (e) => {
+        const type = e.target.value;
+        setFormatType(type);
+        changeDateTimeFormatType(type);
+    }
+
+    const now = Date.now();
 
     return (
         <div>
@@ -124,6 +134,8 @@ const SideBar = (props) => {
                     props.setOpenSideMenu(false);
                 }}>
                 <div className={classes.selectForm}>
+
+                    {/* Select display language */}
                     <FormControl className={classes.formControl}>
                         <InputLabel>{props.t('language')}</InputLabel>
                         <Select value={lng} onChange={onChangeLanguage}>
@@ -136,13 +148,30 @@ const SideBar = (props) => {
                         <div className={classes.loading}>
                             <CircularProgress />
                             <div>{lng === 'en' ?
-                                <span>{props.t('toEn')}</span> :
+                                <Typography>{props.t('toEn')}</Typography> :
                                 lng === 'ja' ?
-                                    <span>{props.t('toJa')}</span> :
-                                    <span>{props.t('toVi')}</span>}
+                                    <Typography>{props.t('toJa')}</Typography> :
+                                    <Typography>{props.t('toVi')}</Typography>}
                             </div>
                         </div>
                         : ''}
+
+                    {/* Set timestamp format */}
+                    <div style={{
+                        marginTop: '26px',
+                    }}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>{props.t('timeStampLabel')}</InputLabel>
+                            <Select value={formatType} onChange={onChangeFormatType}>
+                                {dateTimeFormat.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} value={index}>{moment(now).locale(lng).format(item)}</MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
+                    </div>
+
                     <div className={classes.resetBtn}>
                         <Button className={classes.btn} onClick={() => setShow(true)}>{props.t('resetDataBtn')}</Button>
                         <ResetDataConfirmDialog show={show} setShow={setShow} resetData={props.resetData} />
@@ -168,6 +197,7 @@ const SideBar = (props) => {
                         </div>
                     </div>
                 </div>
+
                 <div className={classes.drawer}>
                     <div className={classes.menu}>
                         <div
@@ -191,6 +221,7 @@ const SideBar = (props) => {
                             onClick={() => setOpenColorOptions(true)}>
                         </div>
                     </div>
+
                     <Typography className={classes.menuTitle}>
                         {openColorOptions ?
                             <span>{props.t('colors')}</span> :
@@ -230,8 +261,7 @@ const SideBar = (props) => {
                                     );
                                 })}
                             </div>
-                        </Grow>
-                    }
+                        </Grow>}
                 </div>
             </Drawer>
         </div>

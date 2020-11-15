@@ -77,9 +77,8 @@ const Card = (props) => {
                                     <VisibilityOutlinedIcon className={classes.customIcon} />
                                     : ''}
                                 {props.card.due_date.length !== 0 ?
-                                    <DueDate card={props.card} />
-                                    :
-                                    ""}
+                                    <DueDate card={props.card} lang={props.lang} formatType={props.formatType} />
+                                    : ''}
                             </div>
                         </Paper>
                         <CardOptionDialog show={show} setShow={setShow} card={props.card} handleDeleteCard={handleDeleteCard} listTitle={props.listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />

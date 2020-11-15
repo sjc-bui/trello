@@ -40,5 +40,6 @@
     "markdownSupport": "Hỗ trợ Markdown",
     "cardFollowTitle": "Bạn đang theo dõi thẻ này",
     "cardDescriptionTitle": "Thẻ đã có mô tả",
-    "dueDateLabel": "Ngày hết hạn"
+    "dueDateLabel": "Ngày hết hạn",
+    "timeStampLabel": "Định dạng ngày tháng"
 }

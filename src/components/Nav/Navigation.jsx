@@ -13,6 +13,8 @@ const Navigation = (props) => {
                 setOpenSideMenu={setOpenSideMenu} />
             <SideBar
                 useEffect={props.useEffect}
+                lang={props.lang}
+                formatType={props.formatType}
                 setUseEffect={props.setUseEffect}
                 snowFlake={props.snowFlake}
                 setSnowFlake={props.setSnowFlake}
