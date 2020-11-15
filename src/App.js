@@ -9,8 +9,9 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
 import Snowfall from 'react-snowfall';
+import dateTimeFormat from './utils/datetimeFormat';
 
-import { saveLocalStorage, getLocalStorageData, resetLocalData } from './utils/helper';
+import { saveLocalStorage, getLocalStorageData, resetLocalData, defaultLanguage } from './utils/helper';
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -22,6 +23,7 @@ const useStyle = makeStyles(() => ({
 }))
 
 const App = () => {
+
     if (localStorage.getItem('data') == null) {
         saveLocalStorage(store);
     }
@@ -48,6 +50,13 @@ const App = () => {
     const [defaultBackground, changeBackground] = useState(backgroundValue);
     const [useEffect, setUseEffect] = useState(data.snow_effect.turn_on);
     const [snowFlake, setSnowFlake] = useState(data.snow_effect.snow_flake);
+
+    const defaultLang = defaultLanguage();
+    let defaultFormatType = data.datetime_format;
+    if ((defaultFormatType + 1) > dateTimeFormat.length ||
+        typeof (defaultFormatType) === 'string') {
+        defaultFormatType = 0;
+    }
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -301,6 +310,16 @@ const App = () => {
         setData(newState);
     }
 
+    const changeDateTimeFormatType = (type) => {
+        const newState = {
+            ...data,
+            datetime_format: type,
+        }
+
+        saveLocalStorage(newState);
+        setData(newState);
+    }
+
     const updateBoardName = (newBoardName) => {
         const newState = {
             ...data,
@@ -327,9 +346,11 @@ const App = () => {
                     : ''}
             </div>
 
-            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage, updateBoardName }}>
+            <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage, changeDateTimeFormatType, updateBoardName }}>
                 <Navigation
                     boardName={data.board_name}
+                    lang={defaultLang}
+                    formatType={defaultFormatType}
                     useEffect={useEffect}
                     setUseEffect={setUseEffect}
                     snowFlake={snowFlake}
@@ -347,7 +368,7 @@ const App = () => {
                                 {...provided.droppableProps}>
                                 {data.listIds.map((listId, index) => {
                                     const list = data.lists[listId];
-                                    return <List list={list} key={listId} index={index} />
+                                    return <List lang={defaultLang} formatType={defaultFormatType} list={list} key={listId} index={index} />
                                 })}
                                 <InputContainer type='list' listLength={data.listIds.length} />
                                 {provided.placeholder}

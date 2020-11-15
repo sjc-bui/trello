@@ -40,5 +40,6 @@
     "markdownSupport": "Markdown Support",
     "cardFollowTitle": "You are watching this card",
     "cardDescriptionTitle": "This card has a description",
-    "dueDateLabel": "Due Date"
+    "dueDateLabel": "Due Date",
+    "timeStampLabel": "Timestamp format"
 }

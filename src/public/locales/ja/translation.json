@@ -40,5 +40,6 @@
     "markdownSupport": "マークダウン入力可能",
     "cardFollowTitle": "このカードをフォローしています。",
     "cardDescriptionTitle": "このカードには詳細説明があります。",
-    "dueDateLabel": "期限"
+    "dueDateLabel": "期限",
+    "timeStampLabel": "日付フォーマット"
 }

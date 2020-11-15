@@ -1,5 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
+import 'moment/locale/vi';
+import 'moment/locale/ja';
+import dateTimeFormat from '../../utils/datetimeFormat';
 
 const useStyle = makeStyles(() => ({
     dueDateText: {
@@ -28,6 +32,8 @@ const DueDate = (props) => {
     const classes = useStyle();
     const due_time = HandleDueDate(props.card);
 
+    const format = dateTimeFormat[props.formatType];
+
     return (
         <span
             className={classes.dueDateText}
@@ -35,7 +41,7 @@ const DueDate = (props) => {
                 background: due_time === 0 ? '#eb5a46' : due_time === 2 ? '#61bd4f' : 'none',
                 color: due_time === 1 ? '#262626' : '#ffffff',
             }}>
-            {props.card.due_date}
+            {moment(props.card.due_date).locale(props.lang).format(format)}
         </span>
     );
 }
