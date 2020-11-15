@@ -15,7 +15,7 @@ import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
 import moment from 'moment';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
+import loadingGift from '../../images/loading.gif';
 
 const useStyle = makeStyles((theme) => ({
     drawer: {
@@ -114,7 +114,7 @@ const SideBar = (props) => {
             setTimeout(() => {
                 window.location.reload();
             }, 250);
-        }, 1000);
+        }, 2500);
     }
 
     const onChangeFormatType = (e) => {
@@ -146,7 +146,7 @@ const SideBar = (props) => {
                     </FormControl>
                     {loading ?
                         <div className={classes.loading}>
-                            <CircularProgress />
+                            <img width="35px" height="35px" src={loadingGift} alt="" />
                             <div>{lng === 'en' ?
                                 <Typography>{props.t('toEn')}</Typography> :
                                 lng === 'ja' ?
