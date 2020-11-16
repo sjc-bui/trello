@@ -140,7 +140,10 @@ const CardOptionDialog = (props) => {
 
     const updateCardTitle = () => {
         if (isNullOrWhiteSpaces(newTitle)) return;
-        props.handleUpdateCardTitle(newTitle.trim(), newDes, follow, borderColor, dueDate, dueDateComplete);
+        const newCardTitle = newTitle.trim();
+        if (newCardTitle.length > 500) return;
+
+        props.handleUpdateCardTitle(newCardTitle, newDes, follow, borderColor, dueDate, dueDateComplete);
         handleClose();
         setChanged(false);
     }

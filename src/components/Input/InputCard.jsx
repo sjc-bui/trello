@@ -15,6 +15,8 @@ const useStyle = makeStyles((theme) => ({
     input: {
         margin: theme.spacing(0.5, 1, 0.5, 1),
         fontSize: '14px',
+        maxHeight: '200px',
+        overflowY: 'scroll !important'
     },
     confirm: {
         margin: theme.spacing(0.5, 1, 1, 1),
@@ -50,6 +52,7 @@ const InputCard = (props) => {
 
     const addTitle = () => {
         if (isNullOrWhiteSpaces(title)) return;
+        if (title.length > 500) return;
 
         if (props.type === 'card') {
             addMoreCard(title.trim(), props.listId);

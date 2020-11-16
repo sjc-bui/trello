@@ -67,6 +67,9 @@ const useStyle = makeStyles((theme) => ({
         margin: '20px auto',
         position: 'relative',
         outline: 'none',
+    },
+    loadTargetLang: {
+        fontSize: '15px',
     }
 }))
 
@@ -146,12 +149,12 @@ const SideBar = (props) => {
                     </FormControl>
                     {loading ?
                         <div className={classes.loading}>
-                            <img width="35px" height="35px" src={loadingGift} alt="" />
+                            <img width="30px" height="30px" src={loadingGift} alt="" />
                             <div>{lng === 'en' ?
-                                <Typography>{props.t('toEn')}</Typography> :
+                                <Typography className={classes.loadTargetLang}>{props.t('toEn')}</Typography> :
                                 lng === 'ja' ?
-                                    <Typography>{props.t('toJa')}</Typography> :
-                                    <Typography>{props.t('toVi')}</Typography>}
+                                    <Typography className={classes.loadTargetLang}>{props.t('toJa')}</Typography> :
+                                    <Typography className={classes.loadTargetLang}>{props.t('toVi')}</Typography>}
                             </div>
                         </div>
                         : ''}

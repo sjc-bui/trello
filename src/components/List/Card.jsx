@@ -9,6 +9,7 @@ import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import CardOptionDialog from './CardOptionDialog';
 import { withNamespaces } from 'react-i18next';
 import DueDate from './DueDate';
+import CardTitle from './CardTitle';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -36,6 +37,7 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 const Card = (props) => {
+
     const classes = useStyle();
     const [show, setShow] = useState(false);
     const { updateCardTitle, deleteCard } = useContext(storeApi);
@@ -66,9 +68,9 @@ const Card = (props) => {
                                 borderTopLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
                                 borderBottomLeftRadius: props.card.label !== '#ffffff00' ? '0px' : '4px',
                             }}>
-                            <div>
-                                {props.card.title}
-                            </div>
+
+                            <CardTitle title={props.card.title} />
+
                             <div className={classes.statusWrap}>
                                 {props.card.description.length !== 0 ?
                                     <DescriptionIcon className={classes.customIcon} />
@@ -81,6 +83,7 @@ const Card = (props) => {
                                     : ''}
                             </div>
                         </Paper>
+
                         <CardOptionDialog show={show} setShow={setShow} card={props.card} handleDeleteCard={handleDeleteCard} listTitle={props.listTitle} handleUpdateCardTitle={handleUpdateCardTitle} />
                     </div>
                 </div>

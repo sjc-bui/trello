@@ -65,8 +65,11 @@ const Title = ({ title, listId }) => {
     }
 
     const updateTitle = () => {
+        const cardTitle = newTitle.trim();
+        if (cardTitle.length > 100) return;
+
         setOpen(!open);
-        updateListTitle(listId, newTitle.trim());
+        updateListTitle(listId, cardTitle);
     }
 
     const optionClick = () => {
