@@ -6,12 +6,8 @@ const useStyle = makeStyles((theme) => ({
         color: '#1a1a1a',
         borderBottom: '1px solid rgba(0,0,0,0.2)',
         backgroundColor: 'rgba(187,239,253,0.3)',
+        // backgroundColor: 'rgba(255,229,100,0.2)',
     },
-    highLightSharp: {
-        color: '#1a1a1a',
-        borderBottom: '1px solid rgba(0,0,0,0.2)',
-        backgroundColor: 'rgba(255,229,100,0.2)',
-    }
 }));
 
 const CardTitle = ({ title }) => {
@@ -20,7 +16,6 @@ const CardTitle = ({ title }) => {
 
     const detectHighlight = (content) => {
         let newContent = content.replace(/(@\S+)/gi, `<span class=${classes.highLightAtMark}>$1</span>`);
-        newContent = newContent.replace(/(#\S+)/gi, `<span class=${classes.highLightSharp}>$1</span>`);
         return newContent;
     }
 
