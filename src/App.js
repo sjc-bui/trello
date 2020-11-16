@@ -12,6 +12,9 @@ import Snowfall from 'react-snowfall';
 import dateTimeFormat from './utils/datetimeFormat';
 
 import { saveLocalStorage, getLocalStorageData, resetLocalData, defaultLanguage } from './utils/helper';
+import { Typography } from '@material-ui/core';
+import { withNamespaces } from 'react-i18next';
+import moment from 'moment';
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -22,7 +25,7 @@ const useStyle = makeStyles(() => ({
     },
 }))
 
-const App = () => {
+const App = ({ t }) => {
 
     if (localStorage.getItem('data') == null) {
         saveLocalStorage(store);
@@ -78,6 +81,7 @@ const App = () => {
 
         const newState = {
             ...data,
+            updated_at: Date.now(),
             lists: {
                 ...data.lists,
                 [listId]: currentList
@@ -105,7 +109,8 @@ const App = () => {
             lists: {
                 ...data.lists,
                 [newListId]: newList
-            }
+            },
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -122,7 +127,8 @@ const App = () => {
             lists: {
                 ...data.lists,
                 [listId]: list,
-            }
+            },
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -143,7 +149,8 @@ const App = () => {
 
             const newState = {
                 ...data,
-                listIds: newListIds
+                listIds: newListIds,
+                updated_at: Date.now(),
             }
 
             saveLocalStorage(newState);
@@ -165,7 +172,8 @@ const App = () => {
                 lists: {
                     ...data.lists,
                     [sourceList.id]: destinationList
-                }
+                },
+                updated_at: Date.now(),
             }
 
             saveLocalStorage(newState);
@@ -180,7 +188,8 @@ const App = () => {
                     ...data.lists,
                     [sourceList.id]: sourceList,
                     [destinationList.id]: destinationList
-                }
+                },
+                updated_at: Date.now(),
             }
 
             saveLocalStorage(newState);
@@ -211,7 +220,8 @@ const App = () => {
                     ...data.lists[listId],
                     cards: cards
                 }
-            }
+            },
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -230,7 +240,8 @@ const App = () => {
                     ...data.lists[listId],
                     cards: cardData
                 }
-            }
+            },
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -245,7 +256,8 @@ const App = () => {
         const newState = {
             ...data,
             listIds: listIds,
-            lists: lists
+            lists: lists,
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -267,7 +279,8 @@ const App = () => {
 
         const newState = {
             ...data,
-            background: value
+            background: value,
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -280,7 +293,8 @@ const App = () => {
             snow_effect: {
                 ...data.snow_effect,
                 turn_on: turn,
-            }
+            },
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -293,7 +307,8 @@ const App = () => {
             snow_effect: {
                 ...data.snow_effect,
                 snow_flake: newVal,
-            }
+            },
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -304,6 +319,7 @@ const App = () => {
         const newState = {
             ...data,
             language: lang,
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -314,6 +330,7 @@ const App = () => {
         const newState = {
             ...data,
             datetime_format: type,
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -324,6 +341,7 @@ const App = () => {
         const newState = {
             ...data,
             board_name: newBoardName,
+            updated_at: Date.now(),
         }
 
         saveLocalStorage(newState);
@@ -338,6 +356,7 @@ const App = () => {
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
+                height: '100vh',
             }}>
 
             <div>
@@ -376,9 +395,23 @@ const App = () => {
                         )}
                     </Droppable>
                 </DragDropContext>
+                <div style={{
+                    position: 'absolute',
+                    bottom: '20px',
+                    right: '35px',
+                    color: '#ffffff',
+                }}>
+                    <Typography style={{
+                        color: '#dddddd',
+                        fontSize: '14px',
+                    }}>
+                        <span>{t('lastUpdated')}:</span>&nbsp;
+                        <span>{moment(data.updated_at).locale(defaultLang).fromNow()}</span>
+                    </Typography>
+                </div>
             </StoreApi.Provider>
         </div>
     )
 }
 
-export default App;
+export default withNamespaces()(App);

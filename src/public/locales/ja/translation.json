@@ -41,5 +41,6 @@
     "cardFollowTitle": "このカードをフォローしています。",
     "cardDescriptionTitle": "このカードには詳細説明があります。",
     "dueDateLabel": "期限",
-    "timeStampLabel": "日付フォーマット"
+    "timeStampLabel": "日付フォーマット",
+    "lastUpdated": "更新"
 }

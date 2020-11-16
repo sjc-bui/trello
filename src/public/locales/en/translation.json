@@ -41,5 +41,6 @@
     "cardFollowTitle": "You are watching this card",
     "cardDescriptionTitle": "This card has a description",
     "dueDateLabel": "Due Date",
-    "timeStampLabel": "Timestamp format"
+    "timeStampLabel": "Timestamp format",
+    "lastUpdated": "Updated"
 }
