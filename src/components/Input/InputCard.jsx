@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
 import { isNullOrWhiteSpaces } from '../../utils/helper';
 import { withNamespaces } from 'react-i18next';
+import * as defaultVal from '../../consts/defaultVal';
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -16,7 +17,7 @@ const useStyle = makeStyles((theme) => ({
         margin: theme.spacing(0.5, 1, 0.5, 1),
         fontSize: '14px',
         maxHeight: '200px',
-        overflowY: 'scroll !important'
+        overflowY: 'hidden scroll !important'
     },
     confirm: {
         margin: theme.spacing(0.5, 1, 1, 1),
@@ -52,12 +53,13 @@ const InputCard = (props) => {
 
     const addTitle = () => {
         if (isNullOrWhiteSpaces(title)) return;
-        if (title.length > 500) return;
-
+        
         if (props.type === 'card') {
+            if (title.length > defaultVal.card_title_len) return;
             addMoreCard(title.trim(), props.listId);
         }
         else {
+            if (title.length > defaultVal.list_title_len) return;
             addMoreList(title.trim());
         }
 
@@ -69,10 +71,10 @@ const InputCard = (props) => {
     }
 
     const handleOnKeyDown = (e) => {
-        if (e.keyCode === 13) {
+        if (e.keyCode === defaultVal.ENTER_KEY) {
             addTitle();
             e.preventDefault();
-        } else if (e.keyCode === 27) {
+        } else if (e.keyCode === defaultVal.ESC_KEY) {
             props.setOpen(false);
         }
     }

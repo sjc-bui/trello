@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import List from './components/List/List';
 import store from './utils/store';
 import StoreApi from './utils/storeApi';
-import { v4 as uuid } from 'uuid';
 import InputContainer from './components/Input/InputContainer';
-import { makeStyles } from '@material-ui/core/styles';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
 import Snowfall from 'react-snowfall';
 import dateTimeFormat from './utils/datetimeFormat';
+import moment from 'moment';
 
+import { v4 as uuid } from 'uuid';
+import { makeStyles } from '@material-ui/core/styles';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { saveLocalStorage, getLocalStorageData, resetLocalData, defaultLanguage } from './utils/helper';
 import { Typography } from '@material-ui/core';
 import { withNamespaces } from 'react-i18next';
-import moment from 'moment';
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -23,6 +23,11 @@ const useStyle = makeStyles(() => ({
         width: '100%',
         overflowY: 'auto'
     },
+    lastUpdateLabel: {
+        '&:hover': {
+            textDecoration: 'underline',
+        }
+    }
 }))
 
 const App = ({ t }) => {
@@ -60,6 +65,8 @@ const App = ({ t }) => {
         typeof (defaultFormatType) === 'string') {
         defaultFormatType = 0;
     }
+
+    document.title = `${data.board_name} | Cheelloo`;
 
     const addMoreCard = (title, listId) => {
         const newCardId = uuid();
@@ -395,21 +402,22 @@ const App = ({ t }) => {
                         )}
                     </Droppable>
                 </DragDropContext>
-                <div style={{
-                    position: 'absolute',
-                    bottom: '20px',
-                    right: '35px',
-                    color: '#ffffff',
-                }}>
-                    <Typography style={{
-                        color: '#dddddd',
-                        fontSize: '14px',
-                    }}>
-                        <span>{t('lastUpdated')}:</span>&nbsp;
-                        <span>{moment(data.updated_at).locale(defaultLang).fromNow()}</span>
-                    </Typography>
-                </div>
             </StoreApi.Provider>
+
+            {/* Last updated label */}
+            <div style={{
+                position: 'absolute',
+                bottom: '20px',
+                right: '35px',
+            }}>
+                <Typography style={{
+                    color: '#dddddd',
+                    fontSize: '14px',
+                }}>
+                    <span>{t('lastUpdated')}:</span>&nbsp;
+                        <span className={classes.lastUpdateLabel}>{moment(data.updated_at).locale(defaultLang).fromNow()}</span>
+                </Typography>
+            </div>
         </div>
     )
 }

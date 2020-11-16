@@ -69,7 +69,7 @@ const useStyle = makeStyles((theme) => ({
         outline: 'none',
     },
     loadTargetLang: {
-        fontSize: '15px',
+        fontSize: '14px',
     }
 }))
 
@@ -117,7 +117,7 @@ const SideBar = (props) => {
             setTimeout(() => {
                 window.location.reload();
             }, 250);
-        }, 2500);
+        }, 4500);
     }
 
     const onChangeFormatType = (e) => {
@@ -209,7 +209,7 @@ const SideBar = (props) => {
                                 backgroundImage: 'url(https://512pixels.net/downloads/macos-wallpapers-thumbs/10-14-Night-Thumb.jpg)',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundSize: 'cover',
-                                border: !openColorOptions ? '5px solid #e2e2e2' : 'none',
+                                border: !openColorOptions ? '3px solid #e2e2e2' : 'none',
                             }}
                             onClick={() => setOpenColorOptions(false)}>
                         </div>
@@ -219,7 +219,7 @@ const SideBar = (props) => {
                                 backgroundImage: 'url(https://www.color-hex.com/palettes/7900.png)',
                                 backgroundRepeat: 'no-repeat',
                                 backgroundSize: 'cover',
-                                border: openColorOptions ? '5px solid #e2e2e2' : 'none',
+                                border: openColorOptions ? '3px solid #e2e2e2' : 'none',
                             }}
                             onClick={() => setOpenColorOptions(true)}>
                         </div>

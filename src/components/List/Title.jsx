@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import storeApi from '../../utils/storeApi';
 import DeleteConfirmDialog from './DeleteConfirmDialog';
+import * as defaultVal from '../../consts/defaultVal';
 
 const useStyle = makeStyles((theme) => ({
     editableTitle: {
@@ -58,7 +59,7 @@ const Title = ({ title, listId }) => {
     }
 
     const handleKeyPress = (e) => {
-        if (e.keyCode === 13 || e.keyCode === 27) {
+        if (e.keyCode === defaultVal.ENTER_KEY || e.keyCode === defaultVal.ESC_KEY) {
             updateTitle();
             e.preventDefault();
         }

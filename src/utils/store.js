@@ -11,7 +11,7 @@ const data = {
     },
     listIds: [],
     created_at: Date.now(),
-    updated_at: null
+    updated_at: Date.now()
 };
 
 export default data;

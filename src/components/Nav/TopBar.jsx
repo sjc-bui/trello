@@ -1,13 +1,13 @@
 import React from 'react';
+import storeApi from '../../utils/storeApi';
+import * as defaultVal from '../../consts/defaultVal';
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Button, InputBase, Toolbar, Typography } from '@material-ui/core';
-
 import { withNamespaces } from 'react-i18next';
 import { useState } from 'react';
 import { useContext } from 'react';
-import storeApi from '../../utils/storeApi';
 
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
     AppBar: {
         background: 'None'
     },
@@ -22,6 +22,10 @@ const useStyle = makeStyles(() => ({
         '&:hover': {
             backgroundColor: '#dadde166',
         }
+    },
+    navWrap: {
+        backgroundImage: 'linear-gradient(to top, rgba(255,0,0,0), rgb(130 130 130 / 44%))',
+        marginBottom: theme.spacing(1),
     }
 }))
 
@@ -47,7 +51,7 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
 
         const board_name = boardName.trim();
 
-        if (board_name.length !== 0) {
+        if (board_name.length > 0 && board_name.length <= defaultVal.board_name_len) {
             updateBoardName(board_name);
             setBoardTitle(board_name);
             setOpenEditTitle(false);
@@ -62,7 +66,7 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
     }
 
     const handleKeyDown = (e) => {
-        if (e.keyCode === 13 || e.keyCode === 27) {
+        if (e.keyCode === defaultVal.ENTER_KEY || e.keyCode === defaultVal.ESC_KEY) {
             handleChangeBoardName(boardTitle);
         }
     }
@@ -73,7 +77,7 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
     }
 
     return (
-        <div>
+        <div className={classes.navWrap}>
             <AppBar className={classes.AppBar} position="static" elevation={0}>
                 <Toolbar>
                     <div className={classes.title}>

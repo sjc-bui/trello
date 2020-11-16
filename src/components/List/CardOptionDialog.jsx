@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { isNullOrWhiteSpaces } from '../../utils/helper';
 import { withNamespaces } from 'react-i18next';
 import Checkbox from '@material-ui/core/Checkbox';
+import * as defaultVal from '../../consts/defaultVal';
 
 const useStyle = makeStyles((theme) => ({
     textArea: {
@@ -140,8 +141,9 @@ const CardOptionDialog = (props) => {
 
     const updateCardTitle = () => {
         if (isNullOrWhiteSpaces(newTitle)) return;
+
         const newCardTitle = newTitle.trim();
-        if (newCardTitle.length > 500) return;
+        if (newCardTitle.length > defaultVal.card_title_len) return;
 
         props.handleUpdateCardTitle(newCardTitle, newDes, follow, borderColor, dueDate, dueDateComplete);
         handleClose();
