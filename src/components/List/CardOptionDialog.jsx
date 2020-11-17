@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
 import ReactMarkdown from 'react-markdown';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import ColorPicker from './ColorPicker';
@@ -14,6 +13,10 @@ import { isNullOrWhiteSpaces } from '../../utils/helper';
 import { withNamespaces } from 'react-i18next';
 import Checkbox from '@material-ui/core/Checkbox';
 import * as defaultVal from '../../consts/defaultVal';
+
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyle = makeStyles((theme) => ({
     textArea: {
@@ -90,7 +93,6 @@ const useStyle = makeStyles((theme) => ({
         backgroundColor: 'rgba(187,239,253,0.3)',
         borderBottom: '1px solid rgba(0,0,0,0.2)',
         color: '#1a1a1a',
-        fontSize: '16px',
         '&:hover': {
             backgroundColor: '#bbeffd',
             borderBottomColor: '#1a1a1a',
@@ -102,7 +104,17 @@ const useStyle = makeStyles((theme) => ({
     },
     datePickerWrap: {
         marginTop: theme.spacing(1),
-    }
+    },
+    titleRoot: {
+        margin: 0,
+        padding: theme.spacing(2),
+    },
+    closeButton: {
+        position: 'absolute',
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.grey[500],
+    },
 }));
 
 const CardOptionDialog = (props) => {
@@ -188,10 +200,14 @@ const CardOptionDialog = (props) => {
                     borderLeft: `8px solid ${borderColor}`,
                     width: '600px',
                 }}>
-                    <DialogContent>
-                        <Typography className={classes.listTitleWrap}>{props.t('inListTitle')}&nbsp;<span className={classes.listLabel}>{props.listTitle}</span></Typography>
-                        <Divider />
+                    <MuiDialogTitle disableTypography className={classes.titleRoot}>
+                        <Typography variant="h6">{props.t('inListTitle')}&nbsp;<span className={classes.listLabel}>{props.listTitle}</span></Typography>
+                        <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </MuiDialogTitle>
 
+                    <DialogContent dividers>
                         {openEditTitle ? (
                             <InputBase
                                 fullWidth
@@ -203,11 +219,17 @@ const CardOptionDialog = (props) => {
                                 value={newTitle}
                                 onChange={handleOnChange} />
                         ) : (
-                                <div className={classes.titleWrap}>
-                                    <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography>
+                                <div className={classes.titleWrap} onClick={() => setOpenEditTitle(true)}>
+                                    {/* <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography> */}
+                                    <ReactMarkdown
+                                        className={classes.newCardTitle}
+                                        source={newTitle}
+                                        renderers={{
+                                            code: SyntaxHighlight
+                                        }} />
                                 </div>
                             )}
-
+                        <span className={classes.subtitle}>{props.t('markdownSupport')}</span>
                         <Typography className={classes.explainTitle}>
                             {props.t('descriptionLabel')}: &nbsp;&nbsp;
                         <span className={open ? classes.active : classes.btn} onClick={() => setOpen(true)}>{props.t('editBtn')}</span>
@@ -241,6 +263,7 @@ const CardOptionDialog = (props) => {
                                     }
                                 </div>
                             )}
+
                         <div>
                             <Button className={classes.followBtn} onClick={() => setPickerShow(!colorPickerShow)}>
                                 {props.t('labelsBtn')}
@@ -283,6 +306,7 @@ const CardOptionDialog = (props) => {
                                 : ''}
                         </div>
                     </DialogContent>
+
                     <DialogActions>
                         <Button className={classes.btn} color="default" onClick={handleClose}>{props.t('cancelBtn')}</Button>
                         <Button className={classes.btn} color="secondary" onClick={props.handleDeleteCard}>{props.t('deleteBtn')}</Button>

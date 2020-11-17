@@ -53,7 +53,7 @@ const InputCard = (props) => {
 
     const addTitle = () => {
         if (isNullOrWhiteSpaces(title)) return;
-        
+
         if (props.type === 'card') {
             if (title.length > defaultVal.card_title_len) return;
             addMoreCard(title.trim(), props.listId);

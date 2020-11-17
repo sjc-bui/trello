@@ -216,7 +216,7 @@ const App = ({ t }) => {
                 card.due_date_complete = dueDateComplete;
                 card.updated_at = Date.now();
             }
-            return null;
+            return card;
         });
 
         const newState = {
