@@ -203,11 +203,17 @@ const CardOptionDialog = (props) => {
                                 value={newTitle}
                                 onChange={handleOnChange} />
                         ) : (
-                                <div className={classes.titleWrap}>
-                                    <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography>
+                                <div className={classes.titleWrap} onClick={() => setOpenEditTitle(true)}>
+                                    {/* <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography> */}
+                                    <ReactMarkdown
+                                        className={classes.newCardTitle}
+                                        source={newTitle}
+                                        renderers={{
+                                            code: SyntaxHighlight
+                                        }} />
                                 </div>
                             )}
-
+                        <span className={classes.subtitle}>{props.t('markdownSupport')}</span>
                         <Typography className={classes.explainTitle}>
                             {props.t('descriptionLabel')}: &nbsp;&nbsp;
                         <span className={open ? classes.active : classes.btn} onClick={() => setOpen(true)}>{props.t('editBtn')}</span>
@@ -241,6 +247,7 @@ const CardOptionDialog = (props) => {
                                     }
                                 </div>
                             )}
+
                         <div>
                             <Button className={classes.followBtn} onClick={() => setPickerShow(!colorPickerShow)}>
                                 {props.t('labelsBtn')}
