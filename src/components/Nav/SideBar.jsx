@@ -58,7 +58,7 @@ const useStyle = makeStyles((theme) => ({
         textTransform: 'none',
     },
     effectBoxWrap: {
-        margin: theme.spacing(0, 1, 0, 1),
+        margin: theme.spacing(0, 2, 0, 2),
     },
     loading: {
         width: '100%',
