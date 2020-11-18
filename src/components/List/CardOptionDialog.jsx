@@ -278,9 +278,7 @@ const CardOptionDialog = (props) => {
                                     <span className={classes.followFlag}>✔</span> :
                                     ('')}
                             </Button>
-                            {colorPickerShow ?
-                                <ColorPicker setChanged={setChanged} borderColor={borderColor} setBorderColor={setBorderColor} />
-                                : ''}
+                            {colorPickerShow && (<ColorPicker setChanged={setChanged} borderColor={borderColor} setBorderColor={setBorderColor} />)}
 
                             <div className={classes.datePickerWrap}>
                                 <TextField
