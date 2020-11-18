@@ -147,17 +147,18 @@ const SideBar = (props) => {
                             <MenuItem value="vi">{props.t('vietnamese')}</MenuItem>
                         </Select>
                     </FormControl>
-                    {loading ?
-                        <div className={classes.loading}>
-                            <img width="30px" height="30px" src={loadingGift} alt="" />
-                            <div>{lng === 'en' ?
-                                <Typography className={classes.loadTargetLang}>{props.t('toEn')}</Typography> :
-                                lng === 'ja' ?
-                                    <Typography className={classes.loadTargetLang}>{props.t('toJa')}</Typography> :
-                                    <Typography className={classes.loadTargetLang}>{props.t('toVi')}</Typography>}
+                    {loading &&
+                        (
+                            <div className={classes.loading}>
+                                <img width="30px" height="30px" src={loadingGift} alt="" />
+                                <div>{lng === 'en' ?
+                                    <Typography className={classes.loadTargetLang}>{props.t('toEn')}</Typography> :
+                                    lng === 'ja' ?
+                                        <Typography className={classes.loadTargetLang}>{props.t('toJa')}</Typography> :
+                                        <Typography className={classes.loadTargetLang}>{props.t('toVi')}</Typography>}
+                                </div>
                             </div>
-                        </div>
-                        : ''}
+                        )}
 
                     {/* Set timestamp format */}
                     <div style={{
@@ -264,7 +265,8 @@ const SideBar = (props) => {
                                     );
                                 })}
                             </div>
-                        </Grow>}
+                        </Grow>
+                    }
                 </div>
             </Drawer>
         </div>
