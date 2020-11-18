@@ -1,48 +1,107 @@
-import { InputBase, Typography } from '@material-ui/core';
 import React from 'react';
+import { InputBase, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { useContext } from 'react';
+import CloseIcon from '@material-ui/icons/Close';
+import storeApi from '../../utils/storeApi';
+import DeleteConfirmDialog from './DeleteConfirmDialog';
+import * as defaultVal from '../../consts/defaultVal';
 
 const useStyle = makeStyles((theme) => ({
     editableTitle: {
         flexGrow: 1,
-        fontSize: '1.2rem',
-        fontWeight: 'bold'
+        fontSize: '14px',
+        fontWeight: 600,
+        padding: '4px 4px',
     },
     editableContainer: {
         display: "flex",
         margin: theme.spacing(1)
     },
     input: {
-        fontSize: '1.2rem',
-        fontWeight: 'bold',
+        fontSize: '14px',
+        fontWeight: 600,
         margin: theme.spacing(1),
-        '&:focus': {
-            backgroundColor: '#ddd'
+        boxShadow: 'inset 0 0 0 2px #0079bf',
+        borderRadius: '4px',
+        backgroundColor: '#fff',
+        paddingLeft: '4px',
+    },
+    optionBtn: {
+        borderRadius: 2,
+        fontSize: '1.3rem',
+        color: '#a4a4a4',
+        '&:hover': {
+            cursor: 'pointer',
+            color: '#b20000',
         }
     }
 }))
 
-const Title = () => {
-
+const Title = ({ title, listId }) => {
+    const [newTitle, setNewTitle] = useState(title);
     const [open, setOpen] = useState(false);
+    const [show, setShow] = useState(false);
+    const { updateListTitle, deleteList } = useContext(storeApi);
     const classes = useStyle();
 
+    const onFocus = (e) => {
+        e.target.select();
+    }
+
+    const handleOnChange = (e) => {
+        setNewTitle(e.target.value);
+    }
+
+    const handleOnBlur = () => {
+        updateTitle();
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.keyCode === defaultVal.ENTER_KEY || e.keyCode === defaultVal.ESC_KEY) {
+            updateTitle();
+            e.preventDefault();
+        }
+    }
+
+    const updateTitle = () => {
+        const cardTitle = newTitle.trim();
+        if (cardTitle.length > 100) return;
+
+        setOpen(!open);
+        updateListTitle(listId, cardTitle);
+    }
+
+    const optionClick = () => {
+        setShow(true);
+    }
+
     return (
-        <div>
+        <div style={{
+            paddingTop: '1px'
+        }}>
             {open ? (
                 <div>
-                    <InputBase value="Todo" inputProps={{
-                        className: classes.input
-                    }} fullWidth onBlur={() => setOpen(!open)} />
+                    <InputBase
+                        value={newTitle}
+                        inputProps={{
+                            className: classes.input
+                        }}
+                        fullWidth
+                        autoFocus
+                        onKeyDown={handleKeyPress}
+                        onBlur={handleOnBlur}
+                        onFocus={onFocus}
+                        onChange={handleOnChange} />
                 </div>
             ) : (
                     <div className={classes.editableContainer}>
                         <Typography
                             className={classes.editableTitle}
-                            onClick={() => setOpen(!open)}>Todo</Typography>
-                        <MoreHorizIcon />
+                            onClick={() => setOpen(!open)}>{newTitle}</Typography>
+                        <CloseIcon className={classes.optionBtn} onClick={optionClick} />
+                        <DeleteConfirmDialog show={show} setShow={setShow} deleteList={deleteList} listId={listId} />
                     </div>
                 )}
         </div>
