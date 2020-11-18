@@ -23,10 +23,10 @@ const useStyle = makeStyles(() => ({
         width: '100%',
         overflowY: 'auto'
     },
-    lastUpdateLabel: {
-        '&:hover': {
-            textDecoration: 'underline',
-        }
+    lastUpdateWrap: {
+        position: 'absolute',
+        bottom: '20px',
+        right: '35px',
     }
 }))
 
@@ -366,11 +366,7 @@ const App = ({ t }) => {
                 height: '100vh',
             }}>
 
-            <div>
-                {useEffect ?
-                    <Snowfall snowflakeCount={snowFlake} />
-                    : ''}
-            </div>
+            {useEffect && <Snowfall snowflakeCount={snowFlake} />}
 
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage, changeDateTimeFormatType, updateBoardName }}>
                 <Navigation
@@ -405,17 +401,13 @@ const App = ({ t }) => {
             </StoreApi.Provider>
 
             {/* Last updated label */}
-            <div style={{
-                position: 'absolute',
-                bottom: '20px',
-                right: '35px',
-            }}>
+            <div className={classes.lastUpdateWrap}>
                 <Typography style={{
                     color: '#dddddd',
                     fontSize: '14px',
                 }}>
                     <span>{t('lastUpdated')}:</span>&nbsp;
-                        <span className={classes.lastUpdateLabel}>{moment(data.updated_at).locale(defaultLang).fromNow()}</span>
+                    <span>{moment(data.updated_at).locale(defaultLang).fromNow()}</span>
                 </Typography>
             </div>
         </div>

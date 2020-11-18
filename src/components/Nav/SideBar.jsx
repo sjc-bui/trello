@@ -15,7 +15,7 @@ import { useContext } from 'react';
 import storeApi from '../../utils/storeApi';
 import moment from 'moment';
 
-import loadingGift from '../../images/loading.gif';
+import loadingGift from '../../images/loading2.gif';
 
 const useStyle = makeStyles((theme) => ({
     drawer: {
