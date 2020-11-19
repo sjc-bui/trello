@@ -117,7 +117,7 @@ const SideBar = (props) => {
             setTimeout(() => {
                 window.location.reload();
             }, 250);
-        }, 4500);
+        }, 2500);
     }
 
     const onChangeFormatType = (e) => {

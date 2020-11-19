@@ -27,6 +27,7 @@ const useStyle = makeStyles((theme) => ({
     statusWrap: {
         display: 'flex',
         color: '#5e6c84',
+        marginTop: '3px',
     },
     dueDateText: {
         fontSize: '13px',

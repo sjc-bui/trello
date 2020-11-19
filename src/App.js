@@ -406,7 +406,7 @@ const App = ({ t }) => {
 
             {/* Last updated label */}
             <div className={classes.lastUpdateWrap}>
-                <Timer lastUpdated={lastUpdated} updated_at={data.updated_at} defaultLang={defaultLang} />
+                <Timer key={data.updated_at} lastUpdated={lastUpdated} />
             </div>
         </div>
     )
