@@ -95,9 +95,9 @@ const SideBar = (props) => {
         x.document.close();
     }
 
-    const handleUseEffect = () => {
-        props.setUseEffect(!props.useEffect);
-        props.changeEffectOnOff(!props.useEffect);
+    const handleEnableEffect = () => {
+        props.setEnableEffect(!props.enableEffect);
+        props.changeEffectOnOff(!props.enableEffect);
     }
 
     const handleSliderChange = (_event, newValue) => {
@@ -186,13 +186,13 @@ const SideBar = (props) => {
                                     control={
                                         <Switch
                                             color="primary"
-                                            checked={props.useEffect}
-                                            onChange={handleUseEffect} />
+                                            checked={props.enableEffect}
+                                            onChange={handleEnableEffect} />
                                     }
                                     label={props.t('effectLabel')} />
                             </FormGroup>
                             <Slider
-                                disabled={!props.useEffect}
+                                disabled={!props.enableEffect}
                                 value={props.snowFlake}
                                 valueLabelDisplay="auto"
                                 onChangeCommitted={handleSliderChange}

@@ -7,14 +7,14 @@ import Navigation from './components/Nav/Navigation';
 import colors from './utils/color';
 import Snowfall from 'react-snowfall';
 import dateTimeFormat from './utils/datetimeFormat';
-import moment from 'moment';
 
 import { v4 as uuid } from 'uuid';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { saveLocalStorage, getLocalStorageData, resetLocalData, defaultLanguage } from './utils/helper';
-import { Typography } from '@material-ui/core';
 import { withNamespaces } from 'react-i18next';
+import moment from 'moment';
+import Timer from './components/Timer/Timer';
 
 const useStyle = makeStyles(() => ({
     root: {
@@ -56,7 +56,7 @@ const App = ({ t }) => {
 
     const [data, setData] = useState(jsonObj);
     const [defaultBackground, changeBackground] = useState(backgroundValue);
-    const [useEffect, setUseEffect] = useState(data.snow_effect.turn_on);
+    const [enableEffect, setEnableEffect] = useState(data.snow_effect.turn_on);
     const [snowFlake, setSnowFlake] = useState(data.snow_effect.snow_flake);
 
     const defaultLang = defaultLanguage();
@@ -277,7 +277,7 @@ const App = ({ t }) => {
         var jsonObj = getLocalStorageData('data');
         setData(jsonObj);
         changeBackground(jsonObj.background);
-        setUseEffect(jsonObj.snow_effect.turn_on);
+        setEnableEffect(jsonObj.snow_effect.turn_on);
         setSnowFlake(jsonObj.snow_effect.snow_flake);
     }
 
@@ -355,6 +355,10 @@ const App = ({ t }) => {
         setData(newState);
     }
 
+    const lastUpdated = () => {
+        return moment(data.updated_at).locale(defaultLang).fromNow();
+    }
+
     return (
         <div
             style={{
@@ -366,15 +370,15 @@ const App = ({ t }) => {
                 height: '100vh',
             }}>
 
-            {useEffect && <Snowfall snowflakeCount={snowFlake} />}
+            {enableEffect && <Snowfall snowflakeCount={snowFlake} />}
 
             <StoreApi.Provider value={{ addMoreCard, addMoreList, updateListTitle, updateCardTitle, deleteCard, deleteList, changeDisplayLanguage, changeDateTimeFormatType, updateBoardName }}>
                 <Navigation
                     boardName={data.board_name}
                     lang={defaultLang}
                     formatType={defaultFormatType}
-                    useEffect={useEffect}
-                    setUseEffect={setUseEffect}
+                    enableEffect={enableEffect}
+                    setEnableEffect={setEnableEffect}
                     snowFlake={snowFlake}
                     setSnowFlake={setSnowFlake}
                     changeEffectOnOff={changeEffectOnOff}
@@ -402,13 +406,7 @@ const App = ({ t }) => {
 
             {/* Last updated label */}
             <div className={classes.lastUpdateWrap}>
-                <Typography style={{
-                    color: '#dddddd',
-                    fontSize: '14px',
-                }}>
-                    <span>{t('lastUpdated')}:</span>&nbsp;
-                    <span>{moment(data.updated_at).locale(defaultLang).fromNow()}</span>
-                </Typography>
+                <Timer lastUpdated={lastUpdated} updated_at={data.updated_at} defaultLang={defaultLang} />
             </div>
         </div>
     )
