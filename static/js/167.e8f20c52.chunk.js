@@ -1,0 +1,2 @@
+(this.webpackJsonptrello=this.webpackJsonptrello||[]).push([[167],{374:function(a,e){Prism.languages.hsts={directive:{pattern:/\b(?:max-age=|includeSubDomains|preload)/,alias:"keyword"},safe:{pattern:/\b\d{8,}\b/,alias:"selector"},unsafe:{pattern:/\b\d{1,7}\b/,alias:"function"}}}}]);
+//# sourceMappingURL=167.e8f20c52.chunk.js.map

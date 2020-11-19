@@ -1,0 +1,2 @@
+(this.webpackJsonptrello=this.webpackJsonptrello||[]).push([[407],{614:function(s,e){var t=Prism.util.clone(Prism.languages.typescript);Prism.languages.tsx=Prism.languages.extend("jsx",t)}}]);
+//# sourceMappingURL=407.c05fd2e6.chunk.js.map
