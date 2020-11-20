@@ -30,17 +30,22 @@ const useStyle = makeStyles(() => ({
     }
 }))
 
-const App = ({ t }) => {
+const App = ({ t }) =>
+{
 
-    if (localStorage.getItem('data') == null) {
+    if (localStorage.getItem('data') == null)
+    {
         saveLocalStorage(store);
     }
 
     const classes = useStyle();
 
-    try {
+    try
+    {
         var jsonObj = getLocalStorageData('data');
-    } catch (error) {
+    }
+    catch (error)
+    {
         resetLocalData();
         saveLocalStorage(store);
         jsonObj = getLocalStorageData('data');
@@ -48,8 +53,10 @@ const App = ({ t }) => {
     }
 
     let backgroundValue = jsonObj.background;
-    if (typeof (backgroundValue) === typeof (0)) {
-        if ((backgroundValue + 1) > colors.length) {
+    if (typeof (backgroundValue) === typeof (0))
+    {
+        if ((backgroundValue + 1) > colors.length)
+        {
             backgroundValue = 0;
         }
     }
@@ -62,13 +69,15 @@ const App = ({ t }) => {
     const defaultLang = defaultLanguage();
     let defaultFormatType = data.datetime_format;
     if ((defaultFormatType + 1) > dateTimeFormat.length ||
-        typeof (defaultFormatType) === 'string') {
+        typeof (defaultFormatType) === 'string')
+    {
         defaultFormatType = 0;
     }
 
     document.title = `${data.board_name} | Cheelloo`;
 
-    const addMoreCard = (title, listId) => {
+    const addMoreCard = (title, listId) =>
+    {
         const newCardId = uuid();
 
         const newCard = {
@@ -99,7 +108,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const addMoreList = (title) => {
+    const addMoreList = (title) =>
+    {
         const newListId = uuid();
 
         const newList = {
@@ -124,7 +134,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const updateListTitle = (listId, newTitle) => {
+    const updateListTitle = (listId, newTitle) =>
+    {
         const list = data.lists[listId];
         list.title = newTitle;
         list.updated_at = Date.now();
@@ -142,14 +153,17 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const onDragEnd = (result) => {
+    const onDragEnd = (result) =>
+    {
         const { destination, source, draggableId, type } = result;
 
-        if (!destination) {
+        if (!destination)
+        {
             return;
         }
 
-        if (type === "list") {
+        if (type === "list")
+        {
             const newListIds = data.listIds;
             newListIds.splice(source.index, 1);
             newListIds.splice(destination.index, 0, draggableId);
@@ -170,7 +184,8 @@ const App = ({ t }) => {
             (card) => card.id === draggableId
         )[0];
 
-        if (source.droppableId === destination.droppableId) {
+        if (source.droppableId === destination.droppableId)
+        {
             sourceList.cards.splice(source.index, 1);
             destinationList.cards.splice(destination.index, 0, draggingCard);
 
@@ -185,7 +200,9 @@ const App = ({ t }) => {
 
             saveLocalStorage(newState);
             setData(newState);
-        } else {
+        }
+        else
+        {
             sourceList.cards.splice(source.index, 1);
             destinationList.cards.splice(destination.index, 0, draggingCard);
 
@@ -204,10 +221,13 @@ const App = ({ t }) => {
         }
     }
 
-    const updateCardTitle = (listId, cardId, newTitle, newDes, follow, label, dueDate, dueDateComplete) => {
+    const updateCardTitle = (listId, cardId, newTitle, newDes, follow, label, dueDate, dueDateComplete) =>
+    {
         const cards = data.lists[listId].cards;
-        cards.map(card => {
-            if (card.id === cardId) {
+        cards.map(card =>
+        {
+            if (card.id === cardId)
+            {
                 card.title = newTitle;
                 card.description = newDes;
                 card.follow = follow;
@@ -235,7 +255,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const deleteCard = (listId, cardId) => {
+    const deleteCard = (listId, cardId) =>
+    {
         const lists = data.lists[listId];
         const cardData = lists.cards.filter((card) => card.id !== cardId);
 
@@ -255,7 +276,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const deleteList = (listId) => {
+    const deleteList = (listId) =>
+    {
         const listIds = data.listIds.filter(id => id !== listId);
         const lists = data.lists;
         delete lists[listId];
@@ -271,7 +293,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const resetData = () => {
+    const resetData = () =>
+    {
         resetLocalData();
         saveLocalStorage(store);
         var jsonObj = getLocalStorageData('data');
@@ -281,7 +304,8 @@ const App = ({ t }) => {
         setSnowFlake(jsonObj.snow_effect.snow_flake);
     }
 
-    const changeBackgroundColor = (value) => {
+    const changeBackgroundColor = (value) =>
+    {
         changeBackground(value);
 
         const newState = {
@@ -294,7 +318,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const changeEffectOnOff = (turn) => {
+    const changeEffectOnOff = (turn) =>
+    {
         const newState = {
             ...data,
             snow_effect: {
@@ -308,7 +333,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const changeSnowFlakeCount = (newVal) => {
+    const changeSnowFlakeCount = (newVal) =>
+    {
         const newState = {
             ...data,
             snow_effect: {
@@ -322,7 +348,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const changeDisplayLanguage = (lang) => {
+    const changeDisplayLanguage = (lang) =>
+    {
         const newState = {
             ...data,
             language: lang,
@@ -333,7 +360,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const changeDateTimeFormatType = (type) => {
+    const changeDateTimeFormatType = (type) =>
+    {
         const newState = {
             ...data,
             datetime_format: type,
@@ -344,7 +372,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const updateBoardName = (newBoardName) => {
+    const updateBoardName = (newBoardName) =>
+    {
         const newState = {
             ...data,
             board_name: newBoardName,
@@ -355,7 +384,8 @@ const App = ({ t }) => {
         setData(newState);
     }
 
-    const lastUpdated = () => {
+    const lastUpdated = () =>
+    {
         return moment(data.updated_at).locale(defaultLang).fromNow();
     }
 
@@ -392,7 +422,8 @@ const App = ({ t }) => {
                                 className={classes.root}
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}>
-                                {data.listIds.map((listId, index) => {
+                                {data.listIds.map((listId, index) =>
+                                {
                                     const list = data.lists[listId];
                                     return <List lang={defaultLang} formatType={defaultFormatType} list={list} key={listId} index={index} />
                                 })}
