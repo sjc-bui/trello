@@ -39,41 +39,56 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const Title = ({ title, listId }) => {
+const Title = ({ title, listId }) =>
+{
     const [newTitle, setNewTitle] = useState(title);
     const [open, setOpen] = useState(false);
     const [show, setShow] = useState(false);
+    const [changed, setChanged] = useState(false);
     const { updateListTitle, deleteList } = useContext(storeApi);
     const classes = useStyle();
 
-    const onFocus = (e) => {
+    const onFocus = (e) =>
+    {
         e.target.select();
     }
 
-    const handleOnChange = (e) => {
+    const handleOnChange = (e) =>
+    {
         setNewTitle(e.target.value);
+        setChanged(true);
     }
 
-    const handleOnBlur = () => {
+    const handleOnBlur = () =>
+    {
         updateTitle();
     }
 
-    const handleKeyPress = (e) => {
-        if (e.keyCode === defaultVal.ENTER_KEY || e.keyCode === defaultVal.ESC_KEY) {
+    const handleKeyPress = (e) =>
+    {
+        if (e.keyCode === defaultVal.ENTER_KEY || e.keyCode === defaultVal.ESC_KEY)
+        {
             updateTitle();
             e.preventDefault();
         }
     }
 
-    const updateTitle = () => {
-        const cardTitle = newTitle.trim();
-        if (cardTitle.length > 100) return;
+    const updateTitle = () =>
+    {
+        if (changed)
+        {
+            const cardTitle = newTitle.trim();
+            if (cardTitle.length > 100) return;
+
+            setChanged(false);
+            updateListTitle(listId, cardTitle);
+        }
 
         setOpen(!open);
-        updateListTitle(listId, cardTitle);
     }
 
-    const optionClick = () => {
+    const optionClick = () =>
+    {
         setShow(true);
     }
 

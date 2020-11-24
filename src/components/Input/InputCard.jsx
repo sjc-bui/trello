@@ -41,24 +41,28 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const InputCard = (props) => {
-
+const InputCard = (props) =>
+{
     const classes = useStyle();
     const { addMoreCard, addMoreList } = useContext(storeApi);
     const [title, setTitle] = useState(null);
 
-    const handleOnChange = (e) => {
+    const handleOnChange = (e) =>
+    {
         setTitle(e.target.value);
     }
 
-    const addTitle = () => {
+    const addTitle = () =>
+    {
         if (isNullOrWhiteSpaces(title)) return;
 
-        if (props.type === 'card') {
+        if (props.type === 'card')
+        {
             if (title.length > defaultVal.card_title_len) return;
             addMoreCard(title.trim(), props.listId);
         }
-        else {
+        else
+        {
             if (title.length > defaultVal.list_title_len) return;
             addMoreList(title.trim());
         }
@@ -66,20 +70,25 @@ const InputCard = (props) => {
         setTitle('');
     }
 
-    const handleConfirmBtn = () => {
+    const handleConfirmBtn = () =>
+    {
         addTitle();
     }
 
-    const handleOnKeyDown = (e) => {
-        if (e.keyCode === defaultVal.ENTER_KEY) {
+    const handleOnKeyDown = (e) =>
+    {
+        if (e.keyCode === defaultVal.ENTER_KEY)
+        {
             addTitle();
             e.preventDefault();
-        } else if (e.keyCode === defaultVal.ESC_KEY) {
+        } else if (e.keyCode === defaultVal.ESC_KEY)
+        {
             props.setOpen(false);
         }
     }
 
-    const handleCloseBtn = () => {
+    const handleCloseBtn = () =>
+    {
         props.setOpen(false);
         setTitle('');
     }

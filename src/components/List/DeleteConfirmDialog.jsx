@@ -13,15 +13,17 @@ const useStyle = makeStyles(() => ({
     }
 }));
 
-const DeleteConfirmDialog = (props) => {
-
+const DeleteConfirmDialog = (props) =>
+{
     const classes = useStyle();
 
-    const handleClose = () => {
+    const handleClose = () =>
+    {
         props.setShow(false);
-    };
+    }
 
-    const handleDeleteList = () => {
+    const handleDeleteList = () =>
+    {
         props.deleteList(props.listId);
         props.setShow(false);
     }

@@ -117,7 +117,8 @@ const useStyle = makeStyles((theme) => ({
     },
 }));
 
-const CardOptionDialog = (props) => {
+const CardOptionDialog = (props) =>
+{
     const classes = useStyle();
 
     const [follow, setFollow] = useState(props.card.follow);
@@ -132,26 +133,31 @@ const CardOptionDialog = (props) => {
     const [colorPickerShow, setPickerShow] = useState(false);
     const [openEditTitle, setOpenEditTitle] = useState(false);
 
-    const handleClose = () => {
+    const handleClose = () =>
+    {
         props.setShow(false);
     };
 
-    const handleOnChange = (e) => {
+    const handleOnChange = (e) =>
+    {
         setNewTitle(e.target.value);
         setChanged(true);
     }
 
-    const handleOnChangeDes = (e) => {
+    const handleOnChangeDes = (e) =>
+    {
         setNewDes(e.target.value);
         setChanged(true);
     }
 
-    const handleCardFollow = () => {
+    const handleCardFollow = () =>
+    {
         setFollow(!follow)
         setChanged(true);
     }
 
-    const updateCardTitle = () => {
+    const updateCardTitle = () =>
+    {
         if (isNullOrWhiteSpaces(newTitle)) return;
 
         const newCardTitle = newTitle.trim();
@@ -162,28 +168,33 @@ const CardOptionDialog = (props) => {
         setChanged(false);
     }
 
-    const handleOnBlur = () => {
+    const handleOnBlur = () =>
+    {
         if (isNullOrWhiteSpaces(newTitle)) return;
         setOpenEditTitle(false);
     }
 
-    const onFocus = (e) => {
+    const onFocus = (e) =>
+    {
         var temp_val = e.target.value;
         e.target.value = '';
         e.target.value = temp_val;
     }
 
-    const handleChangeDueDate = (e) => {
+    const handleChangeDueDate = (e) =>
+    {
         setDueDate(e.target.value);
         setChanged(true);
     }
 
-    const clearDueDate = () => {
+    const clearDueDate = () =>
+    {
         setDueDate("");
         setChanged(true);
     }
 
-    const handleChangeDueDateComplete = (e) => {
+    const handleChangeDueDateComplete = (e) =>
+    {
         setDueDateComplete(e.target.checked);
         setChanged(true);
     }
