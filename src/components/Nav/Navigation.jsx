@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import TopBar from './TopBar';
 import SideBar from './SideBar';
 
-const Navigation = (props) => {
-
+const Navigation = (props) =>
+{
     const [openSideMenu, setOpenSideMenu] = useState(false);
 
     return (
@@ -12,10 +12,10 @@ const Navigation = (props) => {
                 boardName={props.boardName}
                 setOpenSideMenu={setOpenSideMenu} />
             <SideBar
-                useEffect={props.useEffect}
+                enableEffect={props.enableEffect}
                 lang={props.lang}
                 formatType={props.formatType}
-                setUseEffect={props.setUseEffect}
+                setEnableEffect={props.setEnableEffect}
                 snowFlake={props.snowFlake}
                 setSnowFlake={props.setSnowFlake}
                 changeEffectOnOff={props.changeEffectOnOff}

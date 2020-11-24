@@ -4,10 +4,8 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import ReactMarkdown from 'react-markdown';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import ColorPicker from './ColorPicker';
-import SyntaxHighlight from './SyntaxHighlight';
 import { makeStyles } from '@material-ui/core/styles';
 import { isNullOrWhiteSpaces } from '../../utils/helper';
 import { withNamespaces } from 'react-i18next';
@@ -17,6 +15,7 @@ import * as defaultVal from '../../consts/defaultVal';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import MDEditor from '@uiw/react-md-editor';
 
 const useStyle = makeStyles((theme) => ({
     textArea: {
@@ -61,6 +60,7 @@ const useStyle = makeStyles((theme) => ({
     titleWrap: {
         minWidth: '500px',
         marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(1),
     },
     newCardTitle: {
         cursor: 'text',
@@ -117,7 +117,8 @@ const useStyle = makeStyles((theme) => ({
     },
 }));
 
-const CardOptionDialog = (props) => {
+const CardOptionDialog = (props) =>
+{
     const classes = useStyle();
 
     const [follow, setFollow] = useState(props.card.follow);
@@ -132,26 +133,31 @@ const CardOptionDialog = (props) => {
     const [colorPickerShow, setPickerShow] = useState(false);
     const [openEditTitle, setOpenEditTitle] = useState(false);
 
-    const handleClose = () => {
+    const handleClose = () =>
+    {
         props.setShow(false);
     };
 
-    const handleOnChange = (e) => {
+    const handleOnChange = (e) =>
+    {
         setNewTitle(e.target.value);
         setChanged(true);
     }
 
-    const handleOnChangeDes = (e) => {
+    const handleOnChangeDes = (e) =>
+    {
         setNewDes(e.target.value);
         setChanged(true);
     }
 
-    const handleCardFollow = () => {
+    const handleCardFollow = () =>
+    {
         setFollow(!follow)
         setChanged(true);
     }
 
-    const updateCardTitle = () => {
+    const updateCardTitle = () =>
+    {
         if (isNullOrWhiteSpaces(newTitle)) return;
 
         const newCardTitle = newTitle.trim();
@@ -162,28 +168,33 @@ const CardOptionDialog = (props) => {
         setChanged(false);
     }
 
-    const handleOnBlur = () => {
+    const handleOnBlur = () =>
+    {
         if (isNullOrWhiteSpaces(newTitle)) return;
         setOpenEditTitle(false);
     }
 
-    const onFocus = (e) => {
+    const onFocus = (e) =>
+    {
         var temp_val = e.target.value;
         e.target.value = '';
         e.target.value = temp_val;
     }
 
-    const handleChangeDueDate = (e) => {
+    const handleChangeDueDate = (e) =>
+    {
         setDueDate(e.target.value);
         setChanged(true);
     }
 
-    const clearDueDate = () => {
+    const clearDueDate = () =>
+    {
         setDueDate("");
         setChanged(true);
     }
 
-    const handleChangeDueDateComplete = (e) => {
+    const handleChangeDueDateComplete = (e) =>
+    {
         setDueDateComplete(e.target.checked);
         setChanged(true);
     }
@@ -220,13 +231,7 @@ const CardOptionDialog = (props) => {
                                 onChange={handleOnChange} />
                         ) : (
                                 <div className={classes.titleWrap} onClick={() => setOpenEditTitle(true)}>
-                                    {/* <Typography className={classes.newCardTitle} onClick={() => setOpenEditTitle(true)}>{newTitle}</Typography> */}
-                                    <ReactMarkdown
-                                        className={classes.newCardTitle}
-                                        source={newTitle}
-                                        renderers={{
-                                            code: SyntaxHighlight
-                                        }} />
+                                    <MDEditor.Markdown className={classes.newCardTitle} source={newTitle} />
                                 </div>
                             )}
                         <span className={classes.subtitle}>{props.t('markdownSupport')}</span>
@@ -252,11 +257,7 @@ const CardOptionDialog = (props) => {
                         ) : (
                                 <div>
                                     {newDes.length !== 0 ?
-                                        <ReactMarkdown
-                                            source={newDes}
-                                            renderers={{
-                                                code: SyntaxHighlight
-                                            }} /> :
+                                        <MDEditor.Markdown source={newDes} /> :
                                         <div className={classes.previewText}>
                                             {props.t('nothingPreviewLabel')}
                                         </div>

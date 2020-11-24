@@ -22,7 +22,8 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const List = ({ list, index, lang, formatType }) => {
+const List = ({ list, index, lang, formatType }) =>
+{
     const classes = useStyle();
 
     return (
@@ -36,7 +37,8 @@ const List = ({ list, index, lang, formatType }) => {
                             <Droppable droppableId={list.id}>
                                 {(provided) => (
                                     <div className={classes.cardContainer} ref={provided.innerRef} {...provided.droppableProps}>
-                                        {list.cards.map((card, index) => {
+                                        {list.cards.map((card, index) =>
+                                        {
                                             return <Card key={card.id} card={card} index={index} listId={list.id} listTitle={list.title} lang={lang} formatType={formatType} />
                                         })}
                                         {provided.placeholder}

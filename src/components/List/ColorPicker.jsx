@@ -19,15 +19,18 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const ColorPicker = (props) => {
+const ColorPicker = (props) =>
+{
     const classes = useStyle();
 
-    const handleOnChange = (color) => {
+    const handleOnChange = (color) =>
+    {
         props.setBorderColor(color.hex);
         props.setChanged(true);
     }
 
-    const removeLabel = () => {
+    const removeLabel = () =>
+    {
         props.setBorderColor('#ffffff00');
         props.setChanged(true);
     }

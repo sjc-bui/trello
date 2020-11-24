@@ -29,8 +29,8 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const TopBar = ({ setOpenSideMenu, t, boardName }) => {
-
+const TopBar = ({ setOpenSideMenu, t, boardName }) =>
+{
     const classes = useStyle();
 
     const [openEditTitle, setOpenEditTitle] = useState(false);
@@ -39,39 +39,48 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
 
     const { updateBoardName } = useContext(storeApi);
 
-    const onFocus = (e) => {
+    const onFocus = (e) =>
+    {
         e.target.select();
     }
 
-    const handleChangeBoardName = (boardName) => {
-        if (!titleChanged) {
+    const handleChangeBoardName = (boardName) =>
+    {
+        if (!titleChanged)
+        {
             setOpenEditTitle(false);
             return;
         }
 
         const board_name = boardName.trim();
 
-        if (board_name.length > 0 && board_name.length <= defaultVal.board_name_len) {
+        if (board_name.length > 0 && board_name.length <= defaultVal.board_name_len)
+        {
             updateBoardName(board_name);
             setBoardTitle(board_name);
             setOpenEditTitle(false);
             setTitleChanged(false);
-        } else {
+        } else
+        {
             setOpenEditTitle(true);
         }
     }
 
-    const handleOnBlur = () => {
+    const handleOnBlur = () =>
+    {
         handleChangeBoardName(boardTitle);
     }
 
-    const handleKeyDown = (e) => {
-        if (e.keyCode === defaultVal.ENTER_KEY || e.keyCode === defaultVal.ESC_KEY) {
+    const handleKeyDown = (e) =>
+    {
+        if (e.keyCode === defaultVal.ENTER_KEY || e.keyCode === defaultVal.ESC_KEY)
+        {
             handleChangeBoardName(boardTitle);
         }
     }
 
-    const handleOnChange = (e) => {
+    const handleOnChange = (e) =>
+    {
         setBoardTitle(e.target.value);
         setTitleChanged(true);
     }
@@ -116,7 +125,8 @@ const TopBar = ({ setOpenSideMenu, t, boardName }) => {
                         }
                     </div>
                     <Button
-                        onClick={() => {
+                        onClick={() =>
+                        {
                             setOpenSideMenu(true)
                         }}
                         className={classes.changeBackgroundBtn}>

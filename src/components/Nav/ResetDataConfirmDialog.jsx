@@ -15,15 +15,17 @@ const useStyle = makeStyles(() => ({
     }
 }));
 
-const ResetDataConfirmDialog = (props) => {
-
+const ResetDataConfirmDialog = (props) =>
+{
     const classes = useStyle();
 
-    const handleClose = () => {
+    const handleClose = () =>
+    {
         props.setShow(false);
     };
 
-    const handleDelete = () => {
+    const handleDelete = () =>
+    {
         props.resetData();
         props.setShow(false);
     }

@@ -73,8 +73,8 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const SideBar = (props) => {
-
+const SideBar = (props) =>
+{
     const classes = useStyle();
 
     const { changeDisplayLanguage, changeDateTimeFormatType } = useContext(storeApi);
@@ -85,7 +85,8 @@ const SideBar = (props) => {
     const [lng, setLng] = useState(props.lang);
     const [formatType, setFormatType] = useState(props.formatType);
 
-    const exportJson = () => {
+    const exportJson = () =>
+    {
         var jsonObj = getLocalStorageData('data');
         var jsonPretty = JSON.stringify(jsonObj, null, 2);
 
@@ -95,32 +96,38 @@ const SideBar = (props) => {
         x.document.close();
     }
 
-    const handleUseEffect = () => {
-        props.setUseEffect(!props.useEffect);
-        props.changeEffectOnOff(!props.useEffect);
+    const handleEnableEffect = () =>
+    {
+        props.setEnableEffect(!props.enableEffect);
+        props.changeEffectOnOff(!props.enableEffect);
     }
 
-    const handleSliderChange = (_event, newValue) => {
+    const handleSliderChange = (_event, newValue) =>
+    {
         props.setSnowFlake(newValue);
         props.changeSnowFlakeCount(newValue);
     }
 
-    const onChangeLanguage = (e) => {
+    const onChangeLanguage = (e) =>
+    {
         const selectedLang = e.target.value;
         setLng(selectedLang);
         setLoading(true);
 
-        setTimeout(() => {
+        setTimeout(() =>
+        {
             changeDisplayLanguage(selectedLang);
             setLoading(false);
 
-            setTimeout(() => {
+            setTimeout(() =>
+            {
                 window.location.reload();
             }, 250);
-        }, 4500);
+        }, 2500);
     }
 
-    const onChangeFormatType = (e) => {
+    const onChangeFormatType = (e) =>
+    {
         const type = e.target.value;
         setFormatType(type);
         changeDateTimeFormatType(type);
@@ -133,7 +140,8 @@ const SideBar = (props) => {
             <Drawer
                 anchor="right"
                 open={props.openSideMenu}
-                onClose={() => {
+                onClose={() =>
+                {
                     props.setOpenSideMenu(false);
                 }}>
                 <div className={classes.selectForm}>
@@ -167,7 +175,8 @@ const SideBar = (props) => {
                         <FormControl className={classes.formControl}>
                             <InputLabel>{props.t('timeStampLabel')}</InputLabel>
                             <Select value={formatType} onChange={onChangeFormatType}>
-                                {dateTimeFormat.map((item, index) => {
+                                {dateTimeFormat.map((item, index) =>
+                                {
                                     return (
                                         <MenuItem key={index} value={index}>{moment(now).locale(lng).format(item)}</MenuItem>
                                     );
@@ -186,13 +195,13 @@ const SideBar = (props) => {
                                     control={
                                         <Switch
                                             color="primary"
-                                            checked={props.useEffect}
-                                            onChange={handleUseEffect} />
+                                            checked={props.enableEffect}
+                                            onChange={handleEnableEffect} />
                                     }
                                     label={props.t('effectLabel')} />
                             </FormGroup>
                             <Slider
-                                disabled={!props.useEffect}
+                                disabled={!props.enableEffect}
                                 value={props.snowFlake}
                                 valueLabelDisplay="auto"
                                 onChangeCommitted={handleSliderChange}
@@ -234,7 +243,8 @@ const SideBar = (props) => {
                     {openColorOptions ?
                         <Grow in={true}>
                             <div className={classes.optionContainer}>
-                                {colors.map((color, index) => {
+                                {colors.map((color, index) =>
+                                {
                                     return (
                                         <div
                                             key={index}
@@ -250,7 +260,8 @@ const SideBar = (props) => {
                         </Grow> :
                         <Grow in={true}>
                             <div className={classes.optionContainer}>
-                                {images.map((image, index) => {
+                                {images.map((image, index) =>
+                                {
                                     return (
                                         <div
                                             key={index}

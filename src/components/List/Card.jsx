@@ -27,6 +27,7 @@ const useStyle = makeStyles((theme) => ({
     statusWrap: {
         display: 'flex',
         color: '#5e6c84',
+        marginTop: '3px',
     },
     dueDateText: {
         fontSize: '13px',
@@ -36,22 +37,25 @@ const useStyle = makeStyles((theme) => ({
     }
 }));
 
-const Card = (props) => {
-
+const Card = (props) =>
+{
     const classes = useStyle();
     const [show, setShow] = useState(false);
     const { updateCardTitle, deleteCard } = useContext(storeApi);
 
-    const handleCardClick = () => {
+    const handleCardClick = () =>
+    {
         setShow(true);
     }
 
-    const handleDeleteCard = () => {
+    const handleDeleteCard = () =>
+    {
         deleteCard(props.listId, props.card.id);
         setShow(false);
     }
 
-    const handleUpdateCardTitle = (newTitle, newDes, follow, label, dueDate, dueDateComplete) => {
+    const handleUpdateCardTitle = (newTitle, newDes, follow, label, dueDate, dueDateComplete) =>
+    {
         updateCardTitle(props.listId, props.card.id, newTitle, newDes, follow, label, dueDate, dueDateComplete);
     }
 

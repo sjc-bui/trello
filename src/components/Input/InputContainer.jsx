@@ -24,7 +24,8 @@ const useStyle = makeStyles((theme) => ({
     },
 }));
 
-const InputContainer = (props) => {
+const InputContainer = (props) =>
+{
     const classes = useStyle();
     const [open, setOpen] = useState(false);
 

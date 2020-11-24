@@ -13,14 +13,18 @@ const useStyle = makeStyles(() => ({
     }
 }));
 
-const HandleDueDate = (card) => {
+const HandleDueDate = (card) =>
+{
     const due = Date.parse(card.due_date);
     const now = Date.now();
 
-    if (due > now) {
+    if (due > now)
+    {
         return 1; // due later
-    } else {
-        if (card.due_date_complete) {
+    } else
+    {
+        if (card.due_date_complete)
+        {
             return 2; // due date completed
         }
 
@@ -28,7 +32,8 @@ const HandleDueDate = (card) => {
     }
 }
 
-const DueDate = (props) => {
+const DueDate = (props) =>
+{
     const classes = useStyle();
     const due_time = HandleDueDate(props.card);
 
